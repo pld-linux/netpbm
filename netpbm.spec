@@ -16,6 +16,7 @@ BuildRequires:	libjpeg-devel
 BuildRequires:	libpng-devel
 BuildRequires:	libtiff-devel
 BuildRequires:	jbigkit-devel
+BuildRequires:	perl
 Buildroot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 Obsoletes:	libgr
 
@@ -134,7 +135,8 @@ PATH="`pwd`:${PATH}" make install \
 # Install header files.
 install -d $RPM_BUILD_ROOT%{_includedir}
 install pbm/pbm.h $RPM_BUILD_ROOT/%{_includedir}
-install pbmplus.h $RPM_BUILD_ROOT/%{_includedir}
+install pbm/pm.h $RPM_BUILD_ROOT/%{_includedir}
+install pm_config.h $RPM_BUILD_ROOT/%{_includedir}
 install pgm/pgm.h $RPM_BUILD_ROOT/%{_includedir}
 install pnm/pnm.h $RPM_BUILD_ROOT/%{_includedir}
 install ppm/ppm.h $RPM_BUILD_ROOT/%{_includedir}
@@ -150,9 +152,9 @@ ln -sf pnmtoplainpnm $RPM_BUILD_ROOT%{_bindir}/pnmnoraw
 
 # Fixup perl paths in the two scripts that require it.
 perl -pi -e 's^/bin/perl^%{__perl}^' \
-$RPM_BUILD_ROOT%{_bindir}/{ppmfade,ppmshadow}
+	$RPM_BUILD_ROOT%{_bindir}/{ppmfade,ppmshadow}
 
-gzip -9nf COPYRIGHT.PATENT HISTORY README README.CONFOCAL
+gzip -9nf COPYRIGHT.PATENT HISTORY README
 
 %clean
 rm -rf $RPM_BUILD_ROOT
