@@ -19,3 +19,14 @@
  endif
  ifeq ($(NETPBMLIBTYPE),dll)
  #install a Windows DLL shared library
+diff -urN netpbm-9.25.orig/GNUmakefile netpbm-9.25/GNUmakefile
+--- netpbm-9.25.orig/GNUmakefile	Sun Mar  3 18:19:06 2002
++++ netpbm-9.25/GNUmakefile	Sat Apr 19 10:25:04 2003
+@@ -139,7 +139,6 @@
+ 	for i in $(SUBDIRS) ; do \
+ 	    $(MAKE) -C $$i -f $(SRCDIR)/$$i/Makefile install.lib ; \
+ 	done
+-	$(SRCDIR)/buildtools/try_ldconfig
+ endif
+ 
+ 
