@@ -1,7 +1,7 @@
 Summary:	A library for handling different graphics file formats
 Name:		netpbm
 Version:	9.11
-Release:	1
+Release:	2
 License:	freeware
 Group:		Libraries
 Group(de):	Libraries
@@ -112,11 +112,13 @@ PATH="`pwd`:${PATH}" make install \
 
 # Install header files.
 install -d $RPM_BUILD_ROOT%{_includedir}
-install pbm/pbm.h $RPM_BUILD_ROOT/%{_includedir}/
-install pbmplus.h $RPM_BUILD_ROOT/%{_includedir}/
-install pgm/pgm.h $RPM_BUILD_ROOT/%{_includedir}/
-install pnm/pnm.h $RPM_BUILD_ROOT/%{_includedir}/
-install ppm/ppm.h $RPM_BUILD_ROOT/%{_includedir}/
+install pbm/pbm.h $RPM_BUILD_ROOT/%{_includedir}
+install pbmplus.h $RPM_BUILD_ROOT/%{_includedir}
+install pgm/pgm.h $RPM_BUILD_ROOT/%{_includedir}
+install pnm/pnm.h $RPM_BUILD_ROOT/%{_includedir}
+install ppm/ppm.h $RPM_BUILD_ROOT/%{_includedir}
+install shhopt/pbmshhopt.h $RPM_BUILD_ROOT%{_includedir}
+install shhopt/shhopt.h $RPM_BUILD_ROOT/%{_includedir}
 
 # Install the static-only librle.a
 install urt/{rle,rle_config}.h $RPM_BUILD_ROOT/%{_includedir}/
