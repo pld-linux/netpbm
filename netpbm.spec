@@ -1,6 +1,6 @@
 Summary:	A library for handling different graphics file formats
 Name:		netpbm
-Version:	9.10
+Version:	9.11
 Release:	1
 License:	freeware
 Group:		Libraries
