@@ -1,7 +1,7 @@
 Summary:	A library for handling different graphics file formats
 Summary(pl):	Biblioteki do obs³ugi ró¿nych formatów graficznych
 Name:		netpbm
-Version:	9.18
+Version:	9.20
 Release:	1
 License:	freeware
 Group:		Libraries
