@@ -63,6 +63,17 @@ Group(pl):	Aplikacje/Grafika
 Requires:	%{name} = %{version}
 Obsoletes:	libgr-progs
 
+%description progs
+The netpbm-progs package contains a group of scripts for manipulating
+the graphics files in formats which are supported by the netpbm
+libraries. For example, netpbm-progs includes the rasttopnm script,
+which will convert a Sun rasterfile into a portable anymap.
+Netpbm-progs contains many other scripts for converting from one
+graphics file format to another.
+
+If you need to use these conversion scripts, you should install
+netpbm-progs. You'll also need to install the netpbm package.
+
 %prep
 %setup -q
 %patch0 -p1
