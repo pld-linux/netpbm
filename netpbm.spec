@@ -4,9 +4,6 @@
 # Conditional build:
 %bcond_without	svga	# don't build ppmsvgalib tool
 #
-%ifnarch %{ix86} alpha
-%undefine	with_svga
-%endif
 Summary:	A library for handling different graphics file formats
 Summary(pl):	Biblioteki do obs³ugi ró¿nych formatów graficznych
 Summary(pt_BR):	Ferramentas para manipular arquivos graficos nos formatos suportados netpbm
