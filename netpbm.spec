@@ -5,13 +5,6 @@ Version:	9.23
 Release:	1
 License:	freeware
 Group:		Libraries
-Group(de):	Libraries
-Group(es):	Bibliotecas
-Group(fr):	Librairies
-Group(pl):	Biblioteki
-Group(pt_BR):	Bibliotecas
-Group(ru):	Библиотеки
-Group(uk):	Б╕бл╕отеки
 Source0:	ftp://download.sourceforge.net/pub/sourceforge/netpbm/%{name}-%{version}.tgz
 Source1:	%{name}-non-english-man-pages.tar.bz2
 Patch0:		%{name}-install.patch
@@ -39,13 +32,6 @@ graficzne, w tym .pbm, .pgm, .pnm, .ppm.
 Summary:	Development tools for programs which will use the netpbm libraries
 Summary(pl):	Biblioteka netpbm - czЙ╤Ф dla programistСw
 Group:		Development/Libraries
-Group(de):	Entwicklung/Libraries
-Group(es):	Desarrollo/Bibliotecas
-Group(fr):	Development/Librairies
-Group(pl):	Programowanie/Biblioteki
-Group(pt_BR):	Desenvolvimento/Bibliotecas
-Group(ru):	Разработка/Библиотеки
-Group(uk):	Розробка/Б╕бл╕отеки
 Requires:	%{name} = %{version}
 Obsoletes:	libgr-devel
 
@@ -67,13 +53,6 @@ wspierane przez netpbm.
 Summary:	Static netpbm libraries
 Summary(pl):	Statyczne biblioteki netpbm
 Group:		Development/Libraries
-Group(de):	Entwicklung/Libraries
-Group(es):	Desarrollo/Bibliotecas
-Group(fr):	Development/Librairies
-Group(pl):	Programowanie/Biblioteki
-Group(pt_BR):	Desenvolvimento/Bibliotecas
-Group(ru):	Разработка/Библиотеки
-Group(uk):	Розробка/Б╕бл╕отеки
 Requires:	%{name}-devel = %{version}
 Obsoletes:	libgr-static
 
@@ -87,9 +66,6 @@ Statyczne biblioteki netpbm.
 Summary:	Tools for manipulating graphics files in netpbm supported formats
 Summary(pl):	NarzЙdzia do konwersji plikСw graficznych
 Group:		Applications/Graphics
-Group(de):	Applikationen/Grafik
-Group(pl):	Aplikacje/Grafika
-Group(pt):	AplicaГУes/GrАficos
 Requires:	%{name} = %{version}
 Obsoletes:	libgr-progs
 
