@@ -3,7 +3,7 @@ Summary(pl):	Biblioteki do obs³ugi ró¿nych formatów graficznych
 Name:		netpbm
 Version:	9.23
 Release:	1
-License:	freeware
+License:	Freeware
 Group:		Libraries
 Source0:	ftp://download.sourceforge.net/pub/sourceforge/netpbm/%{name}-%{version}.tgz
 Source1:	%{name}-non-english-man-pages.tar.bz2
