@@ -211,6 +211,9 @@ libpng.so
 
 libz.so
 
+%if 0%{?_without_svga:1}
+none
+%endif
 %{_docdir}/%{name}-%{version}/netpbm.sourceforge.net/doc/
 EOF
 
