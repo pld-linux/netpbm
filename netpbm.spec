@@ -117,7 +117,6 @@ install pbmplus.h $RPM_BUILD_ROOT/%{_includedir}
 install pgm/pgm.h $RPM_BUILD_ROOT/%{_includedir}
 install pnm/pnm.h $RPM_BUILD_ROOT/%{_includedir}
 install ppm/ppm.h $RPM_BUILD_ROOT/%{_includedir}
-install shhopt/pbmshhopt.h $RPM_BUILD_ROOT%{_includedir}
 install shhopt/shhopt.h $RPM_BUILD_ROOT/%{_includedir}
 
 # Install the static-only librle.a
