@@ -5,6 +5,7 @@ Release:	1
 License:	freeware
 Group:		Libraries
 Group(de):	Libraries
+Group(es):	Bibliotecas
 Group(fr):	Librairies
 Group(pl):	Biblioteki
 Source0:	ftp://download.sourceforge.net/pub/sourceforge/netpbm/%{name}-%{version}.tgz
@@ -77,7 +78,7 @@ netpbm-progs. You'll also need to install the netpbm package.
 %build
 %{__make} \
 	CC=%{__cc} \
-	CFLAGS="$RPM_OPT_FLAGS -fPIC" \
+	CFLAGS="%{!?debug:$RPM_OPT_FLAGS}%{?debug:-O0 -g} -fPIC" \
 	JPEGINC_DIR=%{_includedir} \
 	PNGINC_DIR=%{_includedir} \
 	TIFFINC_DIR=%{_includedir} \
