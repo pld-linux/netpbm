@@ -14,26 +14,26 @@ Summary(pt_BR):	Ferramentas para manipular arquivos graficos nos formatos suport
 Summary(ru):	Набор библиотек для работы с различными графическими файлами
 Summary(uk):	Наб╕р б╕бл╕отек для роботи з р╕зними граф╕чними файлами
 Name:		netpbm
-Version:	10.18.1
+Version:	10.18.2
 Release:	1
 License:	Freeware
 Group:		Libraries
 Source0:	http://dl.sourceforge.net/%{name}/%{name}-%{version}.tgz
-# Source0-md5:	3c948adb46430215a091c1ceb30ec343
+# Source0-md5:	0ceb43ed2ca0f593009cfff2c24d153b
 Source1:	http://www.mif.pg.gda.pl/homepages/ankry/man-PLD/%{name}-non-english-man-pages.tar.bz2
 # Source1-md5:	8fb174f8da02ea01bf72a9dc61be10f1
 Source2:	%{name}-docs-20030520.tar.bz2
 # Source2-md5:	2d6a3965d493def21edfbc3e1aa262e9
 Patch0:		%{name}-make.patch
+BuildRequires:	flex
+BuildRequires:	jbigkit-devel
 BuildRequires:	libjpeg-devel
 BuildRequires:	libpng-devel
 BuildRequires:	libtiff-devel
-BuildRequires:	jbigkit-devel
 BuildRequires:	perl
-BuildRequires:	flex
 %{!?_without_svga:BuildRequires:	svgalib-devel}
-Buildroot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 Obsoletes:	libgr
+Buildroot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
 The netpbm package contains a library of functions which support
@@ -221,7 +221,8 @@ EOF
 rm -rf $RPM_BUILD_ROOT
 install -d $RPM_BUILD_ROOT{%{_bindir},%{_libdir},%{_includedir},%{_mandir}/man{1,3,5}}
 
-%{__make} package pkgdir=`pwd`/PKG
+%{__make} package \
+	pkgdir=`pwd`/PKG
 
 rm -f PKG/bin/doc.url
 cp -df PKG/bin/* $RPM_BUILD_ROOT%{_bindir}
