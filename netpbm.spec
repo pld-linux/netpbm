@@ -2,6 +2,11 @@
 # Conditional build:
 # _without_svga		- don't build ppmsvgalib tool
 #
+# TODO: documentation for progs:
+# - download HTML docs from http://netpbm.sourceforge.net/doc/
+#   and include in package
+# - try to get some real man pages (old netpbm? Debian?)
+#
 %ifnarch %{ix86} alpha
 %define	_without_svga	1
 %endif
@@ -11,13 +16,13 @@ Summary(pt_BR):	Ferramentas para manipular arquivos graficos nos formatos suport
 Summary(ru):	Набор библиотек для работы с различными графическими файлами
 Summary(uk):	Наб╕р б╕бл╕отек для роботи з р╕зними граф╕чними файлами
 Name:		netpbm
-Version:	9.25
-Release:	3
+Version:	10.15
+Release:	0.1
 License:	Freeware
 Group:		Libraries
 Source0:	http://dl.sourceforge.net/%{name}/%{name}-%{version}.tgz
 Source1:	%{name}-non-english-man-pages.tar.bz2
-Patch0:		%{name}-Makefile.common.patch
+Patch0:		%{name}-make.patch
 BuildRequires:	libjpeg-devel
 BuildRequires:	libpng-devel
 BuildRequires:	libtiff-devel
@@ -189,66 +194,39 @@ u©yciu svgalib.
 	JPEGHDR_DIR=%{_includedir} \
 	PNGHDR_DIR=%{_includedir} \
 	TIFFHDR_DIR=%{_includedir} \
-	JBIGLIB_DIR=%{_libdir} \
-	JPEGLIB_DIR=%{_libdir} \
-	PNGLIB_DIR=%{_libdir} \
-	TIFFLIB_DIR=%{_libdir} << EOF
+	JBIGLIB_DIR=/usr/lib/libjbig.so << EOF
 gnu
 regular
 shared
 yes
-%{_prefix}
-bin
-lib
-lib
-include
-man
-%{?_without_svga:NONE}%{!?_without_svga:/usr/lib}
+libjpeg.so
+
+libtiff.so
+
+libpng.so
+
+libz.so
+
+
 EOF
 
 %install
 rm -rf $RPM_BUILD_ROOT
+install -d $RPM_BUILD_ROOT{%{_bindir},%{_libdir},%{_includedir},%{_mandir}/man{1,3,5}}
 
-#	JBIGINC_DIR=$RPM_BUILD_ROOT%{_includedir} \
-#	JPEGINC_DIR=$RPM_BUILD_ROOT%{_includedir} \
-#	PNGINC_DIR=$RPM_BUILD_ROOT%{_includedir} \
-#	TIFFINC_DIR=$RPM_BUILD_ROOT%{_includedir}
+%{__make} package pkgdir=`pwd`/PKG
 
-PATH="`pwd`:${PATH}" \
-%{__make} install \
-	JBIGLIB_DIR=%{_libdir} \
-	JPEGLIB_DIR=%{_libdir} \
-	PNGLIB_DIR=%{_libdir} \
-	TIFFLIB_DIR=%{_libdir} \
-	INSTALL_PREFIX=$RPM_BUILD_ROOT%{_prefix} \
-	INSTALLBINARIES=$RPM_BUILD_ROOT%{_bindir} \
-	INSTALLHDRS=$RPM_BUILD_ROOT%{_includedir} \
-	INSTALLLIBS=$RPM_BUILD_ROOT%{_libdir} \
-	INSTALLMANUALS1=$RPM_BUILD_ROOT%{_mandir}/man1 \
-	INSTALLMANUALS3=$RPM_BUILD_ROOT%{_mandir}/man3 \
-	INSTALLMANUALS5=$RPM_BUILD_ROOT%{_mandir}/man5
-
-# Install header files.
-install -d $RPM_BUILD_ROOT%{_includedir}
-install pbm/pbm.h $RPM_BUILD_ROOT%{_includedir}
-install pbm/pm.h $RPM_BUILD_ROOT%{_includedir}
-install pm_config.h $RPM_BUILD_ROOT%{_includedir}
-install pgm/pgm.h $RPM_BUILD_ROOT%{_includedir}
-install pnm/pnm.h $RPM_BUILD_ROOT%{_includedir}
-install ppm/ppm.h $RPM_BUILD_ROOT%{_includedir}
-install shhopt/shhopt.h $RPM_BUILD_ROOT%{_includedir}
+rm -f PKG/bin/doc.url
+cp -df PKG/bin/* $RPM_BUILD_ROOT%{_bindir}
+cp -df PKG/lib/* $RPM_BUILD_ROOT%{_libdir}
+install PKG/link/*.a $RPM_BUILD_ROOT%{_libdir}
+install PKG/man/man1/*.1 $RPM_BUILD_ROOT%{_mandir}/man1
+install PKG/man/man3/*.3 $RPM_BUILD_ROOT%{_mandir}/man3
+install PKG/man/man5/*.5 $RPM_BUILD_ROOT%{_mandir}/man5
 
 # Install the static-only librle.a
 install urt/{rle,rle_config}.h $RPM_BUILD_ROOT%{_includedir}
 install urt/librle.a $RPM_BUILD_ROOT%{_libdir}
-
-# Fixup symlinks.
-ln -sf gemtopnm $RPM_BUILD_ROOT%{_bindir}/gemtopbm
-ln -sf pnmtoplainpnm $RPM_BUILD_ROOT%{_bindir}/pnmnoraw
-
-# Fixup perl paths in the two scripts that require it.
-perl -pi -e 's^/bin/perl^%{__perl}^' \
-	$RPM_BUILD_ROOT%{_bindir}/{ppmfade,ppmshadow}
 
 bzip2 -dc %{SOURCE1} | tar xf - -C $RPM_BUILD_ROOT%{_mandir}
 
@@ -260,18 +238,18 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(644,root,root,755)
-%attr(755,root,root) %{_libdir}/lib*.so.*.*
+%doc README doc/{COPYRIGHT.PATENT,HISTORY,USERDOC}
+%attr(755,root,root) %{_libdir}/libnetpbm.so.*.*
 
 %files devel
 %defattr(644,root,root,755)
-%doc COPYRIGHT.PATENT HISTORY README
+%attr(755,root,root) %{_libdir}/libnetpbm.so
 %{_includedir}/*.h
-%attr(755,root,root) %{_libdir}/lib*.so
 %{_mandir}/man3/*
 
 %files static
 %defattr(644,root,root,755)
-%{_libdir}/libp*.a
+%{_libdir}/libnetpbm.a
 
 %files rle-static
 %defattr(644,root,root,755)
