@@ -3,8 +3,6 @@
 # _without_svga		- don't build ppmsvgalib tool
 #
 # TODO: documentation for progs:
-# - download HTML docs from http://netpbm.sourceforge.net/doc/
-#   and include in package
 # - try to get some real man pages (old netpbm? Debian?)
 #
 %ifnarch %{ix86} alpha
@@ -22,6 +20,7 @@ License:	Freeware
 Group:		Libraries
 Source0:	http://dl.sourceforge.net/%{name}/%{name}-%{version}.tgz
 Source1:	%{name}-non-english-man-pages.tar.bz2
+Source2:	%{name}-docs-20030520.tar.bz2
 Patch0:		%{name}-make.patch
 BuildRequires:	libjpeg-devel
 BuildRequires:	libpng-devel
@@ -183,7 +182,7 @@ ppmsvgalib - wy¶wietlanie obrazków PPM na konsoli linuksowej przy
 u¿yciu svgalib.
 
 %prep
-%setup -q
+%setup -q -a2
 %patch0 -p1
 
 %build
@@ -238,7 +237,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(644,root,root,755)
-%doc README doc/{COPYRIGHT.PATENT,HISTORY,USERDOC}
+%doc README doc/{COPYRIGHT.PATENT,HISTORY,USERDOC} netpbm.sourceforge.net
 %attr(755,root,root) %{_libdir}/libnetpbm.so.*.*
 
 %files devel
