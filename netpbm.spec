@@ -10,12 +10,12 @@ Summary(pt_BR):	Ferramentas para manipular arquivos graficos nos formatos suport
 Summary(ru):	Набор библиотек для работы с различными графическими файлами
 Summary(uk):	Наб╕р б╕бл╕отек для роботи з р╕зними граф╕чними файлами
 Name:		netpbm
-Version:	10.20
+Version:	10.23
 Release:	1
 License:	Freeware
 Group:		Libraries
-Source0:	http://dl.sourceforge.net/%{name}/%{name}-%{version}.tgz
-# Source0-md5:	4aa2f767c4d58bcbdafaba6a7dd03313
+Source0:	http://dl.sourceforge.net/netpbm/%{name}-%{version}.tgz
+# Source0-md5:	9c2dbf5eee38e2fb15e7ea1bd9fda7f4
 Source1:	http://www.mif.pg.gda.pl/homepages/ankry/man-PLD/%{name}-non-english-man-pages.tar.bz2
 # Source1-md5:	8fb174f8da02ea01bf72a9dc61be10f1
 Source2:	%{name}-docs-20030520.tar.bz2
@@ -62,7 +62,7 @@ Summary(pt_BR):	Arquivos de desenvolvimento usados para libnetpbm
 Summary(ru):	Хедеры и библиотеки для разработки программ, использующих netpbm
 Summary(uk):	Хедери та б╕бл╕отеки для розробки програм, що використовують netpbm
 Group:		Development/Libraries
-Requires:	%{name} = %{version}
+Requires:	%{name} = %{version}-%{release}
 Obsoletes:	libgr-devel
 
 %description devel
@@ -103,7 +103,7 @@ Summary(pt_BR):	Bibliotecas estАticas para desenvolvimento com libnetpbm
 Summary(ru):	Статическая библиотека для программирования с netpbm
 Summary(uk):	Статична б╕бл╕отека для програмування з netpbm
 Group:		Development/Libraries
-Requires:	%{name}-devel = %{version}
+Requires:	%{name}-devel = %{version}-%{release}
 Obsoletes:	libgr-static
 
 %description static
@@ -127,7 +127,7 @@ Bibliotecas estАticas para desenvolvimento com libnetpbm.
 Summary:	Limited rle library
 Summary(pl):	Okrojona biblioteka rle
 Group:		Development/Libraries
-Requires:	%{name}-devel = %{version}
+Requires:	%{name}-devel = %{version}-%{release}
 Obsoletes:	urt-static
 
 %description rle-static
@@ -142,7 +142,7 @@ Summary(pl):	NarzЙdzia do konwersji plikСw graficznych
 Summary(ru):	Утилиты манипулирования файлами форматов, поддерживаемых netpbm
 Summary(uk):	Утил╕ти ман╕пулювання файлами формат╕в, п╕дтримуваних netpbm
 Group:		Applications/Graphics
-Requires:	%{name} = %{version}
+Requires:	%{name} = %{version}-%{release}
 Obsoletes:	libgr-progs
 
 %description progs
@@ -172,7 +172,7 @@ oraz z formatСw obsЁugiwanych przez biblioteki netpbm.
 Summary:	ppmsvgalib - display PPM image on Linux console using svgalib
 Summary(pl):	ppmsvgalib - wy╤wietlanie obrazkСw PPM na konsoli przy u©yciu svgalib
 Group:		Applications/Graphics
-Requires:	%{name} = %{version}
+Requires:	%{name} = %{version}-%{release}
 
 %description ppmsvgalib
 ppmsvgalib - display PPM image on Linux console using svgalib.
