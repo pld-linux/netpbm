@@ -212,7 +212,6 @@ libpng.so
 libz.so
 
 %{_docdir}/%{name}-%{version}/netpbm.sourceforge.net/doc/
-
 EOF
 
 %install
