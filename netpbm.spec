@@ -10,19 +10,18 @@ Summary(pt_BR):	Ferramentas para manipular arquivos graficos nos formatos suport
 Summary(ru):	Набор библиотек для работы с различными графическими файлами
 Summary(uk):	Наб╕р б╕бл╕отек для роботи з р╕зними граф╕чними файлами
 Name:		netpbm
-Version:	10.23
+Version:	10.24
 Release:	3
 License:	Freeware
 Group:		Libraries
 Source0:	http://dl.sourceforge.net/netpbm/%{name}-%{version}.tgz
-# Source0-md5:	9c2dbf5eee38e2fb15e7ea1bd9fda7f4
+# Source0-md5:	06580a8cadb6908f95733dcbd3f4e3d8
 Source1:	http://www.mif.pg.gda.pl/homepages/ankry/man-PLD/%{name}-non-english-man-pages.tar.bz2
 # Source1-md5:	8fb174f8da02ea01bf72a9dc61be10f1
 Source2:	%{name}-docs-20030520.tar.bz2
 # Source2-md5:	2d6a3965d493def21edfbc3e1aa262e9
 Patch0:		%{name}-make.patch
-Patch1:		%{name}-fix.patch
-Patch2:		%{name}-segv.patch
+Patch1:		%{name}-segv.patch
 BuildRequires:	flex
 BuildRequires:	jbigkit-devel
 BuildRequires:	libjpeg-devel
@@ -188,7 +187,6 @@ u©yciu svgalib.
 %setup -q -a2
 %patch0 -p1
 %patch1 -p1
-%patch2 -p1
 
 %build
 %{__make} \
