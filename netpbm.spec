@@ -30,6 +30,7 @@ BuildRequires:	libpng-devel
 BuildRequires:	libtiff-devel
 BuildRequires:	jbigkit-devel
 BuildRequires:	perl
+BuildRequires:	flex
 %{!?_without_svga:BuildRequires:	svgalib-devel}
 Buildroot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 Obsoletes:	libgr
