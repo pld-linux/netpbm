@@ -223,8 +223,6 @@ perl -pi -e 's^/bin/perl^%{__perl}^' \
 
 bzip2 -dc %{SOURCE1} | tar xf - -C $RPM_BUILD_ROOT%{_mandir}
 
-gzip -9nf COPYRIGHT.PATENT HISTORY README
-
 %clean
 rm -rf $RPM_BUILD_ROOT
 
@@ -237,7 +235,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %files devel
 %defattr(644,root,root,755)
-%doc *.gz
+%doc COPYRIGHT.PATENT HISTORY README
 %{_includedir}/*.h
 %attr(755,root,root) %{_libdir}/lib*.so
 %{_mandir}/man3/*
