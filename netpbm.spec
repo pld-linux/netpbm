@@ -28,6 +28,7 @@ BuildRequires:	libpng-devel
 BuildRequires:	libtiff-devel
 BuildRequires:	perl
 %{?with_svga:BuildRequires:	svgalib-devel}
+%{!?with_svga:BuildConflicts:	svgalib-devel}
 Obsoletes:	libgr
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
@@ -209,6 +210,10 @@ libz.so
 
 %if %{without svga}
 none
+%else
+%if "%{_lib}" != "lib"
+/usr/%{_lib}/libvga.so
+%endif
 %endif
 %{_docdir}/%{name}-%{version}/netpbm.sourceforge.net/doc/
 EOF
