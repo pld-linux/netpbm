@@ -33,7 +33,7 @@ BuildRequires:	libtiff-devel
 BuildRequires:	perl
 %{!?_without_svga:BuildRequires:	svgalib-devel}
 Obsoletes:	libgr
-Buildroot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
+BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
 The netpbm package contains a library of functions which support
