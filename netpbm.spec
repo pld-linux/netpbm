@@ -1,7 +1,8 @@
 Summary:	A library for handling different graphics file formats
+Summary(pl):	Biblioteki do obs³ugi ró¿nych formatów graficznych
 Name:		netpbm
 Version:	9.12
-Release:	1
+Release:	2
 License:	freeware
 Group:		Libraries
 Group(de):	Libraries
@@ -11,9 +12,11 @@ Group(pl):	Biblioteki
 Source0:	ftp://download.sourceforge.net/pub/sourceforge/netpbm/%{name}-%{version}.tgz
 Patch0:		%{name}-install.patch
 Patch1:		%{name}-paths.patch
+Patch2:		%{name}-system-jbig.patch
 BuildRequires:	libjpeg-devel
 BuildRequires:	libpng-devel
 BuildRequires:	libtiff-devel
+BuildRequires:	jbigkit-devel
 Buildroot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 Obsoletes:	libgr
 
@@ -23,8 +26,13 @@ programs for handling various graphics file formats, including .pbm
 (portable bitmaps), .pgm (portable graymaps), .pnm (portable anymaps),
 .ppm (portable pixmaps) and others.
 
+%description -l pl
+Pakiet netpbm zawiera biblioteki funkcji obs³uguj±cych ró¿ne formaty
+graficzne, w tym .pbm, .pgm, .pnm, .ppm.
+
 %package devel
 Summary:	Development tools for programs which will use the netpbm libraries
+Summary(pl):	Biblioteka netpbm - czê¶æ dla programistów
 Group:		Development/Libraries
 Group(de):	Entwicklung/Libraries
 Group(fr):	Development/Librairies
@@ -32,8 +40,23 @@ Group(pl):	Programowanie/Biblioteki
 Requires:	%{name} = %{version}
 Obsoletes:	libgr-devel
 
+%description devel
+The netpbm-devel package contains the header files and programmer's
+documentation for developing programs which can handle the various
+graphics file formats supported by the netpbm libraries.
+
+Install netpbm-devel if you want to develop programs for handling the
+graphics file formats supported by the netpbm libraries. You'll also
+need to have the netpbm package installed.
+
+%description devel -l pl
+Pakiet netpbm-devel zawiera pliki nag³ówkowe i dokumentacjê dla
+programistów do tworzenia programów obs³uguj±cych formaty
+graficzne wspierane przez netpbm.
+
 %package static
 Summary:	Static netpbm libraries
+Summary(pl):	Statyczne biblioteki netpbm
 Group:		Development/Libraries
 Group(de):	Entwicklung/Libraries
 Group(fr):	Development/Librairies
@@ -44,17 +67,12 @@ Obsoletes:	libgr-static
 %description static
 Static netpbm libraries.
 
-%description devel
-The netpbm-devel package contains the header files and static
-libraries, etc., for developing programs which can handle the various
-graphics file formats supported by the netpbm libraries.
-
-Install netpbm-devel if you want to develop programs for handling the
-graphics file formats supported by the netpbm libraries. You'll also
-need to have the netpbm package installed.
+%description static -l pl
+Statyczne biblioteki netpbm.
 
 %package progs
 Summary:	Tools for manipulating graphics files in netpbm supported formats
+Summary(pl):	Narzêdzia do konwersji plików graficznych
 Group:		Applications/Graphics
 Group(de):	Applikationen/Grafik
 Group(pl):	Aplikacje/Grafika
@@ -72,15 +90,20 @@ graphics file format to another.
 If you need to use these conversion scripts, you should install
 netpbm-progs. You'll also need to install the netpbm package.
 
+%description progs -l pl
+Pakiet netpbm-progs zawiera programy konwertuj±ce pliki graficzne
+do oraz z formatów obs³ugiwanych przez biblioteki netpbm.
+
 %prep
 %setup -q
 %patch0 -p1
 %patch1 -p1
+%patch2 -p1
 
 %build
 %{__make} \
 	CC=%{__cc} \
-	CFLAGS="%{!?debug:$RPM_OPT_FLAGS}%{?debug:-O0 -g} -fPIC" \
+	CFLAGS="%{rpmcflags} -fPIC" \
 	JPEGINC_DIR=%{_includedir} \
 	PNGINC_DIR=%{_includedir} \
 	TIFFINC_DIR=%{_includedir} \
