@@ -8,11 +8,7 @@ Group(de):	Libraries
 Group(fr):	Librairies
 Group(pl):	Biblioteki
 Source0:	ftp://download.sourceforge.net/pub/sourceforge/netpbm/%{name}-%{version}.tgz
-Patch0:		%{name}-pktopbm.patch
-Patch1:		%{name}-pnmtotiff.patch
-Patch2:		%{name}-pstopnm.patch
-Patch3:		%{name}-install.patch
-Patch4:		%{name}-asciitopgm.patch
+Patch0:		%{name}-install.patch
 BuildRequires:	libjpeg-devel
 BuildRequires:	libpng-devel
 BuildRequires:	libtiff-devel
@@ -77,10 +73,6 @@ netpbm-progs. You'll also need to install the netpbm package.
 %prep
 %setup -q
 %patch0 -p1
-%patch1 -p1
-%patch2 -p1
-%patch3 -p1
-%patch4 -p1
 
 %build
 %{__make} \
