@@ -1,12 +1,12 @@
 #
 # Conditional build:
-# _without_svga		- don't build ppmsvgalib tool
+%bcond_without	svga	# don't build ppmsvgalib tool
 #
 # TODO: documentation for progs:
 # - try to get some real man pages (old netpbm? Debian?)
 #
 %ifnarch %{ix86} alpha
-%define	_without_svga	1
+%undefine	with_svga
 %endif
 Summary:	A library for handling different graphics file formats
 Summary(pl):	Biblioteki do obsЁugi rС©nych formatСw graficznych
@@ -14,12 +14,12 @@ Summary(pt_BR):	Ferramentas para manipular arquivos graficos nos formatos suport
 Summary(ru):	Набор библиотек для работы с различными графическими файлами
 Summary(uk):	Наб╕р б╕бл╕отек для роботи з р╕зними граф╕чними файлами
 Name:		netpbm
-Version:	10.18.2
+Version:	10.19
 Release:	1
 License:	Freeware
 Group:		Libraries
 Source0:	http://dl.sourceforge.net/%{name}/%{name}-%{version}.tgz
-# Source0-md5:	0ceb43ed2ca0f593009cfff2c24d153b
+# Source0-md5:	e6bf74f0cef5271041e0ee4842c8fcef
 Source1:	http://www.mif.pg.gda.pl/homepages/ankry/man-PLD/%{name}-non-english-man-pages.tar.bz2
 # Source1-md5:	8fb174f8da02ea01bf72a9dc61be10f1
 Source2:	%{name}-docs-20030520.tar.bz2
@@ -31,7 +31,7 @@ BuildRequires:	libjpeg-devel
 BuildRequires:	libpng-devel
 BuildRequires:	libtiff-devel
 BuildRequires:	perl
-%{!?_without_svga:BuildRequires:	svgalib-devel}
+%{?with_svga:BuildRequires:	svgalib-devel}
 Obsoletes:	libgr
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
@@ -211,7 +211,7 @@ libpng.so
 
 libz.so
 
-%if 0%{?_without_svga:1}
+%if %{without svga}
 none
 %endif
 %{_docdir}/%{name}-%{version}/netpbm.sourceforge.net/doc/
@@ -270,10 +270,10 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man[15]/*
 %lang(fi) %{_mandir}/fi/man[15]/*
 %lang(pl) %{_mandir}/pl/man[15]/*
-%{!?_without_svga:%exclude %{_bindir}/ppmsvgalib}
-%{!?_without_svga:%exclude %{_mandir}/man1/ppmsvgalib.1*}
+%{?with_svga:%exclude %{_bindir}/ppmsvgalib}
+%{?with_svga:%exclude %{_mandir}/man1/ppmsvgalib.1*}
 
-%if 0%{!?_without_svga:1}
+%if %{with svga}
 %files ppmsvgalib
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_bindir}/ppmsvgalib
