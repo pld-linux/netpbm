@@ -27,7 +27,7 @@ BuildRequires:	jbigkit-devel
 BuildRequires:	libjpeg-devel
 BuildRequires:	libpng-devel
 BuildRequires:	libtiff-devel
-BuildRequires:	perl
+BuildRequires:	perl-base
 %{?with_svga:BuildRequires:	svgalib-devel}
 %{!?with_svga:BuildConflicts:	svgalib-devel}
 Obsoletes:	libgr
