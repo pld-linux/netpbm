@@ -2,7 +2,7 @@ Summary:	A library for handling different graphics file formats
 Summary(pl):	Biblioteki do obs³ugi ró¿nych formatów graficznych
 Name:		netpbm
 Version:	9.20
-Release:	1
+Release:	2
 License:	freeware
 Group:		Libraries
 Group(de):	Libraries
@@ -10,6 +10,7 @@ Group(es):	Bibliotecas
 Group(fr):	Librairies
 Group(pl):	Biblioteki
 Source0:	ftp://download.sourceforge.net/pub/sourceforge/netpbm/%{name}-%{version}.tgz
+Source1:	%{name}-non-english-man-pages.tar.bz2
 Patch0:		%{name}-install.patch
 Patch1:		%{name}-system-jbig.patch
 Patch2:		%{name}-Makefile.common.patch
@@ -158,6 +159,8 @@ ln -sf pnmtoplainpnm $RPM_BUILD_ROOT%{_bindir}/pnmnoraw
 perl -pi -e 's^/bin/perl^%{__perl}^' \
 	$RPM_BUILD_ROOT%{_bindir}/{ppmfade,ppmshadow}
 
+bzip2 -dc %{SOURCE1} | tar xf - -C $RPM_BUILD_ROOT%{_mandir}
+
 gzip -9nf COPYRIGHT.PATENT HISTORY README
 
 %clean
@@ -185,3 +188,5 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_bindir}/*
 %{_mandir}/man[15]/*
+%lang(fi) %{_mandir}/fi/man[15]/*
+%lang(pl) %{_mandir}/pl/man[15]/*
