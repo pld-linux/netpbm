@@ -16,7 +16,9 @@ Release:	2
 License:	Freeware
 Group:		Libraries
 Source0:	http://dl.sourceforge.net/%{name}/%{name}-%{version}.tgz
-Source1:	%{name}-non-english-man-pages.tar.bz2
+# Source0-md5:	cb8036f3649c93cf51ee377971ddbf1c
+Source1:	http://www.mif.pg.gda.pl/homepages/ankry/man-PLD/%{name}-non-english-man-pages.tar.bz2
+# Source1-md5:	8fb174f8da02ea01bf72a9dc61be10f1
 Patch0:		%{name}-Makefile.common.patch
 BuildRequires:	libjpeg-devel
 BuildRequires:	libpng-devel
