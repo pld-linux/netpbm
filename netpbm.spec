@@ -4,14 +4,12 @@ Summary(pt_BR):	Ferramentas para manipular arquivos graficos nos formatos suport
 Summary(ru):	Набор библиотек для работы с различными графическими файлами
 Summary(uk):	Наб╕р б╕бл╕отек для роботи з р╕зними граф╕чними файлами
 Name:		netpbm
-Version:	9.23
-Release:	2
+Version:	9.25
+Release:	1
 License:	Freeware
 Group:		Libraries
-Source0:	ftp://download.sourceforge.net/pub/sourceforge/netpbm/%{name}-%{version}.tgz
+Source0:	http://dl.sourceforge.net/%{name}/%{name}-%{version}.tgz
 Source1:	%{name}-non-english-man-pages.tar.bz2
-Patch0:		%{name}-install.patch
-Patch1:		%{name}-system-jbig.patch
 Patch2:		%{name}-Makefile.common.patch
 BuildRequires:	libjpeg-devel
 BuildRequires:	libpng-devel
@@ -160,8 +158,6 @@ oraz z formatСw obsЁugiwanych przez biblioteki netpbm.
 
 %prep
 %setup -q
-%patch0 -p1
-%patch1 -p1
 %patch2 -p1
 
 %build
@@ -175,10 +171,10 @@ oraz z formatСw obsЁugiwanych przez biblioteki netpbm.
 	PNGLIB_DIR=%{_libdir} \
 	TIFFLIB_DIR=%{_libdir} << EOF
 gnu
-%{_prefix}
 regular
 shared
 yes
+%{_prefix}
 EOF
 
 %install
