@@ -1,0 +1,12 @@
+--- netpbm-9.18/Makefile.common~	Tue Sep  4 01:29:05 2001
++++ netpbm-9.18/Makefile.common	Thu Sep  6 21:41:53 2001
+@@ -368,7 +368,8 @@
+ 	$(INSTALL) -c -m $(INSTALL_PERM_LIBD) $< $(INSTALLLIBS)
+ 	cd $(INSTALLLIBS) ; \
+           rm -f lib$(LIBROOT).$(NETPBMLIBSUFFIX).$(MAJ); \
+-          $(SYMLINK) $< lib$(LIBROOT).$(NETPBMLIBSUFFIX).$(MAJ)
++          $(SYMLINK) $< lib$(LIBROOT).$(NETPBMLIBSUFFIX).$(MAJ); \
++          $(SYMLINK) $< lib$(LIBROOT).$(NETPBMLIBSUFFIX)
+ endif
+ ifeq ($(NETPBMLIBTYPE),dll)
+ #install a Windows DLL shared library
