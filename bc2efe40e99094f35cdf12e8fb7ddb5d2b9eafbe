@@ -1,0 +1,102 @@
+Just passed trough adapter
+
+* Wed Aug  9 2000 Crutcher Dunnavant <crutcher@redhat.com>
+- added a png-to-pnm.fpi filter
+
+* Wed Aug  2 2000 Matt Wilson <msw@redhat.com>
+- rebuilt against new libpng
+
+* Mon Jul 17 2000 Nalin Dahyabhai <nalin@redhat.com>
+- move netpbm-progs to the Applications/Multimedia group
+- reintroduce patches from the old libgr package
+
+* Wed Jul 12 2000 Prospector <bugzilla@redhat.com>
+- automatic rebuild
+
+* Sat Jul  1 2000 Nalin Dahyabhai <nalin@redhat.com>
+- update to 9.5
+
+* Tue Jun 27 2000 Nalin Dahyabhai <nalin@redhat.com>
+- update to 9.4
+
+* Sat Jun  3 2000 Nalin Dahyabhai <nalin@redhat.com>
+- switch back to the netpbm tree, which is maintained again
+
+* Mon Feb 14 2000 Nalin Dahyabhai <nalin@redhat.com>
+- make sure all man pages are included (#9328)
+- fix pstopnm bomb when xres == yres (#9329)
+- add libjpeg and libz because libtiff now needs them
+
+* Wed Feb 02 2000 Nalin Dahyabhai <nalin@redhat.com>
+- added/updated TIFF compression patch from jik@kamens.brookline.ma.us (#8826)
+
+* Mon Dec 06 1999 Michael K. Johnson <johnsonm@redhat.com>
+- added TIFF resolution patch from jik@kamens.brookline.ma.us (#7589)
+
+* Mon Sep 20 1999 Michael K. Johnson <johnsonm@redhat.com>
+- added section 5 man pages
+
+* Fri Jul 30 1999 Bill Nottingham <notting@redhat.com>
+- fix tiff-to-pnm.fpi (#4267)
+
+* Thu Jul 29 1999 Bill Nottingham <notting@redhat.com>
+- add a pile of foo-to-bar.fpi filters (#4251)
+
+* Mon Mar 23 1999 Michael Johnson <johnsonm@redhat.com>
+- removed old png.h header file that was causing png utils to die
+- build png in build instead of install section...
+
+* Mon Mar 22 1999 Bill Nottingham <notting@redhat.com>
+- patch for 24-bit .BMP files (from sam@campbellsci.co.uk)
+
+* Sun Mar 21 1999 Cristian Gafton <gafton@redhat.com> 
+- auto rebuild in the new build environment (release 15)
+
+* Wed Jan 06 1999 Cristian Gafton <gafton@redhat.com>
+- clean up the spec file
+- build for glibc 2.1
+- patch to fix pktopbm
+
+* Wed Jun 10 1998 Prospector System <bugs@redhat.com>
+- translations modified for de
+
+* Wed Jun 10 1998 Jeff Johnson <jbj@redhat.com>
+- glibc2 defines random in <stdlib.h> (pbm/pbmplus.h problem #693)
+
+* Thu May 07 1998 Prospector System <bugs@redhat.com>
+- translations modified for de, fr, tr
+
+* Thu May 07 1998 Cristian Gafton <gafton@redhat.com>
+- cleaned up the spec file a little bit
+- validated mike's changes :-)
+
+* Wed May 6 1998 Michael Maher <mike@redhat.com>
+- added pnm-to-ps.fpi that was missing from previous packages
+
+* Thu Apr 30 1998 Cristian Gafton <gafton@redhat.com>
+- altered %install so that the package installs now even if a previous
+  version was not installed on the system 
+
+* Thu Apr 16 1998 Erik Troan <ewt@redhat.com>
+- built against libpng 1.0
+
+* Thu Nov 06 1997 Donnie Barnes <djb@redhat.com>
+- changed copyright from "distributable" to "freeware"
+- added some missing scripts that existed in netpbm
+- added some binaries that weren't getting built
+- added patch to build tiff manipulation progs (requires libtiff)
+
+* Wed Oct 15 1997 Donnie Barnes <djb@redhat.com>
+- obsoletes netpbm now
+
+* Tue Oct 14 1997 Erik Troan <ewt@redhat.com>
+- mucked config.guess and Make.Rules to build on Alpha/Linux
+
+* Tue Oct 07 1997 Donnie Barnes <djb@redhat.com>
+- updated to 2.0.13
+- dropped libjpeg and libtiff (those should come from home sources)
+- removed glibc patch (new version appears to have it!)
+- added i686 as a valid arch type to config.guess
+
+* Thu Jul 10 1997 Erik Troan <ewt@redhat.com>
+- built against glibc
