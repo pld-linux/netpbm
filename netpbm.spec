@@ -22,6 +22,7 @@ Source1:	http://www.mif.pg.gda.pl/homepages/ankry/man-PLD/%{name}-non-english-ma
 Patch0:		%{name}-Makefile.common.patch
 Patch1:		%{name}-security-CAN-2003-0924-VU#378049-VU#630433.patch
 Patch2:		%{name}-security-CAN-2003-0924-tmpfile.patch
+Patch3:		%{name}-noninteractive-try_ldconfig.patch
 BuildRequires:	libjpeg-devel
 BuildRequires:	libpng-devel
 BuildRequires:	libtiff-devel
@@ -186,6 +187,7 @@ u¿yciu svgalib.
 %patch0 -p1
 %patch1 -p1
 %patch2 -p1
+%patch3 -p1
 
 %build
 %{__make} \
