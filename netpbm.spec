@@ -225,6 +225,7 @@ rm -f PKG/bin/doc.url
 cp -df PKG/bin/* $RPM_BUILD_ROOT%{_bindir}
 cp -df PKG/lib/* $RPM_BUILD_ROOT%{_libdir}
 install PKG/link/*.a $RPM_BUILD_ROOT%{_libdir}
+install PKG/include/*.h $RPM_BUILD_ROOT%{_includedir}
 install PKG/man/man1/*.1 $RPM_BUILD_ROOT%{_mandir}/man1
 install PKG/man/man3/*.3 $RPM_BUILD_ROOT%{_mandir}/man3
 install PKG/man/man5/*.5 $RPM_BUILD_ROOT%{_mandir}/man5
