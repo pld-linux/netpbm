@@ -1,7 +1,7 @@
 Summary:	A library for handling different graphics file formats
 Summary(pl):	Biblioteki do obs³ugi ró¿nych formatów graficznych
 Name:		netpbm
-Version:	9.22
+Version:	9.23
 Release:	1
 License:	freeware
 Group:		Libraries
@@ -9,6 +9,9 @@ Group(de):	Libraries
 Group(es):	Bibliotecas
 Group(fr):	Librairies
 Group(pl):	Biblioteki
+Group(pt_BR):	Bibliotecas
+Group(ru):	âÉÂÌÉÏÔÅËÉ
+Group(uk):	â¦ÂÌ¦ÏÔÅËÉ
 Source0:	ftp://download.sourceforge.net/pub/sourceforge/netpbm/%{name}-%{version}.tgz
 Source1:	%{name}-non-english-man-pages.tar.bz2
 Patch0:		%{name}-install.patch
@@ -37,8 +40,12 @@ Summary:	Development tools for programs which will use the netpbm libraries
 Summary(pl):	Biblioteka netpbm - czê¶æ dla programistów
 Group:		Development/Libraries
 Group(de):	Entwicklung/Libraries
+Group(es):	Desarrollo/Bibliotecas
 Group(fr):	Development/Librairies
 Group(pl):	Programowanie/Biblioteki
+Group(pt_BR):	Desenvolvimento/Bibliotecas
+Group(ru):	òÁÚÒÁÂÏÔËÁ/âÉÂÌÉÏÔÅËÉ
+Group(uk):	òÏÚÒÏÂËÁ/â¦ÂÌ¦ÏÔÅËÉ
 Requires:	%{name} = %{version}
 Obsoletes:	libgr-devel
 
@@ -53,16 +60,20 @@ need to have the netpbm package installed.
 
 %description devel -l pl
 Pakiet netpbm-devel zawiera pliki nag³ówkowe i dokumentacjê dla
-programistów do tworzenia programów obs³uguj±cych formaty
-graficzne wspierane przez netpbm.
+programistów do tworzenia programów obs³uguj±cych formaty graficzne
+wspierane przez netpbm.
 
 %package static
 Summary:	Static netpbm libraries
 Summary(pl):	Statyczne biblioteki netpbm
 Group:		Development/Libraries
 Group(de):	Entwicklung/Libraries
+Group(es):	Desarrollo/Bibliotecas
 Group(fr):	Development/Librairies
 Group(pl):	Programowanie/Biblioteki
+Group(pt_BR):	Desenvolvimento/Bibliotecas
+Group(ru):	òÁÚÒÁÂÏÔËÁ/âÉÂÌÉÏÔÅËÉ
+Group(uk):	òÏÚÒÏÂËÁ/â¦ÂÌ¦ÏÔÅËÉ
 Requires:	%{name}-devel = %{version}
 Obsoletes:	libgr-static
 
@@ -78,6 +89,7 @@ Summary(pl):	Narzêdzia do konwersji plików graficznych
 Group:		Applications/Graphics
 Group(de):	Applikationen/Grafik
 Group(pl):	Aplikacje/Grafika
+Group(pt):	Aplicações/Gráficos
 Requires:	%{name} = %{version}
 Obsoletes:	libgr-progs
 
@@ -93,8 +105,8 @@ If you need to use these conversion scripts, you should install
 netpbm-progs. You'll also need to install the netpbm package.
 
 %description progs -l pl
-Pakiet netpbm-progs zawiera programy konwertuj±ce pliki graficzne
-do oraz z formatów obs³ugiwanych przez biblioteki netpbm.
+Pakiet netpbm-progs zawiera programy konwertuj±ce pliki graficzne do
+oraz z formatów obs³ugiwanych przez biblioteki netpbm.
 
 %prep
 %setup -q
@@ -113,7 +125,7 @@ do oraz z formatów obs³ugiwanych przez biblioteki netpbm.
 	PNGLIB_DIR=%{_libdir} \
 	TIFFLIB_DIR=%{_libdir} << EOF
 gnu
-/usr
+%{_prefix}
 regular
 shared
 yes
