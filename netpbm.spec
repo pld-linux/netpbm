@@ -19,8 +19,11 @@ Release:	0.1
 License:	Freeware
 Group:		Libraries
 Source0:	http://dl.sourceforge.net/%{name}/%{name}-%{version}.tgz
+# Source0-md5: 80248367d6b504e4488e2201484b6465
 Source1:	%{name}-non-english-man-pages.tar.bz2
+# Source1-md5: 8fb174f8da02ea01bf72a9dc61be10f1
 Source2:	%{name}-docs-20030520.tar.bz2
+# Source2-md5: 2d6a3965d493def21edfbc3e1aa262e9
 Patch0:		%{name}-make.patch
 BuildRequires:	libjpeg-devel
 BuildRequires:	libpng-devel
