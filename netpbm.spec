@@ -2,7 +2,7 @@ Summary:	A library for handling different graphics file formats
 Summary(pl):	Biblioteki do obs³ugi ró¿nych formatów graficznych
 Name:		netpbm
 Version:	9.23
-Release:	1
+Release:	2
 License:	Freeware
 Group:		Libraries
 Source0:	ftp://download.sourceforge.net/pub/sourceforge/netpbm/%{name}-%{version}.tgz
@@ -61,6 +61,19 @@ Static netpbm libraries.
 
 %description static -l pl
 Statyczne biblioteki netpbm.
+
+%package rle-static
+Summary:	Limited rle library
+Summary(pl):	Okrojona biblioteka rle
+Group:		Development/Libraries
+Requires:	%{name}-devel = %{version}
+Obsoletes:	urt-static
+
+%description rle-static
+Limited version of rle library from netpbm.
+
+%description rle-static -l pl
+Okrojona wersja biblioteki rle z netpbm.
 
 %package progs
 Summary:	Tools for manipulating graphics files in netpbm supported formats
@@ -170,7 +183,11 @@ rm -rf $RPM_BUILD_ROOT
 
 %files static
 %defattr(644,root,root,755)
-%{_libdir}/lib*.a
+%{_libdir}/libp*.a
+
+%files rle-static
+%defattr(644,root,root,755)
+%{_libdir}/librle.a
 
 %files progs
 %defattr(644,root,root,755)
