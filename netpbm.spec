@@ -1,9 +1,8 @@
+# TODO: documentation for progs:
+# - try to get some real man pages (old netpbm? Debian?)
 #
 # Conditional build:
 %bcond_without	svga	# don't build ppmsvgalib tool
-#
-# TODO: documentation for progs:
-# - try to get some real man pages (old netpbm? Debian?)
 #
 %ifnarch %{ix86} alpha
 %undefine	with_svga
@@ -14,12 +13,12 @@ Summary(pt_BR):	Ferramentas para manipular arquivos graficos nos formatos suport
 Summary(ru):	Набор библиотек для работы с различными графическими файлами
 Summary(uk):	Наб╕р б╕бл╕отек для роботи з р╕зними граф╕чними файлами
 Name:		netpbm
-Version:	10.19
-Release:	2
+Version:	10.20
+Release:	1
 License:	Freeware
 Group:		Libraries
 Source0:	http://dl.sourceforge.net/%{name}/%{name}-%{version}.tgz
-# Source0-md5:	e6bf74f0cef5271041e0ee4842c8fcef
+# Source0-md5:	4aa2f767c4d58bcbdafaba6a7dd03313
 Source1:	http://www.mif.pg.gda.pl/homepages/ankry/man-PLD/%{name}-non-english-man-pages.tar.bz2
 # Source1-md5:	8fb174f8da02ea01bf72a9dc61be10f1
 Source2:	%{name}-docs-20030520.tar.bz2
