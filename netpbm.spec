@@ -34,6 +34,18 @@ Group(pl):	Programowanie/Biblioteki
 Requires:	%{name} = %{version}
 Obsoletes:	libgr-devel
 
+%package static
+Summary:	Static netpbm libraries
+Group:		Development/Libraries
+Group(de):	Entwicklung/Libraries
+Group(fr):	Development/Librairies
+Group(pl):	Programowanie/Biblioteki
+Requires:	%{name}-devel = %{version}
+Obsoletes:	libgr-static
+
+%description static
+Static netpbm libraries.
+
 %description devel
 The netpbm-devel package contains the header files and static
 libraries, etc., for developing programs which can handle the various
@@ -50,37 +62,6 @@ Group(de):	Applikationen/Grafik
 Group(pl):	Aplikacje/Grafika
 Requires:	%{name} = %{version}
 Obsoletes:	libgr-progs
-
-%package static
-Summary:	Static netpbm libraries
-Group:		Development/Libraries
-Group(de):	Entwicklung/Libraries
-Group(fr):	Development/Librairies
-Group(pl):	Programowanie/Biblioteki
-Requires:	%{name} = %{version}
-Obsoletes:	libgr-static
-
-%description static
-Static netpbm libraries.
-
-%package progs
-Summary:	Tools for manipulating graphics files in netpbm supported formats
-Group:		Applications/Graphics
-Group(de):	Applikationen/Grafik
-Group(pl):	Aplikacje/Grafika
-Requires:	%{name} = %{version}
-Obsoletes:	libgr-progs
-
-%description progs
-The netpbm-progs package contains a group of scripts for manipulating
-the graphics files in formats which are supported by the netpbm
-libraries. For example, netpbm-progs includes the rasttopnm script,
-which will convert a Sun rasterfile into a portable anymap.
-Netpbm-progs contains many other scripts for converting from one
-graphics file format to another.
-
-If you need to use these conversion scripts, you should install
-netpbm-progs. You'll also need to install the netpbm package.
 
 %prep
 %setup -q
