@@ -1,8 +1,8 @@
 Summary:	A library for handling different graphics file formats
 Summary(pl):	Biblioteki do obs³ugi ró¿nych formatów graficznych
 Name:		netpbm
-Version:	9.12
-Release:	2
+Version:	9.14
+Release:	1
 License:	freeware
 Group:		Libraries
 Group(de):	Libraries
@@ -11,8 +11,7 @@ Group(fr):	Librairies
 Group(pl):	Biblioteki
 Source0:	ftp://download.sourceforge.net/pub/sourceforge/netpbm/%{name}-%{version}.tgz
 Patch0:		%{name}-install.patch
-Patch1:		%{name}-paths.patch
-Patch2:		%{name}-system-jbig.patch
+Patch1:		%{name}-system-jbig.patch
 BuildRequires:	libjpeg-devel
 BuildRequires:	libpng-devel
 BuildRequires:	libtiff-devel
@@ -98,7 +97,6 @@ do oraz z formatów obs³ugiwanych przez biblioteki netpbm.
 %setup -q
 %patch0 -p1
 %patch1 -p1
-%patch2 -p1
 
 %build
 %{__make} \
