@@ -10,3 +10,11 @@
  endif
  ifeq ($(NETPBMLIBTYPE),dll)
  #install a Windows DLL shared library
+--- netpbm-10.27/converter/other/Makefile.orig	2005-03-25 22:53:04.000000000 +0100
++++ netpbm-10.27/converter/other/Makefile	2005-03-28 21:18:30.010823016 +0200
+@@ -182,4 +182,4 @@
+ 	$(SYMLINK) pamtouil$(EXE) ppmtouil
+ # In March 2005, we realized that pamtopnm obviates pnmtopnm
+ 	cd $(PKGDIR)/bin ; \
+-	$(SYMLINK) pnmtopnm$(EXE) pamtopnm
++	$(SYMLINK) pamtopnm$(EXE) pnmtopnm
