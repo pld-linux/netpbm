@@ -197,7 +197,7 @@ u¿yciu svgalib.
 	JPEGHDR_DIR=%{_includedir} \
 	PNGHDR_DIR=%{_includedir} \
 	TIFFHDR_DIR=%{_includedir} \
-	JBIGLIB=/usr/lib/libjbig.so << EOF
+	JBIGLIB=/usr/%{_lib}/libjbig.so << EOF
 
 gnu
 regular
