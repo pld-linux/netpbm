@@ -10,12 +10,12 @@ Summary(pt_BR):	Ferramentas para manipular arquivos graficos nos formatos suport
 Summary(ru):	Набор библиотек для работы с различными графическими файлами
 Summary(uk):	Наб╕р б╕бл╕отек для роботи з р╕зними граф╕чними файлами
 Name:		netpbm
-Version:	10.24
-Release:	3
+Version:	10.25
+Release:	1
 License:	Freeware
 Group:		Libraries
 Source0:	http://dl.sourceforge.net/netpbm/%{name}-%{version}.tgz
-# Source0-md5:	06580a8cadb6908f95733dcbd3f4e3d8
+# Source0-md5:	ebdf59acdd603c5ef2829df9138b8720
 Source1:	http://www.mif.pg.gda.pl/homepages/ankry/man-PLD/%{name}-non-english-man-pages.tar.bz2
 # Source1-md5:	8fb174f8da02ea01bf72a9dc61be10f1
 Source2:	%{name}-docs-20030520.tar.bz2
@@ -201,7 +201,8 @@ u©yciu svgalib.
 gnu
 regular
 shared
-yes
+y
+
 libjpeg.so
 
 libtiff.so
