@@ -11,7 +11,7 @@ Summary(ru):	Набор библиотек для работы с различными графическими файлами
 Summary(uk):	Наб╕р б╕бл╕отек для роботи з р╕зними граф╕чними файлами
 Name:		netpbm
 Version:	10.23
-Release:	1
+Release:	2
 License:	Freeware
 Group:		Libraries
 Source0:	http://dl.sourceforge.net/netpbm/%{name}-%{version}.tgz
@@ -21,6 +21,7 @@ Source1:	http://www.mif.pg.gda.pl/homepages/ankry/man-PLD/%{name}-non-english-ma
 Source2:	%{name}-docs-20030520.tar.bz2
 # Source2-md5:	2d6a3965d493def21edfbc3e1aa262e9
 Patch0:		%{name}-make.patch
+Patch1:		%{name}-fix.patch
 BuildRequires:	flex
 BuildRequires:	jbigkit-devel
 BuildRequires:	libjpeg-devel
@@ -185,10 +186,11 @@ u©yciu svgalib.
 %prep
 %setup -q -a2
 %patch0 -p1
+%patch1 -p1
 
 %build
 %{__make} \
-	CC=%{__cc} \
+	CC="%{__cc}" \
 	CFLAGS="%{rpmcflags} -fPIC" \
 	JBIGHDR_DIR=%{_includedir} \
 	JPEGHDR_DIR=%{_includedir} \
