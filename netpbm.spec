@@ -12,7 +12,7 @@ Summary(ru):	Набор библиотек для работы с различными графическими файлами
 Summary(uk):	Наб╕р б╕бл╕отек для роботи з р╕зними граф╕чними файлами
 Name:		netpbm
 Version:	9.25
-Release:	2
+Release:	3
 License:	Freeware
 Group:		Libraries
 Source0:	http://dl.sourceforge.net/%{name}/%{name}-%{version}.tgz
@@ -20,6 +20,7 @@ Source0:	http://dl.sourceforge.net/%{name}/%{name}-%{version}.tgz
 Source1:	http://www.mif.pg.gda.pl/homepages/ankry/man-PLD/%{name}-non-english-man-pages.tar.bz2
 # Source1-md5:	8fb174f8da02ea01bf72a9dc61be10f1
 Patch0:		%{name}-Makefile.common.patch
+Patch1:		%{name}-security-CAN-2003-0924-VU#378049-VU#630433.patch
 BuildRequires:	libjpeg-devel
 BuildRequires:	libpng-devel
 BuildRequires:	libtiff-devel
@@ -182,6 +183,7 @@ u©yciu svgalib.
 %prep
 %setup -q
 %patch0 -p1
+%patch1 -p1
 
 %build
 %{__make} \
