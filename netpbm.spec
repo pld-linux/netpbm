@@ -1,3 +1,10 @@
+#
+# Conditional build:
+# _without_svga		- don't build ppmsvgalib tool
+#
+%ifnarch %{ix86} alpha
+%define	_without_svga	1
+%endif
 Summary:	A library for handling different graphics file formats
 Summary(pl):	Biblioteki do obs³ugi ró¿nych formatów graficznych
 Summary(pt_BR):	Ferramentas para manipular arquivos graficos nos formatos suportados netpbm
@@ -5,17 +12,18 @@ Summary(ru):	îÁÂÏÒ ÂÉÂÌÉÏÔÅË ÄÌÑ ÒÁÂÏÔÙ Ó ÒÁÚÌÉÞÎÙÍÉ ÇÒÁÆÉÞÅÓËÉÍÉ ÆÁÊÌÁÍÉ
 Summary(uk):	îÁÂ¦Ò Â¦ÂÌ¦ÏÔÅË ÄÌÑ ÒÏÂÏÔÉ Ú Ò¦ÚÎÉÍÉ ÇÒÁÆ¦ÞÎÉÍÉ ÆÁÊÌÁÍÉ
 Name:		netpbm
 Version:	9.25
-Release:	1
+Release:	2
 License:	Freeware
 Group:		Libraries
 Source0:	http://dl.sourceforge.net/%{name}/%{name}-%{version}.tgz
 Source1:	%{name}-non-english-man-pages.tar.bz2
-Patch2:		%{name}-Makefile.common.patch
+Patch0:		%{name}-Makefile.common.patch
 BuildRequires:	libjpeg-devel
 BuildRequires:	libpng-devel
 BuildRequires:	libtiff-devel
 BuildRequires:	jbigkit-devel
 BuildRequires:	perl
+%{!?_without_svga:BuildRequires:	svgalib-devel}
 Buildroot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 Obsoletes:	libgr
 
@@ -156,17 +164,32 @@ oraz z formatów obs³ugiwanych przez biblioteki netpbm.
 ãÅÊ ÐÁËÅÔ Í¦ÓÔÉÔØ Ò¦ÚÎÏÍÁÎ¦ÔÎ¦ ÕÔÉÌ¦ÔÉ ÄÌÑ ÒÏÂÏÔÉ Ú ÇÒÁÆ¦ÞÎÉÍ ÆÁÊÌÁÍÉ
 × ÆÏÒÍÁÔÁÈ, Ð¦ÄÔÒÉÍÕ×ÁÎÉÈ netpbm.
 
+%package ppmsvgalib
+Summary:	ppmsvgalib - display PPM image on Linux console using svgalib
+Summary(pl):	ppmsvgalib - wy¶wietlanie obrazków PPM na konsoli przy u¿yciu svgalib
+Group:		Applications/Graphics
+Requires:	%{name} = %{version}
+
+%description ppmsvgalib
+ppmsvgalib - display PPM image on Linux console using svgalib.
+
+%description ppmsvgalib -l pl
+ppmsvgalib - wy¶wietlanie obrazków PPM na konsoli linuksowej przy
+u¿yciu svgalib.
+
 %prep
 %setup -q
-%patch2 -p1
+%patch0 -p1
 
 %build
 %{__make} \
 	CC=%{__cc} \
 	CFLAGS="%{rpmcflags} -fPIC" \
+	JBIGHDR_DIR=%{_includedir} \
 	JPEGHDR_DIR=%{_includedir} \
-	PNGHDR_DIR="`(pkg-config --cflags libpng12 2>/dev/null || echo %{_includedir}) | sed s/-I//`" \
+	PNGHDR_DIR=%{_includedir} \
 	TIFFHDR_DIR=%{_includedir} \
+	JBIGLIB_DIR=%{_libdir} \
 	JPEGLIB_DIR=%{_libdir} \
 	PNGLIB_DIR=%{_libdir} \
 	TIFFLIB_DIR=%{_libdir} << EOF
@@ -175,15 +198,25 @@ regular
 shared
 yes
 %{_prefix}
+bin
+lib
+lib
+include
+man
+%{?_without_svga:NONE}%{!?_without_svga:/usr/lib}
 EOF
 
 %install
 rm -rf $RPM_BUILD_ROOT
-[ "$RPM_BUILD_ROOT" != "/" ] && rm -rf $RPM_BUILD_ROOT
-PATH="`pwd`:${PATH}" make install \
-	JPEGINC_DIR=$RPM_BUILD_ROOT%{_includedir} \
-	PNGINC_DIR=$RPM_BUILD_ROOT%{_includedir} \
-	TIFFINC_DIR=$RPM_BUILD_ROOT%{_includedir} \
+
+#	JBIGINC_DIR=$RPM_BUILD_ROOT%{_includedir} \
+#	JPEGINC_DIR=$RPM_BUILD_ROOT%{_includedir} \
+#	PNGINC_DIR=$RPM_BUILD_ROOT%{_includedir} \
+#	TIFFINC_DIR=$RPM_BUILD_ROOT%{_includedir}
+
+PATH="`pwd`:${PATH}" \
+%{__make} install \
+	JBIGLIB_DIR=%{_libdir} \
 	JPEGLIB_DIR=%{_libdir} \
 	PNGLIB_DIR=%{_libdir} \
 	TIFFLIB_DIR=%{_libdir} \
@@ -197,17 +230,17 @@ PATH="`pwd`:${PATH}" make install \
 
 # Install header files.
 install -d $RPM_BUILD_ROOT%{_includedir}
-install pbm/pbm.h $RPM_BUILD_ROOT/%{_includedir}
-install pbm/pm.h $RPM_BUILD_ROOT/%{_includedir}
-install pm_config.h $RPM_BUILD_ROOT/%{_includedir}
-install pgm/pgm.h $RPM_BUILD_ROOT/%{_includedir}
-install pnm/pnm.h $RPM_BUILD_ROOT/%{_includedir}
-install ppm/ppm.h $RPM_BUILD_ROOT/%{_includedir}
-install shhopt/shhopt.h $RPM_BUILD_ROOT/%{_includedir}
+install pbm/pbm.h $RPM_BUILD_ROOT%{_includedir}
+install pbm/pm.h $RPM_BUILD_ROOT%{_includedir}
+install pm_config.h $RPM_BUILD_ROOT%{_includedir}
+install pgm/pgm.h $RPM_BUILD_ROOT%{_includedir}
+install pnm/pnm.h $RPM_BUILD_ROOT%{_includedir}
+install ppm/ppm.h $RPM_BUILD_ROOT%{_includedir}
+install shhopt/shhopt.h $RPM_BUILD_ROOT%{_includedir}
 
 # Install the static-only librle.a
-install urt/{rle,rle_config}.h $RPM_BUILD_ROOT/%{_includedir}/
-install urt/librle.a $RPM_BUILD_ROOT%{_libdir}/
+install urt/{rle,rle_config}.h $RPM_BUILD_ROOT%{_includedir}
+install urt/librle.a $RPM_BUILD_ROOT%{_libdir}
 
 # Fixup symlinks.
 ln -sf gemtopnm $RPM_BUILD_ROOT%{_bindir}/gemtopbm
@@ -250,3 +283,12 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man[15]/*
 %lang(fi) %{_mandir}/fi/man[15]/*
 %lang(pl) %{_mandir}/pl/man[15]/*
+%{!?_without_svga:%exclude %{_bindir}/ppmsvgalib}
+%{!?_without_svga:%exclude %{_mandir}/man1/ppmsvgalib.1*}
+
+%if 0%{!?_without_svga:1}
+%files ppmsvgalib
+%defattr(644,root,root,755)
+%attr(755,root,root) %{_bindir}/ppmsvgalib
+%{_mandir}/man1/ppmsvgalib.1*
+%endif
