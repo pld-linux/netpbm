@@ -1,0 +1,25 @@
+diff -urN netpbm-9.25/pbm/libpm.c netpbm-9.25.patch/pbm/libpm.c
+--- netpbm-9.25/pbm/libpm.c	2002-02-24 23:37:29.000000000 +0100
++++ netpbm-9.25.patch/pbm/libpm.c	2004-08-05 21:47:24.000000000 +0200
+@@ -644,6 +644,8 @@
+     struct stat statbuf;
+     FILE * original_file;
+     FILE * seekable_file;
++#define TEMPFILE_NAME   "/tmp/netpbm.XXXXXX"
++    char fname[sizeof(TEMPFILE_NAME)];
+ 
+     original_file = pm_openr((char *) name);
+ 
+@@ -667,8 +669,10 @@
+ 
+     if (seekable) {
+         seekable_file = original_file;
+-    } else {
+-        seekable_file = tmpfile();
++    } else {	    
++/*        seekable_file = tmpfile();*/
++	    strcpy(fname, TEMPFILE_NAME);
++	    seekable_file = fdopen(mkstemp(fname), "w+");
+ 
+         /* Copy the input into the temporary seekable file */
+         while (!feof(original_file) && !ferror(original_file) 
