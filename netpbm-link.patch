@@ -1,0 +1,11 @@
+--- netpbm-10.27/lib/Makefile.orig	2005-03-28 21:03:00.002205000 +0200
++++ netpbm-10.27/lib/Makefile	2005-03-28 21:07:58.551819376 +0200
+@@ -112,7 +112,7 @@
+ 	$(SYMLINK) $< $@
+ libnetpbm.$(NETPBMLIBSUFFIX).$(MAJ).$(MIN): $(LIBOBJECTS) $(LIBOBJECTS_X)
+ 	$(LD) $(LDSHLIB) -o $@ $(LIBOBJECTS) $(LIBOBJECTS_X) \
+-          $(SHLIB_CLIB) $(LADD)
++          $(SHLIB_CLIB) $(LADD) -lm
+ endif
+ 
+ ifeq ($(NETPBMLIBTYPE),dll)
