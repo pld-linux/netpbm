@@ -1,0 +1,12 @@
+diff -urN netpbm-9.25/buildtools/try_ldconfig netpbm-9.25.patch/buildtools/try_ldconfig
+--- netpbm-9.25/buildtools/try_ldconfig	2002-01-11 00:12:26.000000000 +0100
++++ netpbm-9.25.patch/buildtools/try_ldconfig	2004-08-06 01:06:35.000000000 +0200
+@@ -23,7 +23,7 @@
+       echo "==================================================================="
+       echo
+       echo "Enter anything to continue the install."
+-      read;
++#      read;
+       fi
+    fi
+ 
