@@ -1,24 +1,22 @@
-Summary:	A library for handling different graphics file formats.
+Summary:	A library for handling different graphics file formats
 Name:		netpbm
-Version:	9.5
-Release:	5
-Copyright:	freeware
-Group:		System Environment/Libraries
-######		Unknown group!
+Version:	9.9
+Release:	1
+License:	freeware
+Group:		Libraries
+Group(de):	Libraries
+Group(fr):	Librairies
+Group(pl):	Biblioteki
 Source0:	ftp://download.sourceforge.net/pub/sourceforge/netpbm/%{name}-%{version}.tgz
-Source1:	jpeg-to-pnm.fpi
-Source2:	pnm-to-ps.fpi
-Source3:	bmp-to-pnm.fpi
-Source4:	gif-to-pnm.fpi
-Source5:	rast-to-pnm.fpi
-Source6:	tiff-to-pnm.fpi
-Source7:	png-to-pnm.fpi
-Patch0:		%{name}-9.5-install.patch
-Patch1:		%{name}-9.5-pktopbm.patch
-Patch2:		%{name}-9.5-pnmtotiff.patch
-Patch3:		%{name}-9.5-pstopnm.patch
+Patch0:		%{name}-pktopbm.patch
+Patch1:		%{name}-pnmtotiff.patch
+Patch2:		%{name}-pstopnm.patch
+Patch3:		%{name}-install.patch
+Patch4:		%{name}-asciitopgm.patch
+BuildRequires:	libjpeg-devel
+BuildRequires:	libpng-devel
+BuildRequires:	libtiff-devel
 Buildroot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
-BuildPrereq:	libjpeg-devel, libpng-devel, libtiff-devel
 Obsoletes:	libgr
 
 %description
@@ -28,12 +26,12 @@ programs for handling various graphics file formats, including .pbm
 .ppm (portable pixmaps) and others.
 
 %package devel
-Summary:	Development tools for programs which will use the netpbm libraries.
+Summary:	Development tools for programs which will use the netpbm libraries
 Group:		Development/Libraries
 Group(de):	Entwicklung/Libraries
 Group(fr):	Development/Librairies
 Group(pl):	Programowanie/Biblioteki
-Requires:	netpbm = %{version}
+Requires:	%{name} = %{version}
 Obsoletes:	libgr-devel
 
 %description devel
@@ -46,10 +44,31 @@ graphics file formats supported by the netpbm libraries. You'll also
 need to have the netpbm package installed.
 
 %package progs
-Summary:	Tools for manipulating graphics files in netpbm supported formats.
-Group:		Applications/Multimedia
-######		Unknown group!
-Requires:	netpbm = %{version}
+Summary:	Tools for manipulating graphics files in netpbm supported formats
+Group:		Applications/Graphics
+Group(de):	Applikationen/Grafik
+Group(pl):	Aplikacje/Grafika
+Requires:	%{name} = %{version}
+Obsoletes:	libgr-progs
+
+%package static
+Summary:	Static netpbm libraries
+Group:		Development/Libraries
+Group(de):	Entwicklung/Libraries
+Group(fr):	Development/Librairies
+Group(pl):	Programowanie/Biblioteki
+Requires:	%{name} = %{version}
+Obsoletes:	libgr-static
+
+%description static
+Static netpbm libraries.
+
+%package progs
+Summary:	Tools for manipulating graphics files in netpbm supported formats
+Group:		Applications/Graphics
+Group(de):	Applikationen/Grafik
+Group(pl):	Aplikacje/Grafika
+Requires:	%{name} = %{version}
 Obsoletes:	libgr-progs
 
 %description progs
@@ -65,10 +84,11 @@ netpbm-progs. You'll also need to install the netpbm package.
 
 %prep
 %setup -q
-%patch0 -p1 -b .install
-%patch1 -p1 -b .pktopbm
-%patch2 -p1 -b .pnmtotiff
-%patch3 -p1 -b .pstopnm
+%patch0 -p1
+%patch1 -p1
+%patch2 -p1
+%patch3 -p1
+%patch4 -p1
 
 %build
 %{__make} \
@@ -99,12 +119,6 @@ PATH="`pwd`:${PATH}" make install \
 	INSTALLMANUALS3=$RPM_BUILD_ROOT%{_mandir}/man3 \
 	INSTALLMANUALS5=$RPM_BUILD_ROOT%{_mandir}/man5
 
-install -d $RPM_BUILD_ROOT%{_libdir}/rhs/rhs-printfilters
-for filter in $RPM_SOURCE_DIR/*.fpi ; do
-    install -m755 $filter \
-	$RPM_BUILD_ROOT%{_libdir}/rhs/rhs-printfilters
-done
-
 # Install header files.
 install -d $RPM_BUILD_ROOT%{_includedir}
 install pbm/pbm.h $RPM_BUILD_ROOT/%{_includedir}/
@@ -125,34 +139,30 @@ ln -sf pnmtoplainpnm $RPM_BUILD_ROOT%{_bindir}/pnmnoraw
 perl -pi -e 's^/bin/perl^%{__perl}^' \
 $RPM_BUILD_ROOT%{_bindir}/{ppmfade,ppmshadow}
 
+gzip -9nf COPYRIGHT.PATENT HISTORY README README.CONFOCAL
+
 %clean
-[ "$RPM_BUILD_ROOT" != "/" ] && rm -rf $RPM_BUILD_ROOT
+rm -rf $RPM_BUILD_ROOT
 
-%post -p /sbin/ldconfig
-
+%post   -p /sbin/ldconfig
 %postun -p /sbin/ldconfig
 
 %files
 %defattr(644,root,root,755)
-%doc COPYRIGHT.PATENT GPL_LICENSE.txt HISTORY README README.CONFOCAL
-%{_libdir}/lib*.so.%{version}
+%attr(755,root,root) %{_libdir}/lib*.so.*.*
 
 %files devel
 %defattr(644,root,root,755)
+%doc *.gz
 %{_includedir}/*.h
-%{_libdir}/lib*.a
-%{_libdir}/lib*.so
+%attr(755,root,root) %{_libdir}/lib*.so
 %{_mandir}/man3/*
+
+%files static
+%defattr(644,root,root,755)
+%{_libdir}/lib*.a
 
 %files progs
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_bindir}/*
-%{_libdir}/rhs/rhs-printfilters/jpeg-to-pnm.fpi
-%{_libdir}/rhs/rhs-printfilters/pnm-to-ps.fpi
-%{_libdir}/rhs/rhs-printfilters/bmp-to-pnm.fpi
-%{_libdir}/rhs/rhs-printfilters/gif-to-pnm.fpi
-%{_libdir}/rhs/rhs-printfilters/rast-to-pnm.fpi
-%{_libdir}/rhs/rhs-printfilters/tiff-to-pnm.fpi
-%{_libdir}/rhs/rhs-printfilters/png-to-pnm.fpi
-%{_mandir}/man1/*
-%{_mandir}/man5/*
+%{_mandir}/man[15]/*
