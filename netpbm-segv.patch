@@ -1,0 +1,13 @@
+--- netpbm-10.23/converter/other/pnmtopng.c.orig	2004-07-08 04:41:53.000000000 +0200
++++ netpbm-10.23/converter/other/pnmtopng.c	2004-07-20 23:41:51.920769016 +0200
+@@ -1365,8 +1365,8 @@
+                         if (transparent != -1)
+                             makeOneColorTransparentInPalette(
+                                 transcolor, transexact, 
+-                                palette_pnm, *paletteSizeP, trans_pnm, 
+-                                transSizeP);
++                                palette_pnm, paletteSize, trans_pnm, 
++                                &transSize);
+                     }
+                     if (!*noColormapReasonP) {
+                         if (background > -1)
