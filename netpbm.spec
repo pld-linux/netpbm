@@ -1,5 +1,8 @@
 Summary:	A library for handling different graphics file formats
 Summary(pl):	Biblioteki do obsЁugi rС©nych formatСw graficznych
+Summary(pt_BR):	Ferramentas para manipular arquivos graficos nos formatos suportados netpbm
+Summary(ru):	Набор библиотек для работы с различными графическими файлами
+Summary(uk):	Наб╕р б╕бл╕отек для роботи з р╕зними граф╕чними файлами
 Name:		netpbm
 Version:	9.23
 Release:	2
@@ -28,9 +31,26 @@ programs for handling various graphics file formats, including .pbm
 Pakiet netpbm zawiera biblioteki funkcji obsЁuguj╠cych rС©ne formaty
 graficzne, w tym .pbm, .pgm, .pnm, .ppm.
 
+%description -l pt_BR
+O pacote netpbm contИm bibliotecas de funГУes que suportam programas
+para manipular vАrios formatos grАficos, incluindo .pbm (ortable
+bitmaps), .pgm (portable graymaps), .pnm (portable anymaps), .ppm
+(portable pixmaps) e outros
+
+%description -l ru
+Набор библиотек для обработки графических файлов различных форматов
+включая FBM, PBM, PGM, PNM, PPM и REL.
+
+%description -l uk
+Наб╕р б╕бл╕отек для обробки граф╕чних файл╕в р╕зних формат╕в,
+включаючи FBM, PBM, PGM, PNM, PPM та REL.
+
 %package devel
 Summary:	Development tools for programs which will use the netpbm libraries
 Summary(pl):	Biblioteka netpbm - czЙ╤Ф dla programistСw
+Summary(pt_BR):	Arquivos de desenvolvimento usados para libnetpbm
+Summary(ru):	Хедеры и библиотеки для разработки программ, использующих netpbm
+Summary(uk):	Хедери та б╕бл╕отеки для розробки програм, що використовують netpbm
 Group:		Development/Libraries
 Requires:	%{name} = %{version}
 Obsoletes:	libgr-devel
@@ -49,9 +69,29 @@ Pakiet netpbm-devel zawiera pliki nagЁСwkowe i dokumentacjЙ dla
 programistСw do tworzenia programСw obsЁuguj╠cych formaty graficzne
 wspierane przez netpbm.
 
+%description devel -l pt_BR
+The netpbm-devel package contains the header files and programmer's
+documentation for developing programs which can handle the various
+graphics file formats supported by the netpbm libraries.
+
+Install netpbm-devel if you want to develop programs for handling the
+graphics file formats supported by the netpbm libraries. You'll also
+need to have the netpbm package installed.
+
+%description devel -l ru
+Этот пакет содержит все необходимое для разработки программ,
+работающих с графическими файлами в форматах, поддерживаемых netpbm.
+
+%description devel -l uk
+Цей пакет м╕стить все необх╕дне для розробки програм, що працюють з
+граф╕чними файлами в форматах, що ╖х п╕дтриму╓ netpbm.
+
 %package static
 Summary:	Static netpbm libraries
 Summary(pl):	Statyczne biblioteki netpbm
+Summary(pt_BR):	Bibliotecas estАticas para desenvolvimento com libnetpbm
+Summary(ru):	Статическая библиотека для программирования с netpbm
+Summary(uk):	Статична б╕бл╕отека для програмування з netpbm
 Group:		Development/Libraries
 Requires:	%{name}-devel = %{version}
 Obsoletes:	libgr-static
@@ -61,6 +101,17 @@ Static netpbm libraries.
 
 %description static -l pl
 Statyczne biblioteki netpbm.
+
+%description static -l pt_BR
+Bibliotecas estАticas para desenvolvimento com libnetpbm.
+
+%description static -l ru
+Этот пакет содержит статические библиотеки, необходимые для написания
+программ, использующих netpbm.
+
+%description static -l uk
+Цей пакет м╕стить статичн╕ б╕бл╕отеки, необх╕дн╕ для написання
+програм, що використовують netpbm.
 
 %package rle-static
 Summary:	Limited rle library
@@ -78,6 +129,8 @@ Okrojona wersja biblioteki rle z netpbm.
 %package progs
 Summary:	Tools for manipulating graphics files in netpbm supported formats
 Summary(pl):	NarzЙdzia do konwersji plikСw graficznych
+Summary(ru):	Утилиты манипулирования файлами форматов, поддерживаемых netpbm
+Summary(uk):	Утил╕ти ман╕пулювання файлами формат╕в, п╕дтримуваних netpbm
 Group:		Applications/Graphics
 Requires:	%{name} = %{version}
 Obsoletes:	libgr-progs
@@ -96,6 +149,14 @@ netpbm-progs. You'll also need to install the netpbm package.
 %description progs -l pl
 Pakiet netpbm-progs zawiera programy konwertuj╠ce pliki graficzne do
 oraz z formatСw obsЁugiwanych przez biblioteki netpbm.
+
+%description progs -l ru
+Этот пакет включает разнообразные утилиты для работы с графическими
+файлами в форматах, поддерживаемых netpbm.
+
+%description progs -l uk
+Цей пакет м╕стить р╕зноман╕тн╕ утил╕ти для роботи з граф╕чним файлами
+в форматах, п╕дтримуваних netpbm.
 
 %prep
 %setup -q
