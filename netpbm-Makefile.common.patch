@@ -1,6 +1,15 @@
---- netpbm-9.18/Makefile.common~	Tue Sep  4 01:29:05 2001
-+++ netpbm-9.18/Makefile.common	Thu Sep  6 21:41:53 2001
-@@ -368,7 +368,8 @@
+--- netpbm-9.23/Makefile.common.orig	Sat Jan  5 01:10:54 2002
++++ netpbm-9.23/Makefile.common	Sun Jan  6 07:56:22 2002
+@@ -367,7 +367,7 @@
+ install.sharedlibstub: 
+ 	cd $(INSTALLSTATICLIBS) ; \
+           rm -f lib$(LIBROOT).$(NETPBMLIBSUFFIX); \
+-          $(SYMLINK) $(INSTALLLIBS)/lib$(LIBROOT).$(NETPBMLIBSUFFIX).$(MAJ) \
++          $(SYMLINK) lib$(LIBROOT).$(NETPBMLIBSUFFIX).$(MAJ) \
+             lib$(LIBROOT).$(NETPBMLIBSUFFIX)
+ else
+ # I have no idea what link-time stuff is required for other library types.
+@@ -386,7 +386,8 @@
  	$(INSTALL) -c -m $(INSTALL_PERM_LIBD) $< $(INSTALLLIBS)
  	cd $(INSTALLLIBS) ; \
            rm -f lib$(LIBROOT).$(NETPBMLIBSUFFIX).$(MAJ); \
