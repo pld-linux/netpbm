@@ -10,6 +10,7 @@ Group(fr):	Librairies
 Group(pl):	Biblioteki
 Source0:	ftp://download.sourceforge.net/pub/sourceforge/netpbm/%{name}-%{version}.tgz
 Patch0:		%{name}-install.patch
+Patch1:		%{name}-paths.patch
 BuildRequires:	libjpeg-devel
 BuildRequires:	libpng-devel
 BuildRequires:	libtiff-devel
@@ -74,6 +75,7 @@ netpbm-progs. You'll also need to install the netpbm package.
 %prep
 %setup -q
 %patch0 -p1
+%patch1 -p1
 
 %build
 %{__make} \
@@ -84,7 +86,11 @@ netpbm-progs. You'll also need to install the netpbm package.
 	TIFFINC_DIR=%{_includedir} \
 	JPEGLIB_DIR=%{_libdir} \
 	PNGLIB_DIR=%{_libdir} \
-	TIFFLIB_DIR=%{_libdir}
+	TIFFLIB_DIR=%{_libdir} << EOF
+1
+/usr
+shared
+EOF
 
 %install
 rm -rf $RPM_BUILD_ROOT
