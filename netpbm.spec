@@ -168,9 +168,9 @@ oraz z formatów obs³ugiwanych przez biblioteki netpbm.
 %{__make} \
 	CC=%{__cc} \
 	CFLAGS="%{rpmcflags} -fPIC" \
-	JPEGINC_DIR=%{_includedir} \
-	PNGINC_DIR=%{_includedir} \
-	TIFFINC_DIR=%{_includedir} \
+	JPEGHDR_DIR=%{_includedir} \
+	PNGHDR_DIR="`(pkg-config --cflags libpng12 2>/dev/null || echo %{_includedir}) | sed s/-I//`" \
+	TIFFHDR_DIR=%{_includedir} \
 	JPEGLIB_DIR=%{_libdir} \
 	PNGLIB_DIR=%{_libdir} \
 	TIFFLIB_DIR=%{_libdir} << EOF
