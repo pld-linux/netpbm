@@ -22,6 +22,7 @@ Source2:	%{name}-docs-20030520.tar.bz2
 # Source2-md5:	2d6a3965d493def21edfbc3e1aa262e9
 Patch0:		%{name}-make.patch
 Patch1:		%{name}-link.patch
+URL:		http://netpbm.sourceforge.net/
 BuildRequires:	flex
 BuildRequires:	jbigkit-devel
 BuildRequires:	libjpeg-devel
