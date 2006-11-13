@@ -213,7 +213,7 @@ libz.so
 
 libX11.so
 
-%if %{without svga}
+%if !%{with svga}
 none
 %else
 %if "%{_lib}" != "lib"
