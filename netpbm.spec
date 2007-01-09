@@ -189,7 +189,8 @@ u¿yciu svgalib.
 %patch0 -p1
 
 %build
-%{__make} \
+# it appends defines to pm_config.h twice if -j > 1
+%{__make} -j1 \
 	CC="%{__cc}" \
 	CFLAGS="%{rpmcflags} -fPIC" \
 	LDFLAGS="%{rpmldflags}" \
