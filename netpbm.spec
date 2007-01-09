@@ -22,6 +22,7 @@ Source2:	%{name}-docs-20030520.tar.bz2
 # Source2-md5:	2d6a3965d493def21edfbc3e1aa262e9
 Patch0:		%{name}-make.patch
 URL:		http://netpbm.sourceforge.net/
+BuildRequires:	XFree86-devel
 BuildRequires:	flex
 BuildRequires:	jbigkit-devel
 BuildRequires:	libjpeg-devel
@@ -196,6 +197,7 @@ u¿yciu svgalib.
 	JPEGHDR_DIR=%{_includedir} \
 	PNGHDR_DIR=%{_includedir} \
 	TIFFHDR_DIR=%{_includedir} \
+	X11LIB=%{_x_libraries}/libX11.so \
 	JBIGLIB=/usr/%{_lib}/libjbig.so << EOF
 
 gnu
@@ -211,9 +213,9 @@ libpng.so
 
 libz.so
 
-libX11.so
+%{_x_libraries}/libX11.so
 
-%if !%{with svga}
+%if %{without svga}
 none
 %else
 %if "%{_lib}" != "lib"
@@ -229,8 +231,9 @@ EOF
 rm -rf $RPM_BUILD_ROOT
 install -d $RPM_BUILD_ROOT{%{_bindir},%{_libdir},%{_includedir},%{_mandir}/man{1,3,5}}
 
+rm -rf PKG
 %{__make} package \
-	pkgdir=`pwd`/PKG
+	pkgdir=$(pwd)/PKG
 
 rm -f PKG/bin/doc.url
 cp -df PKG/bin/* $RPM_BUILD_ROOT%{_bindir}
@@ -246,6 +249,7 @@ install urt/{rle,rle_config}.h $RPM_BUILD_ROOT%{_includedir}
 install urt/librle.a $RPM_BUILD_ROOT%{_libdir}
 
 bzip2 -dc %{SOURCE1} | tar xf - -C $RPM_BUILD_ROOT%{_mandir}
+rm -f $RPM_BUILD_ROOT%{_mandir}/README.netpbm-non-english-man-pages
 
 %clean
 rm -rf $RPM_BUILD_ROOT
