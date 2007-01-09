@@ -1,7 +1,0 @@
-#!/bin/sh
-#
-# takes jpeg from stdin, writes pnm to stdout
-#
-djpeg -pnm
-
-exit 0

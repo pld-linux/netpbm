@@ -1,7 +1,0 @@
-#!/bin/sh
-#
-# takes pnm from stdin, writes ps to stdout
-#
-pnmtops
-
-exit 0

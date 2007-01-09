@@ -10,18 +10,19 @@ Summary(pt_BR):	Ferramentas para manipular arquivos graficos nos formatos suport
 Summary(ru):	Набор библиотек для работы с различными графическими файлами
 Summary(uk):	Наб╕р б╕бл╕отек для роботи з р╕зними граф╕чними файлами
 Name:		netpbm
-Version:	10.27
+Version:	10.34
 Release:	1
 License:	Freeware
 Group:		Libraries
 Source0:	http://dl.sourceforge.net/netpbm/%{name}-%{version}.tgz
-# Source0-md5:	c5efd105d1b7fb4685f60a39b230e880
+# Source0-md5:	851137b746e9a08c46e6580743c036c4
 Source1:	http://www.mif.pg.gda.pl/homepages/ankry/man-PLD/%{name}-non-english-man-pages.tar.bz2
 # Source1-md5:	8fb174f8da02ea01bf72a9dc61be10f1
 Source2:	%{name}-docs-20030520.tar.bz2
 # Source2-md5:	2d6a3965d493def21edfbc3e1aa262e9
 Patch0:		%{name}-make.patch
-Patch1:		%{name}-link.patch
+URL:		http://netpbm.sourceforge.net/
+BuildRequires:	XFree86-devel
 BuildRequires:	flex
 BuildRequires:	jbigkit-devel
 BuildRequires:	libjpeg-devel
@@ -186,16 +187,18 @@ u©yciu svgalib.
 %prep
 %setup -q -a2
 %patch0 -p1
-%patch1 -p1
 
 %build
-%{__make} \
+# it appends defines to pm_config.h twice if -j > 1
+%{__make} -j1 \
 	CC="%{__cc}" \
 	CFLAGS="%{rpmcflags} -fPIC" \
+	LDFLAGS="%{rpmldflags}" \
 	JBIGHDR_DIR=%{_includedir} \
 	JPEGHDR_DIR=%{_includedir} \
 	PNGHDR_DIR=%{_includedir} \
 	TIFFHDR_DIR=%{_includedir} \
+	X11LIB=%{_x_libraries}/libX11.so \
 	JBIGLIB=/usr/%{_lib}/libjbig.so << EOF
 
 gnu
@@ -211,22 +214,27 @@ libpng.so
 
 libz.so
 
+%{_x_libraries}/libX11.so
+
 %if %{without svga}
 none
 %else
 %if "%{_lib}" != "lib"
 /usr/%{_lib}/libvga.so
 %endif
+
 %endif
 %{_docdir}/%{name}-%{version}/netpbm.sourceforge.net/doc/
+
 EOF
 
 %install
 rm -rf $RPM_BUILD_ROOT
 install -d $RPM_BUILD_ROOT{%{_bindir},%{_libdir},%{_includedir},%{_mandir}/man{1,3,5}}
 
+rm -rf PKG
 %{__make} package \
-	pkgdir=`pwd`/PKG
+	pkgdir=$(pwd)/PKG
 
 rm -f PKG/bin/doc.url
 cp -df PKG/bin/* $RPM_BUILD_ROOT%{_bindir}
@@ -242,6 +250,7 @@ install urt/{rle,rle_config}.h $RPM_BUILD_ROOT%{_includedir}
 install urt/librle.a $RPM_BUILD_ROOT%{_libdir}
 
 bzip2 -dc %{SOURCE1} | tar xf - -C $RPM_BUILD_ROOT%{_mandir}
+rm -f $RPM_BUILD_ROOT%{_mandir}/README.netpbm-non-english-man-pages
 
 %clean
 rm -rf $RPM_BUILD_ROOT
