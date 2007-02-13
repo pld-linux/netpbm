@@ -11,7 +11,7 @@ Summary(ru.UTF-8):	Набор библиотек для работы с разл
 Summary(uk.UTF-8):	Набір бібліотек для роботи з різними графічними файлами
 Name:		netpbm
 Version:	10.34
-Release:	1
+Release:	2
 License:	Freeware
 Group:		Libraries
 Source0:	http://dl.sourceforge.net/netpbm/%{name}-%{version}.tgz
@@ -22,7 +22,7 @@ Source2:	%{name}-docs-20030520.tar.bz2
 # Source2-md5:	2d6a3965d493def21edfbc3e1aa262e9
 Patch0:		%{name}-make.patch
 URL:		http://netpbm.sourceforge.net/
-BuildRequires:	XFree86-devel
+BuildRequires:	xorg-lib-libX11-devel
 BuildRequires:	flex
 BuildRequires:	jbigkit-devel
 BuildRequires:	libjpeg-devel
@@ -199,7 +199,7 @@ użyciu svgalib.
 	JPEGHDR_DIR=%{_includedir} \
 	PNGHDR_DIR=%{_includedir} \
 	TIFFHDR_DIR=%{_includedir} \
-	X11LIB=%{_x_libraries}/libX11.so \
+	X11LIB=%{_libdir}/libX11.so \
 	JBIGLIB=/usr/%{_lib}/libjbig.so << EOF
 
 gnu
@@ -215,7 +215,7 @@ libpng.so
 
 libz.so
 
-%{_x_libraries}/libX11.so
+%{_libdir}/libX11.so
 
 %if %{without svga}
 none
