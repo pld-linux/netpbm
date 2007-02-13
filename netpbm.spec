@@ -5,10 +5,10 @@
 %bcond_without	svga	# don't build ppmsvgalib tool
 #
 Summary:	A library for handling different graphics file formats
-Summary(pl.UTF-8):   Biblioteki do obsługi różnych formatów graficznych
-Summary(pt_BR.UTF-8):   Ferramentas para manipular arquivos graficos nos formatos suportados netpbm
-Summary(ru.UTF-8):   Набор библиотек для работы с различными графическими файлами
-Summary(uk.UTF-8):   Набір бібліотек для роботи з різними графічними файлами
+Summary(pl.UTF-8):	Biblioteki do obsługi różnych formatów graficznych
+Summary(pt_BR.UTF-8):	Ferramentas para manipular arquivos graficos nos formatos suportados netpbm
+Summary(ru.UTF-8):	Набор библиотек для работы с различными графическими файлами
+Summary(uk.UTF-8):	Набір бібліотек для роботи з різними графічними файлами
 Name:		netpbm
 Version:	10.34
 Release:	1
@@ -61,10 +61,10 @@ bitmaps), .pgm (portable graymaps), .pnm (portable anymaps), .ppm
 
 %package devel
 Summary:	Development tools for programs which will use the netpbm libraries
-Summary(pl.UTF-8):   Biblioteka netpbm - część dla programistów
-Summary(pt_BR.UTF-8):   Arquivos de desenvolvimento usados para libnetpbm
-Summary(ru.UTF-8):   Хедеры и библиотеки для разработки программ, использующих netpbm
-Summary(uk.UTF-8):   Хедери та бібліотеки для розробки програм, що використовують netpbm
+Summary(pl.UTF-8):	Biblioteka netpbm - część dla programistów
+Summary(pt_BR.UTF-8):	Arquivos de desenvolvimento usados para libnetpbm
+Summary(ru.UTF-8):	Хедеры и библиотеки для разработки программ, использующих netpbm
+Summary(uk.UTF-8):	Хедери та бібліотеки для розробки програм, що використовують netpbm
 Group:		Development/Libraries
 Requires:	%{name} = %{version}-%{release}
 Obsoletes:	libgr-devel
@@ -102,10 +102,10 @@ need to have the netpbm package installed.
 
 %package static
 Summary:	Static netpbm libraries
-Summary(pl.UTF-8):   Statyczne biblioteki netpbm
-Summary(pt_BR.UTF-8):   Bibliotecas estáticas para desenvolvimento com libnetpbm
-Summary(ru.UTF-8):   Статическая библиотека для программирования с netpbm
-Summary(uk.UTF-8):   Статична бібліотека для програмування з netpbm
+Summary(pl.UTF-8):	Statyczne biblioteki netpbm
+Summary(pt_BR.UTF-8):	Bibliotecas estáticas para desenvolvimento com libnetpbm
+Summary(ru.UTF-8):	Статическая библиотека для программирования с netpbm
+Summary(uk.UTF-8):	Статична бібліотека для програмування з netpbm
 Group:		Development/Libraries
 Requires:	%{name}-devel = %{version}-%{release}
 Obsoletes:	libgr-static
@@ -129,7 +129,7 @@ Bibliotecas estáticas para desenvolvimento com libnetpbm.
 
 %package rle-static
 Summary:	Limited rle library
-Summary(pl.UTF-8):   Okrojona biblioteka rle
+Summary(pl.UTF-8):	Okrojona biblioteka rle
 Group:		Development/Libraries
 Requires:	%{name}-devel = %{version}-%{release}
 Obsoletes:	urt-static
@@ -142,9 +142,9 @@ Okrojona wersja biblioteki rle z netpbm.
 
 %package progs
 Summary:	Tools for manipulating graphics files in netpbm supported formats
-Summary(pl.UTF-8):   Narzędzia do konwersji plików graficznych
-Summary(ru.UTF-8):   Утилиты манипулирования файлами форматов, поддерживаемых netpbm
-Summary(uk.UTF-8):   Утиліти маніпулювання файлами форматів, підтримуваних netpbm
+Summary(pl.UTF-8):	Narzędzia do konwersji plików graficznych
+Summary(ru.UTF-8):	Утилиты манипулирования файлами форматов, поддерживаемых netpbm
+Summary(uk.UTF-8):	Утиліти маніпулювання файлами форматів, підтримуваних netpbm
 Group:		Applications/Graphics
 Requires:	%{name} = %{version}-%{release}
 Obsoletes:	libgr-progs
@@ -174,7 +174,7 @@ oraz z formatów obsługiwanych przez biblioteki netpbm.
 
 %package ppmsvgalib
 Summary:	ppmsvgalib - display PPM image on Linux console using svgalib
-Summary(pl.UTF-8):   ppmsvgalib - wyświetlanie obrazków PPM na konsoli przy użyciu svgalib
+Summary(pl.UTF-8):	ppmsvgalib - wyświetlanie obrazków PPM na konsoli przy użyciu svgalib
 Group:		Applications/Graphics
 Requires:	%{name} = %{version}-%{release}
 
