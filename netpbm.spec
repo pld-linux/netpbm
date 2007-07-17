@@ -173,8 +173,8 @@ oraz z formatów obsługiwanych przez biblioteki netpbm.
 в форматах, підтримуваних netpbm.
 
 %package progs-pstopnm
-Summary:	pstopnm - tools for manipulating graphics files in netpbm supported formats
-Summary(pl.UTF-8):	pstopnm - narzędzia do konwersji plików graficznych
+Summary:	pstopnm - tool to convert PostScript files to PNM images
+Summary(pl.UTF-8):	pstopnm - narzędzie do konwersji plików postscriptowych na obrazy PNM
 Group:		Applications/Graphics
 Requires:	%{name} = %{version}-%{release}
 Requires:	ghostscript
@@ -182,11 +182,12 @@ Requires:	ghostscript-fonts-std
 Obsoletes:	libgr-progs
 
 %description progs-pstopnm
-The netpbm-progs-pstopnm package contains program for conversion PS -> PNM.
+This package contains pstopnm tool to convert PostScript files to PNM
+images.
 
 %description progs-pstopnm -l pl.UTF-8
-Pakiet netpbm-progs-pstopnm zawiera program konwertujący pliki w formacie PS
-do formatu pnm.
+Ten pakiet zawiera program konwertujący pliki w formacie PostScript na
+obrazy w formacie PNM.
 
 %package ppmsvgalib
 Summary:	ppmsvgalib - display PPM image on Linux console using svgalib
