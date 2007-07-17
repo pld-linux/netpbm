@@ -1,6 +1,5 @@
 # TODO:
 # - documentation for progs: try to get some real man pages (old netpbm? Debian?)
-# - put pstopnm to separate package - it requires whole ghostscript to work.
 #
 # Conditional build:
 %bcond_without	svga	# don't build ppmsvgalib tool
@@ -12,7 +11,7 @@ Summary(ru.UTF-8):	Набор библиотек для работы с разл
 Summary(uk.UTF-8):	Набір бібліотек для роботи з різними графічними файлами
 Name:		netpbm
 Version:	10.34
-Release:	3
+Release:	4
 License:	Freeware
 Group:		Libraries
 Source0:	http://dl.sourceforge.net/netpbm/%{name}-%{version}.tgz
@@ -149,9 +148,6 @@ Summary(uk.UTF-8):	Утиліти маніпулювання файлами фо
 Group:		Applications/Graphics
 Requires:	%{name} = %{version}-%{release}
 Obsoletes:	libgr-progs
-# To make pstopnm woking:
-Suggests:	ghostscript
-Suggests:	ghostscript-fonts-std
 
 %description progs
 The netpbm-progs package contains a group of scripts for manipulating
@@ -175,6 +171,22 @@ oraz z formatów obsługiwanych przez biblioteki netpbm.
 %description progs -l uk.UTF-8
 Цей пакет містить різноманітні утиліти для роботи з графічним файлами
 в форматах, підтримуваних netpbm.
+
+%package progs-pstopnm
+Summary:	pstopnm - tools for manipulating graphics files in netpbm supported formats
+Summary(pl.UTF-8):	pstopnm - narzędzia do konwersji plików graficznych
+Group:		Applications/Graphics
+Requires:	%{name} = %{version}-%{release}
+Requires:	ghostscript
+Requires:	ghostscript-fonts-std
+Obsoletes:	libgr-progs
+
+%description progs-pstopnm
+The netpbm-progs-pstopnm package contains program for conversion PS -> PNM.
+
+%description progs-pstopnm -l pl.UTF-8
+Pakiet netpbm-progs-pstopnm zawiera program konwertujący pliki w formacie PS
+do formatu pnm.
 
 %package ppmsvgalib
 Summary:	ppmsvgalib - display PPM image on Linux console using svgalib
@@ -288,8 +300,15 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man[15]/*
 %lang(fi) %{_mandir}/fi/man[15]/*
 %lang(pl) %{_mandir}/pl/man[15]/*
+%exclude %{_bindir}/pstopnm
+%exclude %{_mandir}/man[15]/pstopnm*
 %{?with_svga:%exclude %{_bindir}/ppmsvgalib}
 %{?with_svga:%exclude %{_mandir}/man1/ppmsvgalib.1*}
+
+%files progs-pstopnm
+%defattr(644,root,root,755)
+%attr(755,root,root) %{_bindir}/pstopnm
+%{_mandir}/man[15]/pstopnm*
 
 %if %{with svga}
 %files ppmsvgalib
