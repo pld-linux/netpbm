@@ -1,5 +1,6 @@
-# TODO: documentation for progs:
-# - try to get some real man pages (old netpbm? Debian?)
+# TODO:
+# - documentation for progs: try to get some real man pages (old netpbm? Debian?)
+# - put pstopnm to separate package - it requires whole ghostscript to work.
 #
 # Conditional build:
 %bcond_without	svga	# don't build ppmsvgalib tool
@@ -11,7 +12,7 @@ Summary(ru.UTF-8):	Набор библиотек для работы с разл
 Summary(uk.UTF-8):	Набір бібліотек для роботи з різними графічними файлами
 Name:		netpbm
 Version:	10.34
-Release:	2
+Release:	3
 License:	Freeware
 Group:		Libraries
 Source0:	http://dl.sourceforge.net/netpbm/%{name}-%{version}.tgz
@@ -148,6 +149,9 @@ Summary(uk.UTF-8):	Утиліти маніпулювання файлами фо
 Group:		Applications/Graphics
 Requires:	%{name} = %{version}-%{release}
 Obsoletes:	libgr-progs
+# To make pstopnm woking:
+Suggests:	ghostscript
+Suggests:	ghostscript-fonts-std
 
 %description progs
 The netpbm-progs package contains a group of scripts for manipulating
