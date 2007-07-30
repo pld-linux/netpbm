@@ -180,6 +180,7 @@ Requires:	%{name} = %{version}-%{release}
 Requires:	ghostscript
 Requires:	ghostscript-fonts-std
 Obsoletes:	libgr-progs
+Conflicts:	ghostscript-esp
 
 %description progs-pstopnm
 This package contains pstopnm tool to convert PostScript files to PNM
