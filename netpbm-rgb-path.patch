@@ -1,0 +1,25 @@
+--- netpbm-10.34/pm_config.in.h~	2006-06-17 21:58:23.000000000 +0200
++++ netpbm-10.34/pm_config.in.h	2007-08-17 13:40:40.000000000 +0200
+@@ -67,8 +67,8 @@
+ #define RGB_DB2 "PBMplus_Dir:RGB.TXT"
+ #define RGB_DB3 "PBMplus_Dir:RGB.TXT"
+ #else
+-#define RGB_DB1 "/usr/lib/X11/rgb.txt"
+-#define RGB_DB2 "/usr/openwin/lib/rgb.txt"
++#define RGB_DB1 "/usr/share/X11/rgb.txt"
++#define RGB_DB2 "/usr/lib/X11/rgb.txt"
+ #define RGB_DB3 "/usr/X11R6/lib/X11/rgb.txt"
+ #endif
+ 
+--- netpbm-10.34/netpbm.sourceforge.net/doc/libppm.html~	2003-03-21 17:22:54.000000000 +0100
++++ netpbm-10.34/netpbm.sourceforge.net/doc/libppm.html	2007-08-17 13:42:28.000000000 +0200
+@@ -453,8 +453,8 @@
+ is not set, Netpbm defaults to the first existing file from this list:
+ 
+ <ol>
++<li><b>/usr/share/X11/rgb.txt</b>
+ <li><b>/usr/lib/X11/rgb.txt</b>
+-<li><b>/usr/openwinlib/rgb.txt</b>
+ <li><b>/usr/X11R6/lib/X11/rgb.txt</b>
+ </ol>
+ 
