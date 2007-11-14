@@ -179,7 +179,7 @@ Summary(pl.UTF-8):	pstopnm - narzędzie do konwersji plików postscriptowych na 
 Group:		Applications/Graphics
 Requires:	%{name} = %{version}-%{release}
 Requires:	ghostscript
-Requires:	ghostscript-fonts-std
+Requires:	fonts-Type1-urw
 Obsoletes:	libgr-progs
 Conflicts:	ghostscript-esp
 
