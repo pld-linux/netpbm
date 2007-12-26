@@ -178,8 +178,8 @@ Summary:	pstopnm - tool to convert PostScript files to PNM images
 Summary(pl.UTF-8):	pstopnm - narzędzie do konwersji plików postscriptowych na obrazy PNM
 Group:		Applications/Graphics
 Requires:	%{name} = %{version}-%{release}
-Requires:	ghostscript
 Requires:	fonts-Type1-urw
+Requires:	ghostscript
 Obsoletes:	libgr-progs
 Conflicts:	ghostscript-esp
 
