@@ -1,5 +1,5 @@
-# TODO: documentation for progs:
-# - try to get some real man pages (old netpbm? Debian?)
+# TODO:
+# - documentation for progs: try to get some real man pages (old netpbm? Debian?)
 #
 # Conditional build:
 %bcond_without	svga	# don't build ppmsvgalib tool
@@ -11,7 +11,7 @@ Summary(ru.UTF-8):	Набор библиотек для работы с разл
 Summary(uk.UTF-8):	Набір бібліотек для роботи з різними графічними файлами
 Name:		netpbm
 Version:	10.34
-Release:	1
+Release:	2
 License:	Freeware
 Group:		Libraries
 Source0:	http://dl.sourceforge.net/netpbm/%{name}-%{version}.tgz
@@ -28,6 +28,7 @@ BuildRequires:	jbigkit-devel
 BuildRequires:	libjpeg-devel
 BuildRequires:	libpng-devel
 BuildRequires:	libtiff-devel
+BuildRequires:	libxml2-devel
 BuildRequires:	perl-base
 %{?with_svga:BuildRequires:	svgalib-devel}
 %{!?with_svga:BuildConflicts:	svgalib-devel}
@@ -171,6 +172,24 @@ oraz z formatów obsługiwanych przez biblioteki netpbm.
 Цей пакет містить різноманітні утиліти для роботи з графічним файлами
 в форматах, підтримуваних netpbm.
 
+%package progs-pstopnm
+Summary:	pstopnm - tool to convert PostScript files to PNM images
+Summary(pl.UTF-8):	pstopnm - narzędzie do konwersji plików postscriptowych na obrazy PNM
+Group:		Applications/Graphics
+Requires:	%{name} = %{version}-%{release}
+Requires:	ghostscript
+Requires:	ghostscript-fonts-std
+Obsoletes:	libgr-progs
+Conflicts:	ghostscript-esp
+
+%description progs-pstopnm
+This package contains pstopnm tool to convert PostScript files to PNM
+images.
+
+%description progs-pstopnm -l pl.UTF-8
+Ten pakiet zawiera program konwertujący pliki w formacie PostScript na
+obrazy w formacie PNM.
+
 %package ppmsvgalib
 Summary:	ppmsvgalib - display PPM image on Linux console using svgalib
 Summary(pl.UTF-8):	ppmsvgalib - wyświetlanie obrazków PPM na konsoli przy użyciu svgalib
@@ -262,6 +281,7 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 %doc README doc/{COPYRIGHT.PATENT,HISTORY,USERDOC} netpbm.sourceforge.net
 %attr(755,root,root) %{_libdir}/libnetpbm.so.*.*
+%attr(755,root,root) %ghost %{_libdir}/libnetpbm.so.10
 
 %files devel
 %defattr(644,root,root,755)
@@ -283,8 +303,15 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man[15]/*
 %lang(fi) %{_mandir}/fi/man[15]/*
 %lang(pl) %{_mandir}/pl/man[15]/*
+%exclude %{_bindir}/pstopnm
+%exclude %{_mandir}/man[15]/pstopnm*
 %{?with_svga:%exclude %{_bindir}/ppmsvgalib}
 %{?with_svga:%exclude %{_mandir}/man1/ppmsvgalib.1*}
+
+%files progs-pstopnm
+%defattr(644,root,root,755)
+%attr(755,root,root) %{_bindir}/pstopnm
+%{_mandir}/man[15]/pstopnm*
 
 %if %{with svga}
 %files ppmsvgalib
