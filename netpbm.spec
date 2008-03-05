@@ -5,10 +5,10 @@
 %bcond_without	svga	# don't build ppmsvgalib tool
 #
 Summary:	A library for handling different graphics file formats
-Summary(pl):	Biblioteki do obsЁugi rС©nych formatСw graficznych
-Summary(pt_BR):	Ferramentas para manipular arquivos graficos nos formatos suportados netpbm
-Summary(ru):	Набор библиотек для работы с различными графическими файлами
-Summary(uk):	Наб╕р б╕бл╕отек для роботи з р╕зними граф╕чними файлами
+Summary(pl.UTF-8):	Biblioteki do obsе┌ugi rцЁе╪nych formatцЁw graficznych
+Summary(pt_BR.UTF-8):	Ferramentas para manipular arquivos graficos nos formatos suportados netpbm
+Summary(ru.UTF-8):	п²п╟п╠п╬я─ п╠п╦п╠п╩п╦п╬я┌п╣п╨ п╢п╩я▐ я─п╟п╠п╬я┌я▀ я│ я─п╟п╥п╩п╦я┤п╫я▀п╪п╦ пЁя─п╟я└п╦я┤п╣я│п╨п╦п╪п╦ я└п╟п╧п╩п╟п╪п╦
+Summary(uk.UTF-8):	п²п╟п╠я√я─ п╠я√п╠п╩я√п╬я┌п╣п╨ п╢п╩я▐ я─п╬п╠п╬я┌п╦ п╥ я─я√п╥п╫п╦п╪п╦ пЁя─п╟я└я√я┤п╫п╦п╪п╦ я└п╟п╧п╩п╟п╪п╦
 Name:		netpbm
 Version:	10.34
 Release:	1
@@ -40,30 +40,30 @@ programs for handling various graphics file formats, including .pbm
 (portable bitmaps), .pgm (portable graymaps), .pnm (portable anymaps),
 .ppm (portable pixmaps) and others.
 
-%description -l pl
-Pakiet netpbm zawiera biblioteki funkcji obsЁuguj╠cych rС©ne formaty
+%description -l pl.UTF-8
+Pakiet netpbm zawiera biblioteki funkcji obsе┌ugujд┘cych rцЁе╪ne formaty
 graficzne, w tym .pbm, .pgm, .pnm, .ppm.
 
-%description -l pt_BR
-O pacote netpbm contИm bibliotecas de funГУes que suportam programas
-para manipular vАrios formatos grАficos, incluindo .pbm (ortable
+%description -l pt_BR.UTF-8
+O pacote netpbm contц╘m bibliotecas de funц╖ц╣es que suportam programas
+para manipular vц║rios formatos grц║ficos, incluindo .pbm (ortable
 bitmaps), .pgm (portable graymaps), .pnm (portable anymaps), .ppm
 (portable pixmaps) e outros
 
-%description -l ru
-Набор библиотек для обработки графических файлов различных форматов
-включая FBM, PBM, PGM, PNM, PPM и REL.
+%description -l ru.UTF-8
+п²п╟п╠п╬я─ п╠п╦п╠п╩п╦п╬я┌п╣п╨ п╢п╩я▐ п╬п╠я─п╟п╠п╬я┌п╨п╦ пЁя─п╟я└п╦я┤п╣я│п╨п╦я┘ я└п╟п╧п╩п╬п╡ я─п╟п╥п╩п╦я┤п╫я▀я┘ я└п╬я─п╪п╟я┌п╬п╡
+п╡п╨п╩я▌я┤п╟я▐ FBM, PBM, PGM, PNM, PPM п╦ REL.
 
-%description -l uk
-Наб╕р б╕бл╕отек для обробки граф╕чних файл╕в р╕зних формат╕в,
-включаючи FBM, PBM, PGM, PNM, PPM та REL.
+%description -l uk.UTF-8
+п²п╟п╠я√я─ п╠я√п╠п╩я√п╬я┌п╣п╨ п╢п╩я▐ п╬п╠я─п╬п╠п╨п╦ пЁя─п╟я└я√я┤п╫п╦я┘ я└п╟п╧п╩я√п╡ я─я√п╥п╫п╦я┘ я└п╬я─п╪п╟я┌я√п╡,
+п╡п╨п╩я▌я┤п╟я▌я┤п╦ FBM, PBM, PGM, PNM, PPM я┌п╟ REL.
 
 %package devel
 Summary:	Development tools for programs which will use the netpbm libraries
-Summary(pl):	Biblioteka netpbm - czЙ╤Ф dla programistСw
-Summary(pt_BR):	Arquivos de desenvolvimento usados para libnetpbm
-Summary(ru):	Хедеры и библиотеки для разработки программ, использующих netpbm
-Summary(uk):	Хедери та б╕бл╕отеки для розробки програм, що використовують netpbm
+Summary(pl.UTF-8):	Biblioteka netpbm - czд≥е⌡д┤ dla programistцЁw
+Summary(pt_BR.UTF-8):	Arquivos de desenvolvimento usados para libnetpbm
+Summary(ru.UTF-8):	п╔п╣п╢п╣я─я▀ п╦ п╠п╦п╠п╩п╦п╬я┌п╣п╨п╦ п╢п╩я▐ я─п╟п╥я─п╟п╠п╬я┌п╨п╦ п©я─п╬пЁя─п╟п╪п╪, п╦я│п©п╬п╩я▄п╥я┐я▌я┴п╦я┘ netpbm
+Summary(uk.UTF-8):	п╔п╣п╢п╣я─п╦ я┌п╟ п╠я√п╠п╩я√п╬я┌п╣п╨п╦ п╢п╩я▐ я─п╬п╥я─п╬п╠п╨п╦ п©я─п╬пЁя─п╟п╪, я┴п╬ п╡п╦п╨п╬я─п╦я│я┌п╬п╡я┐я▌я┌я▄ netpbm
 Group:		Development/Libraries
 Requires:	%{name} = %{version}-%{release}
 Obsoletes:	libgr-devel
@@ -77,12 +77,12 @@ Install netpbm-devel if you want to develop programs for handling the
 graphics file formats supported by the netpbm libraries. You'll also
 need to have the netpbm package installed.
 
-%description devel -l pl
-Pakiet netpbm-devel zawiera pliki nagЁСwkowe i dokumentacjЙ dla
-programistСw do tworzenia programСw obsЁuguj╠cych formaty graficzne
+%description devel -l pl.UTF-8
+Pakiet netpbm-devel zawiera pliki nagе┌цЁwkowe i dokumentacjд≥ dla
+programistцЁw do tworzenia programцЁw obsе┌ugujд┘cych formaty graficzne
 wspierane przez netpbm.
 
-%description devel -l pt_BR
+%description devel -l pt_BR.UTF-8
 The netpbm-devel package contains the header files and programmer's
 documentation for developing programs which can handle the various
 graphics file formats supported by the netpbm libraries.
@@ -91,20 +91,20 @@ Install netpbm-devel if you want to develop programs for handling the
 graphics file formats supported by the netpbm libraries. You'll also
 need to have the netpbm package installed.
 
-%description devel -l ru
-Этот пакет содержит все необходимое для разработки программ,
-работающих с графическими файлами в форматах, поддерживаемых netpbm.
+%description devel -l ru.UTF-8
+п╜я┌п╬я┌ п©п╟п╨п╣я┌ я│п╬п╢п╣я─п╤п╦я┌ п╡я│п╣ п╫п╣п╬п╠я┘п╬п╢п╦п╪п╬п╣ п╢п╩я▐ я─п╟п╥я─п╟п╠п╬я┌п╨п╦ п©я─п╬пЁя─п╟п╪п╪,
+я─п╟п╠п╬я┌п╟я▌я┴п╦я┘ я│ пЁя─п╟я└п╦я┤п╣я│п╨п╦п╪п╦ я└п╟п╧п╩п╟п╪п╦ п╡ я└п╬я─п╪п╟я┌п╟я┘, п©п╬п╢п╢п╣я─п╤п╦п╡п╟п╣п╪я▀я┘ netpbm.
 
-%description devel -l uk
-Цей пакет м╕стить все необх╕дне для розробки програм, що працюють з
-граф╕чними файлами в форматах, що ╖х п╕дтриму╓ netpbm.
+%description devel -l uk.UTF-8
+п╕п╣п╧ п©п╟п╨п╣я┌ п╪я√я│я┌п╦я┌я▄ п╡я│п╣ п╫п╣п╬п╠я┘я√п╢п╫п╣ п╢п╩я▐ я─п╬п╥я─п╬п╠п╨п╦ п©я─п╬пЁя─п╟п╪, я┴п╬ п©я─п╟я├я▌я▌я┌я▄ п╥
+пЁя─п╟я└я√я┤п╫п╦п╪п╦ я└п╟п╧п╩п╟п╪п╦ п╡ я└п╬я─п╪п╟я┌п╟я┘, я┴п╬ я≈я┘ п©я√п╢я┌я─п╦п╪я┐я■ netpbm.
 
 %package static
 Summary:	Static netpbm libraries
-Summary(pl):	Statyczne biblioteki netpbm
-Summary(pt_BR):	Bibliotecas estАticas para desenvolvimento com libnetpbm
-Summary(ru):	Статическая библиотека для программирования с netpbm
-Summary(uk):	Статична б╕бл╕отека для програмування з netpbm
+Summary(pl.UTF-8):	Statyczne biblioteki netpbm
+Summary(pt_BR.UTF-8):	Bibliotecas estц║ticas para desenvolvimento com libnetpbm
+Summary(ru.UTF-8):	п║я┌п╟я┌п╦я┤п╣я│п╨п╟я▐ п╠п╦п╠п╩п╦п╬я┌п╣п╨п╟ п╢п╩я▐ п©я─п╬пЁя─п╟п╪п╪п╦я─п╬п╡п╟п╫п╦я▐ я│ netpbm
+Summary(uk.UTF-8):	п║я┌п╟я┌п╦я┤п╫п╟ п╠я√п╠п╩я√п╬я┌п╣п╨п╟ п╢п╩я▐ п©я─п╬пЁя─п╟п╪я┐п╡п╟п╫п╫я▐ п╥ netpbm
 Group:		Development/Libraries
 Requires:	%{name}-devel = %{version}-%{release}
 Obsoletes:	libgr-static
@@ -112,23 +112,23 @@ Obsoletes:	libgr-static
 %description static
 Static netpbm libraries.
 
-%description static -l pl
+%description static -l pl.UTF-8
 Statyczne biblioteki netpbm.
 
-%description static -l pt_BR
-Bibliotecas estАticas para desenvolvimento com libnetpbm.
+%description static -l pt_BR.UTF-8
+Bibliotecas estц║ticas para desenvolvimento com libnetpbm.
 
-%description static -l ru
-Этот пакет содержит статические библиотеки, необходимые для написания
-программ, использующих netpbm.
+%description static -l ru.UTF-8
+п╜я┌п╬я┌ п©п╟п╨п╣я┌ я│п╬п╢п╣я─п╤п╦я┌ я│я┌п╟я┌п╦я┤п╣я│п╨п╦п╣ п╠п╦п╠п╩п╦п╬я┌п╣п╨п╦, п╫п╣п╬п╠я┘п╬п╢п╦п╪я▀п╣ п╢п╩я▐ п╫п╟п©п╦я│п╟п╫п╦я▐
+п©я─п╬пЁя─п╟п╪п╪, п╦я│п©п╬п╩я▄п╥я┐я▌я┴п╦я┘ netpbm.
 
-%description static -l uk
-Цей пакет м╕стить статичн╕ б╕бл╕отеки, необх╕дн╕ для написання
-програм, що використовують netpbm.
+%description static -l uk.UTF-8
+п╕п╣п╧ п©п╟п╨п╣я┌ п╪я√я│я┌п╦я┌я▄ я│я┌п╟я┌п╦я┤п╫я√ п╠я√п╠п╩я√п╬я┌п╣п╨п╦, п╫п╣п╬п╠я┘я√п╢п╫я√ п╢п╩я▐ п╫п╟п©п╦я│п╟п╫п╫я▐
+п©я─п╬пЁя─п╟п╪, я┴п╬ п╡п╦п╨п╬я─п╦я│я┌п╬п╡я┐я▌я┌я▄ netpbm.
 
 %package rle-static
 Summary:	Limited rle library
-Summary(pl):	Okrojona biblioteka rle
+Summary(pl.UTF-8):	Okrojona biblioteka rle
 Group:		Development/Libraries
 Requires:	%{name}-devel = %{version}-%{release}
 Obsoletes:	urt-static
@@ -136,14 +136,14 @@ Obsoletes:	urt-static
 %description rle-static
 Limited version of rle library from netpbm.
 
-%description rle-static -l pl
+%description rle-static -l pl.UTF-8
 Okrojona wersja biblioteki rle z netpbm.
 
 %package progs
 Summary:	Tools for manipulating graphics files in netpbm supported formats
-Summary(pl):	NarzЙdzia do konwersji plikСw graficznych
-Summary(ru):	Утилиты манипулирования файлами форматов, поддерживаемых netpbm
-Summary(uk):	Утил╕ти ман╕пулювання файлами формат╕в, п╕дтримуваних netpbm
+Summary(pl.UTF-8):	Narzд≥dzia do konwersji plikцЁw graficznych
+Summary(ru.UTF-8):	пёя┌п╦п╩п╦я┌я▀ п╪п╟п╫п╦п©я┐п╩п╦я─п╬п╡п╟п╫п╦я▐ я└п╟п╧п╩п╟п╪п╦ я└п╬я─п╪п╟я┌п╬п╡, п©п╬п╢п╢п╣я─п╤п╦п╡п╟п╣п╪я▀я┘ netpbm
+Summary(uk.UTF-8):	пёя┌п╦п╩я√я┌п╦ п╪п╟п╫я√п©я┐п╩я▌п╡п╟п╫п╫я▐ я└п╟п╧п╩п╟п╪п╦ я└п╬я─п╪п╟я┌я√п╡, п©я√п╢я┌я─п╦п╪я┐п╡п╟п╫п╦я┘ netpbm
 Group:		Applications/Graphics
 Requires:	%{name} = %{version}-%{release}
 Obsoletes:	libgr-progs
@@ -159,30 +159,30 @@ graphics file format to another.
 If you need to use these conversion scripts, you should install
 netpbm-progs. You'll also need to install the netpbm package.
 
-%description progs -l pl
-Pakiet netpbm-progs zawiera programy konwertuj╠ce pliki graficzne do
-oraz z formatСw obsЁugiwanych przez biblioteki netpbm.
+%description progs -l pl.UTF-8
+Pakiet netpbm-progs zawiera programy konwertujд┘ce pliki graficzne do
+oraz z formatцЁw obsе┌ugiwanych przez biblioteki netpbm.
 
-%description progs -l ru
-Этот пакет включает разнообразные утилиты для работы с графическими
-файлами в форматах, поддерживаемых netpbm.
+%description progs -l ru.UTF-8
+п╜я┌п╬я┌ п©п╟п╨п╣я┌ п╡п╨п╩я▌я┤п╟п╣я┌ я─п╟п╥п╫п╬п╬п╠я─п╟п╥п╫я▀п╣ я┐я┌п╦п╩п╦я┌я▀ п╢п╩я▐ я─п╟п╠п╬я┌я▀ я│ пЁя─п╟я└п╦я┤п╣я│п╨п╦п╪п╦
+я└п╟п╧п╩п╟п╪п╦ п╡ я└п╬я─п╪п╟я┌п╟я┘, п©п╬п╢п╢п╣я─п╤п╦п╡п╟п╣п╪я▀я┘ netpbm.
 
-%description progs -l uk
-Цей пакет м╕стить р╕зноман╕тн╕ утил╕ти для роботи з граф╕чним файлами
-в форматах, п╕дтримуваних netpbm.
+%description progs -l uk.UTF-8
+п╕п╣п╧ п©п╟п╨п╣я┌ п╪я√я│я┌п╦я┌я▄ я─я√п╥п╫п╬п╪п╟п╫я√я┌п╫я√ я┐я┌п╦п╩я√я┌п╦ п╢п╩я▐ я─п╬п╠п╬я┌п╦ п╥ пЁя─п╟я└я√я┤п╫п╦п╪ я└п╟п╧п╩п╟п╪п╦
+п╡ я└п╬я─п╪п╟я┌п╟я┘, п©я√п╢я┌я─п╦п╪я┐п╡п╟п╫п╦я┘ netpbm.
 
 %package ppmsvgalib
 Summary:	ppmsvgalib - display PPM image on Linux console using svgalib
-Summary(pl):	ppmsvgalib - wy╤wietlanie obrazkСw PPM na konsoli przy u©yciu svgalib
+Summary(pl.UTF-8):	ppmsvgalib - wyе⌡wietlanie obrazkцЁw PPM na konsoli przy uе╪yciu svgalib
 Group:		Applications/Graphics
 Requires:	%{name} = %{version}-%{release}
 
 %description ppmsvgalib
 ppmsvgalib - display PPM image on Linux console using svgalib.
 
-%description ppmsvgalib -l pl
-ppmsvgalib - wy╤wietlanie obrazkСw PPM na konsoli linuksowej przy
-u©yciu svgalib.
+%description ppmsvgalib -l pl.UTF-8
+ppmsvgalib - wyе⌡wietlanie obrazkцЁw PPM na konsoli linuksowej przy
+uе╪yciu svgalib.
 
 %prep
 %setup -q -a2
