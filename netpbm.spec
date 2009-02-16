@@ -23,6 +23,10 @@ Source2:	%{name}-docs-20030520.tar.bz2
 Patch0:		%{name}-make.patch
 Patch1:		%{name}-rgb-path.patch
 URL:		http://netpbm.sourceforge.net/
+# Patches in redhat:
+# https://rhn.redhat.com/errata/RHSA-2009-0012.html
+BuildRequires:	security(CVE-2007-2721)
+BuildRequires:	security(CVE-2008-3520)
 BuildRequires:	xorg-lib-libX11-devel
 BuildRequires:	flex
 BuildRequires:	jbigkit-devel
