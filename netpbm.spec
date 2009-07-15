@@ -10,25 +10,24 @@ Summary(pt_BR.UTF-8):	Ferramentas para manipular arquivos graficos nos formatos 
 Summary(ru.UTF-8):	Набор библиотек для работы с различными графическими файлами
 Summary(uk.UTF-8):	Набір бібліотек для роботи з різними графічними файлами
 Name:		netpbm
-Version:	10.34
-Release:	6
+Version:	10.35.65
+Release:	1
 License:	Freeware
 Group:		Libraries
-Source0:	http://dl.sourceforge.net/netpbm/%{name}-%{version}.tgz
-# Source0-md5:	851137b746e9a08c46e6580743c036c4
+#  svn export https://netpbm.svn.sourceforge.net/svnroot/netpbm/stable netpbm-%{version} (where version from doc/HISTORY)
+#  svn export https://netpbm.svn.sourceforge.net/svnroot/netpbm/userguide netpbm-%{version}/userguide
+Source0:	%{name}-%{version}.tar.bz2
+# Source0-md5:	8f8317643d6f729ebc30913d066be804
 Source1:	http://www.mif.pg.gda.pl/homepages/ankry/man-PLD/%{name}-non-english-man-pages.tar.bz2
 # Source1-md5:	8fb174f8da02ea01bf72a9dc61be10f1
 Source2:	%{name}-docs-20030520.tar.bz2
 # Source2-md5:	2d6a3965d493def21edfbc3e1aa262e9
 Patch0:		%{name}-make.patch
-Patch1:		%{name}-rgb-path.patch
+Patch1:		%{name}-build.patch
 URL:		http://netpbm.sourceforge.net/
-# Patches in redhat:
-# https://rhn.redhat.com/errata/RHSA-2009-0012.html
-BuildRequires:	security(CVE-2007-2721)
-BuildRequires:	security(CVE-2008-3520)
 BuildRequires:	xorg-lib-libX11-devel
 BuildRequires:	flex
+BuildRequires:	jasper-devel
 BuildRequires:	jbigkit-devel
 BuildRequires:	libjpeg-devel
 BuildRequires:	libpng-devel
@@ -214,6 +213,28 @@ użyciu svgalib.
 %patch1 -p1
 
 %build
+./configure << EOF
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+EOF
+
 # it appends defines to pm_config.h twice if -j > 1
 %{__make} -j1 \
 	CC="%{__cc}" \
@@ -224,7 +245,9 @@ użyciu svgalib.
 	PNGHDR_DIR=%{_includedir} \
 	TIFFHDR_DIR=%{_includedir} \
 	X11LIB=%{_libdir}/libX11.so \
-	JBIGLIB=/usr/%{_lib}/libjbig.so << EOF
+	JBIGLIB=/usr/%{_lib}/libjbig.so \
+	JASPERLIB="" \
+	JASPERDEPLIBS="-ljasper" << EOF
 
 gnu
 regular
@@ -258,7 +281,7 @@ rm -rf $RPM_BUILD_ROOT
 install -d $RPM_BUILD_ROOT{%{_bindir},%{_libdir},%{_includedir},%{_mandir}/man{1,3,5}}
 
 rm -rf PKG
-%{__make} package \
+%{__make} -j1 package \
 	pkgdir=$(pwd)/PKG
 
 rm -f PKG/bin/doc.url

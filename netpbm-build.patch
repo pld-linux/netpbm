@@ -1,0 +1,25 @@
+--- netpbm-10.35.65/buildtools/configure.pl~	2009-06-26 03:35:42.000000000 +0200
++++ netpbm-10.35.65/buildtools/configure.pl	2009-07-15 08:47:35.271968502 +0200
+@@ -1889,11 +1889,6 @@
+         push(@Makefile_config, "CFLAGS += -fPIC\n");
+         push(@Makefile_config, "LDSHLIB = -shared -fPIC\n");
+         push(@Makefile_config, 'LDFLAGS += -Wl,+b,/usr/pubsw/lib', "\n");
+-    } else {
+-        # We don't know what to do here.  We used to (before 10.20) just
+-        # just assume the compiler was gcc.  We know that the gcc stuff
+-        # above does NOT work for HP native compiler.
+-        push(@config_mk, "LDSHLIB =\n");
+     }
+ } elsif ($platform eq "AIX") {
+     push(@Makefile_config, 'LDFLAGS = -L /usr/pubsw/lib', "\n");
+--- netpbm-10.35.65/converter/ppm/ppmtompeg/jpeg.c~	2006-08-19 05:12:28.000000000 +0200
++++ netpbm-10.35.65/converter/ppm/ppmtompeg/jpeg.c	2009-07-15 08:52:06.372101451 +0200
+@@ -469,7 +469,7 @@
+ #ifdef JPEG4
+     buffer_height = 8;  /* could be 2, 4,8 rows high */
+ #else
+-    buffer_height = cinfo.max_v_samp_factor * cinfo.min_DCT_scaled_size;
++    buffer_height = cinfo.max_v_samp_factor * cinfo.min_DCT_v_scaled_size;
+ #endif
+   
+     for(cp=0,compptr = cinfo.comp_info;cp<cinfo.num_components;
