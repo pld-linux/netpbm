@@ -30,7 +30,7 @@ BuildRequires:	xorg-lib-libX11-devel
 BuildRequires:	flex
 BuildRequires:	jasper-devel
 BuildRequires:	jbigkit-devel
-BuildRequires:	libjpeg-devel
+BuildRequires:	libjpeg-devel >= 7
 BuildRequires:	libpng-devel
 BuildRequires:	libtiff-devel
 BuildRequires:	libxml2-devel
