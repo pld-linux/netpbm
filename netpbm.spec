@@ -11,7 +11,7 @@ Summary(ru.UTF-8):	Набор библиотек для работы с разл
 Summary(uk.UTF-8):	Набір бібліотек для роботи з різними графічними файлами
 Name:		netpbm
 Version:	10.35.66
-Release:	1
+Release:	2
 License:	Freeware
 Group:		Libraries
 #  svn export https://netpbm.svn.sourceforge.net/svnroot/netpbm/stable netpbm-%{version} (where version from doc/HISTORY)
@@ -23,8 +23,7 @@ Source1:	http://www.mif.pg.gda.pl/homepages/ankry/man-PLD/%{name}-non-english-ma
 Source2:	%{name}-docs-20030520.tar.bz2
 # Source2-md5:	2d6a3965d493def21edfbc3e1aa262e9
 Patch0:		%{name}-make.patch
-Patch1:		%{name}-ti-build.patch
-Patch2:		%{name}-build.patch
+Patch1:		%{name}-build.patch
 URL:		http://netpbm.sourceforge.net/
 BuildRequires:	xorg-lib-libX11-devel
 BuildRequires:	flex
@@ -211,11 +210,7 @@ użyciu svgalib.
 %prep
 %setup -q -a2
 %patch0 -p1
-%if "%{pld_release}" == "ti"
 %patch1 -p1
-%else
-%patch2 -p1
-%endif
 
 %build
 ./configure << EOF
