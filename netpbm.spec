@@ -11,7 +11,7 @@ Summary(ru.UTF-8):	Набор библиотек для работы с разл
 Summary(uk.UTF-8):	Набір бібліотек для роботи з різними графічними файлами
 Name:		netpbm
 Version:	10.35.66
-Release:	7
+Release:	8
 License:	Freeware
 Group:		Libraries
 #  svn export https://netpbm.svn.sourceforge.net/svnroot/netpbm/stable netpbm-%{version} (where version from doc/HISTORY)
@@ -238,43 +238,21 @@ EOF
 # it appends defines to pm_config.h twice if -j > 1
 %{__make} -j1 \
 	CC="%{__cc}" \
-	CFLAGS="%{rpmcflags} -fPIC" \
+	CFLAGS="%{rpmcflags} %{rpmcppflags} -fPIC" \
 	LDFLAGS="%{rpmldflags}" \
-	JBIGHDR_DIR=%{_includedir} \
-	JPEGHDR_DIR=%{_includedir} \
-	PNGHDR_DIR=%{_includedir} \
-	TIFFHDR_DIR=%{_includedir} \
+	JPEGINC_DIR=%{_includedir} \
+	PNGINC_DIR=%{_includedir} \
+	TIFFINC_DIR=%{_includedir} \
+	JPEGLIB_DIR=%{_libdir} \
+	PNGLIB_DIR=%{_libdir} \
+	TIFFLIB_DIR=%{_libdir} \
+	LINUXSVGALIB="%{?with_svga:%{_libdir}/libvga.so}%{!?with_svga:NONE}" \
 	X11LIB=%{_libdir}/libX11.so \
-	JBIGLIB=/usr/%{_lib}/libjbig.so \
+	XML2LIBS="$(%{_bindir}/xml2-config --libs)" \
 	JASPERLIB="" \
-	JASPERDEPLIBS="-ljasper" << EOF
-
-gnu
-regular
-shared
-y
-
-libjpeg.so
-
-libtiff.so
-
-libpng.so
-
-libz.so
-
-%{_libdir}/libX11.so
-
-%if %{without svga}
-none
-%else
-%if "%{_lib}" != "lib"
-/usr/%{_lib}/libvga.so
-%endif
-
-%endif
-%{_docdir}/%{name}-%{version}/netpbm.sourceforge.net/doc/
-
-EOF
+	JASPERDEPLIBS="-ljasper" \
+	JASPERHDR_DIR="/usr/include/jasper" \
+	NETPBM_DOCURL="%{_docdir}/%{name}-%{version}/netpbm.sourceforge.net/doc/"
 
 %install
 rm -rf $RPM_BUILD_ROOT
@@ -282,7 +260,8 @@ install -d $RPM_BUILD_ROOT{%{_bindir},%{_libdir},%{_includedir},%{_mandir}/man{1
 
 rm -rf PKG
 %{__make} -j1 package \
-	pkgdir=$(pwd)/PKG
+	pkgdir=$(pwd)/PKG \
+	LINUXSVGALIB="%{?with_svga:%{_libdir}/libvga.so}%{!?with_svga:NONE}"
 
 rm -f PKG/bin/doc.url
 cp -df PKG/bin/* $RPM_BUILD_ROOT%{_bindir}
