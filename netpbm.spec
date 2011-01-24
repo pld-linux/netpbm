@@ -25,7 +25,6 @@ Source2:	%{name}-docs-20030520.tar.bz2
 Patch0:		%{name}-make.patch
 Patch1:		%{name}-build.patch
 URL:		http://netpbm.sourceforge.net/
-BuildRequires:	xorg-lib-libX11-devel
 BuildRequires:	flex
 BuildRequires:	jasper-devel
 BuildRequires:	jbigkit-devel
@@ -34,7 +33,9 @@ BuildRequires:	libpng-devel
 BuildRequires:	libtiff-devel
 BuildRequires:	libxml2-devel
 BuildRequires:	perl-base
+BuildRequires:	perl-modules
 %{?with_svga:BuildRequires:	svgalib-devel}
+BuildRequires:	xorg-lib-libX11-devel
 %{!?with_svga:BuildConflicts:	svgalib-devel}
 Obsoletes:	libgr
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
@@ -251,7 +252,7 @@ EOF
 	XML2LIBS="$(%{_bindir}/xml2-config --libs)" \
 	JASPERLIB="" \
 	JASPERDEPLIBS="-ljasper" \
-	JASPERHDR_DIR="/usr/include/jasper" \
+	JASPERHDR_DIR="%{_includedir}/jasper" \
 	NETPBM_DOCURL="%{_docdir}/%{name}-%{version}/netpbm.sourceforge.net/doc/"
 
 %install
