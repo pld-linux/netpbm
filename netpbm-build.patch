@@ -1,17 +1,3 @@
---- netpbm-10.35.65/buildtools/configure.pl~	2009-06-26 03:35:42.000000000 +0200
-+++ netpbm-10.35.65/buildtools/configure.pl	2009-07-15 08:47:35.271968502 +0200
-@@ -1889,11 +1889,6 @@
-         push(@Makefile_config, "CFLAGS += -fPIC\n");
-         push(@Makefile_config, "LDSHLIB = -shared -fPIC\n");
-         push(@Makefile_config, 'LDFLAGS += -Wl,+b,/usr/pubsw/lib', "\n");
--    } else {
--        # We don't know what to do here.  We used to (before 10.20) just
--        # just assume the compiler was gcc.  We know that the gcc stuff
--        # above does NOT work for HP native compiler.
--        push(@config_mk, "LDSHLIB =\n");
-     }
- } elsif ($platform eq "AIX") {
-     push(@Makefile_config, 'LDFLAGS = -L /usr/pubsw/lib', "\n");
 --- netpbm-10.35.65/converter/ppm/ppmtompeg/jpeg.c~	2006-08-19 05:12:28.000000000 +0200
 +++ netpbm-10.35.65/converter/ppm/ppmtompeg/jpeg.c	2009-07-15 08:52:06.372101451 +0200
 @@ -469,7 +469,7 @@
@@ -23,10 +9,21 @@
  #endif
    
      for(cp=0,compptr = cinfo.comp_info;cp<cinfo.num_components;
-diff -Naur netpbm-orig/converter/other/pnmtopng.c netpbm/converter/other/pnmtopng.c
---- netpbm-orig/converter/other/pnmtopng.c	2010-01-22 00:13:48.000000000 -0500
-+++ netpbm/converter/other/pnmtopng.c	2010-01-22 00:21:33.000000000 -0500
-@@ -2604,7 +2604,7 @@
+--- netpbm-10.35.80/converter/other/pnmtopng.c.orig	2010-12-10 19:19:40.000000000 +0100
++++ netpbm-10.35.80/converter/other/pnmtopng.c	2011-03-27 14:02:53.641739787 +0200
+@@ -69,11 +69,6 @@
+ #include "nstring.h"
+ #include "version.h"
+ 
+-#if PNG_LIBPNG_VER >= 10400
+-#error Your PNG library (<png.h>) is incompatible with this Netpbm source code.
+-#error You need either an older PNG library (older than 1.4)
+-#error newer Netpbm source code (at least 10.47.04)
+-#endif
+ 
+ 
+ struct zlibCompression {
+@@ -2611,7 +2606,7 @@
      info_ptr->num_palette = palette_size;
      if (trans_size > 0) {
          info_ptr->valid |= PNG_INFO_tRNS;
@@ -35,7 +32,7 @@ diff -Naur netpbm-orig/converter/other/pnmtopng.c netpbm/converter/other/pnmtopn
          info_ptr->num_trans = trans_size;   /* omit opaque values */
      }
      /* creating hIST chunk */
-@@ -2641,7 +2641,7 @@
+@@ -2648,7 +2643,7 @@
          info_ptr->color_type == PNG_COLOR_TYPE_RGB) {
          if (transparent > 0) {
              info_ptr->valid |= PNG_INFO_tRNS;
@@ -44,7 +41,7 @@ diff -Naur netpbm-orig/converter/other/pnmtopng.c netpbm/converter/other/pnmtopn
                  xelToPngColor_16(transcolor, maxval, png_maxval);
          }
      } else {
-@@ -2653,10 +2653,10 @@
+@@ -2660,10 +2655,10 @@
          if (info_ptr->valid && PNG_INFO_tRNS) 
              pm_message("Transparent color {gray, red, green, blue} = "
                         "{%d, %d, %d, %d}",
@@ -59,10 +56,21 @@ diff -Naur netpbm-orig/converter/other/pnmtopng.c netpbm/converter/other/pnmtopn
          else
              pm_message("No transparent color");
      }
-diff -Naur netpbm-orig/converter/other/pngtopnm.c netpbm/converter/other/pngtopnm.c
---- netpbm-orig/converter/other/pngtopnm.c	2010-01-22 00:33:25.000000000 -0500
-+++ netpbm/converter/other/pngtopnm.c	2010-01-22 00:39:21.000000000 -0500
-@@ -476,7 +476,7 @@
+--- netpbm-10.35.80/converter/other/pngtopnm.c.orig	2011-01-15 21:18:40.000000000 +0100
++++ netpbm-10.35.80/converter/other/pngtopnm.c	2011-03-27 14:04:03.089736435 +0200
+@@ -44,11 +44,6 @@
+ #include "nstring.h"
+ #include "shhopt.h"
+ 
+-#if PNG_LIBPNG_VER >= 10400
+-#error Your PNG library (<png.h>) is incompatible with this Netpbm source code.
+-#error You need either an older PNG library (older than 1.4)
+-#error newer Netpbm source code (at least 10.48)
+-#endif
+ 
+ typedef struct _jmpbuf_wrapper {
+   jmp_buf jmpbuf;
+@@ -482,7 +477,7 @@
      bool retval;
  
      if (info_ptr->valid & PNG_INFO_tRNS) {
@@ -71,7 +79,7 @@ diff -Naur netpbm-orig/converter/other/pngtopnm.c netpbm/converter/other/pngtopn
      
  
          /* There seems to be a problem here: you can't compare real
-@@ -569,8 +569,8 @@
+@@ -575,8 +570,8 @@
              for (i = 0, foundGray = FALSE;
                   i < info_ptr->num_trans && !foundGray;
                   ++i) {
@@ -82,7 +90,7 @@ diff -Naur netpbm-orig/converter/other/pngtopnm.c netpbm/converter/other/pngtopn
                      foundGray = TRUE;
                  }
              }
-@@ -641,7 +641,7 @@
+@@ -647,7 +642,7 @@
                  unsigned int i;
                  trans_mix = TRUE;
                  for (i = 0; i < info_ptr->num_trans; ++i)
@@ -91,7 +99,7 @@ diff -Naur netpbm-orig/converter/other/pngtopnm.c netpbm/converter/other/pngtopn
                          trans_mix = FALSE;
                          break;
                      }
-@@ -879,7 +879,7 @@
+@@ -885,7 +880,7 @@
                  setXel(&xelrow[col], fgColor, bgColor, alpha_handling,
                         ((info_ptr->valid & PNG_INFO_tRNS) &&
                          (fgColor.r == 
@@ -100,7 +108,7 @@ diff -Naur netpbm-orig/converter/other/pngtopnm.c netpbm/converter/other/pngtopn
                                         totalgamma))) ?
                         0 : maxval);
              }
-@@ -908,7 +908,7 @@
+@@ -914,7 +909,7 @@
                  setXel(&xelrow[col], fgColor, bgColor, alpha_handling,
                         (info_ptr->valid & PNG_INFO_tRNS) &&
                         index < info_ptr->num_trans ?

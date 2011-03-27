@@ -2,7 +2,7 @@
 # - documentation for progs: try to get some real man pages (old netpbm? Debian?)
 #
 # Conditional build:
-%bcond_with	svga	# don't build ppmsvgalib tool
+%bcond_with	svga	# build ppmsvgalib tool
 #
 Summary:	A library for handling different graphics file formats
 Summary(pl.UTF-8):	Biblioteki do obsługi różnych formatów graficznych
@@ -10,14 +10,14 @@ Summary(pt_BR.UTF-8):	Ferramentas para manipular arquivos graficos nos formatos 
 Summary(ru.UTF-8):	Набор библиотек для работы с различными графическими файлами
 Summary(uk.UTF-8):	Набір бібліотек для роботи з різними графічними файлами
 Name:		netpbm
-Version:	10.35.66
-Release:	8
+Version:	10.35.80
+Release:	1
 License:	Freeware
 Group:		Libraries
 #  svn export https://netpbm.svn.sourceforge.net/svnroot/netpbm/stable netpbm-%{version} (where version from doc/HISTORY)
 #  svn export https://netpbm.svn.sourceforge.net/svnroot/netpbm/userguide netpbm-%{version}/userguide
-Source0:	%{name}-%{version}.tar.bz2
-# Source0-md5:	1aaafa102fc88a373db4103e498193d7
+Source0:	http://downloads.sourceforge.net/netpbm/%{name}-%{version}.tgz
+# Source0-md5:	2edf98b802a82e5367fc52382e9ac144
 Source1:	http://www.mif.pg.gda.pl/homepages/ankry/man-PLD/%{name}-non-english-man-pages.tar.bz2
 # Source1-md5:	8fb174f8da02ea01bf72a9dc61be10f1
 Source2:	%{name}-docs-20030520.tar.bz2
@@ -36,7 +36,6 @@ BuildRequires:	perl-base
 BuildRequires:	perl-modules
 %{?with_svga:BuildRequires:	svgalib-devel}
 BuildRequires:	xorg-lib-libX11-devel
-%{!?with_svga:BuildConflicts:	svgalib-devel}
 Obsoletes:	libgr
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
@@ -264,7 +263,7 @@ rm -rf PKG
 	pkgdir=$(pwd)/PKG \
 	LINUXSVGALIB="%{?with_svga:%{_libdir}/libvga.so}%{!?with_svga:NONE}"
 
-rm -f PKG/bin/doc.url
+%{__rm} PKG/bin/doc.url
 cp -df PKG/bin/* $RPM_BUILD_ROOT%{_bindir}
 cp -df PKG/lib/* $RPM_BUILD_ROOT%{_libdir}
 install PKG/link/*.a $RPM_BUILD_ROOT%{_libdir}
@@ -278,7 +277,7 @@ install urt/{rle,rle_config}.h $RPM_BUILD_ROOT%{_includedir}
 install urt/librle.a $RPM_BUILD_ROOT%{_libdir}
 
 bzip2 -dc %{SOURCE1} | tar xf - -C $RPM_BUILD_ROOT%{_mandir}
-rm -f $RPM_BUILD_ROOT%{_mandir}/README.netpbm-non-english-man-pages
+%{__rm} $RPM_BUILD_ROOT%{_mandir}/README.netpbm-non-english-man-pages
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -295,8 +294,19 @@ rm -rf $RPM_BUILD_ROOT
 %files devel
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/libnetpbm.so
-%{_includedir}/*.h
-%{_mandir}/man3/*
+%{_includedir}/bitio.h
+%{_includedir}/colorname.h
+%{_includedir}/mallocvar.h
+%{_includedir}/nstring.h
+%{_includedir}/pam*.h
+%{_includedir}/pbm*.h
+%{_includedir}/pgm.h
+%{_includedir}/pm*.h
+%{_includedir}/pnm.h
+%{_includedir}/ppm*.h
+%{_includedir}/rle*.h
+%{_includedir}/shhopt.h
+%{_mandir}/man3/libnetpbm.3*
 
 %files static
 %defattr(644,root,root,755)
@@ -308,19 +318,44 @@ rm -rf $RPM_BUILD_ROOT
 
 %files progs
 %defattr(644,root,root,755)
-%attr(755,root,root) %{_bindir}/*
-%{_mandir}/man[15]/*
-%lang(fi) %{_mandir}/fi/man[15]/*
+%attr(755,root,root) %{_bindir}/*topam
+%attr(755,root,root) %{_bindir}/*topbm
+%attr(755,root,root) %{_bindir}/*topgm
+%attr(755,root,root) %{_bindir}/*topnm
+%attr(755,root,root) %{_bindir}/*toppm
+%attr(755,root,root) %{_bindir}/manweb
+%attr(755,root,root) %{_bindir}/pam*
+%attr(755,root,root) %{_bindir}/pbm*
+%attr(755,root,root) %{_bindir}/pgm*
+%attr(755,root,root) %{_bindir}/pnm*
+%attr(755,root,root) %{_bindir}/ppm*
+%{_mandir}/man1/*topam.1*
+%{_mandir}/man1/*topbm.1*
+%{_mandir}/man1/*topgm.1*
+%{_mandir}/man1/*topnm.1*
+%{_mandir}/man1/*toppm.1*
+%{_mandir}/man1/manweb.1*
+%{_mandir}/man1/pam*.1*
+%{_mandir}/man1/pbm*.1*
+%{_mandir}/man1/pgm*.1*
+%{_mandir}/man1/pnm*.1*
+%{_mandir}/man1/ppm*.1*
+%{_mandir}/man5/pam.5*
+%{_mandir}/man5/pbm.5*
+%{_mandir}/man5/pgm.5*
+%{_mandir}/man5/pnm.5*
+%{_mandir}/man5/ppm.5*
+%lang(fi) %{_mandir}/fi/man1/*
 %lang(pl) %{_mandir}/pl/man[15]/*
 %exclude %{_bindir}/pstopnm
-%exclude %{_mandir}/man[15]/pstopnm*
+%exclude %{_mandir}/man1/pstopnm.1*
 %{?with_svga:%exclude %{_bindir}/ppmsvgalib}
 %{?with_svga:%exclude %{_mandir}/man1/ppmsvgalib.1*}
 
 %files progs-pstopnm
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_bindir}/pstopnm
-%{_mandir}/man[15]/pstopnm*
+%{_mandir}/man1/pstopnm.1*
 
 %if %{with svga}
 %files ppmsvgalib
