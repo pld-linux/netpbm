@@ -10,14 +10,14 @@ Summary(pt_BR.UTF-8):	Ferramentas para manipular arquivos graficos nos formatos 
 Summary(ru.UTF-8):	Набор библиотек для работы с различными графическими файлами
 Summary(uk.UTF-8):	Набір бібліотек для роботи з різними графічними файлами
 Name:		netpbm
-Version:	10.35.83
-Release:	3
+Version:	10.35.90
+Release:	1
 License:	Freeware
 Group:		Libraries
 #  svn export https://netpbm.svn.sourceforge.net/svnroot/netpbm/stable netpbm-%{version} (where version from doc/HISTORY)
 #  svn export https://netpbm.svn.sourceforge.net/svnroot/netpbm/userguide netpbm-%{version}/userguide
 Source0:	http://downloads.sourceforge.net/netpbm/%{name}-%{version}.tgz
-# Source0-md5:	00ead6b73a9755f75e135a9b9ebb5d1d
+# Source0-md5:	bfa840c9285394bbb689b222e4c37d54
 Source1:	http://www.mif.pg.gda.pl/homepages/ankry/man-PLD/%{name}-non-english-man-pages.tar.bz2
 # Source1-md5:	8fb174f8da02ea01bf72a9dc61be10f1
 Source2:	%{name}-docs-20030520.tar.bz2
@@ -318,28 +318,8 @@ rm -rf $RPM_BUILD_ROOT
 
 %files progs
 %defattr(644,root,root,755)
-%attr(755,root,root) %{_bindir}/*topam
-%attr(755,root,root) %{_bindir}/*topbm
-%attr(755,root,root) %{_bindir}/*topgm
-%attr(755,root,root) %{_bindir}/*topnm
-%attr(755,root,root) %{_bindir}/*toppm
-%attr(755,root,root) %{_bindir}/manweb
-%attr(755,root,root) %{_bindir}/pam*
-%attr(755,root,root) %{_bindir}/pbm*
-%attr(755,root,root) %{_bindir}/pgm*
-%attr(755,root,root) %{_bindir}/pnm*
-%attr(755,root,root) %{_bindir}/ppm*
-%{_mandir}/man1/*topam.1*
-%{_mandir}/man1/*topbm.1*
-%{_mandir}/man1/*topgm.1*
-%{_mandir}/man1/*topnm.1*
-%{_mandir}/man1/*toppm.1*
-%{_mandir}/man1/manweb.1*
-%{_mandir}/man1/pam*.1*
-%{_mandir}/man1/pbm*.1*
-%{_mandir}/man1/pgm*.1*
-%{_mandir}/man1/pnm*.1*
-%{_mandir}/man1/ppm*.1*
+%attr(755,root,root) %{_bindir}/*
+%{_mandir}/man1/*.1*
 %{_mandir}/man5/pam.5*
 %{_mandir}/man5/pbm.5*
 %{_mandir}/man5/pgm.5*
