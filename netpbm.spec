@@ -10,14 +10,14 @@ Summary(pt_BR.UTF-8):	Ferramentas para manipular arquivos graficos nos formatos 
 Summary(ru.UTF-8):	Набор библиотек для работы с различными графическими файлами
 Summary(uk.UTF-8):	Набір бібліотек для роботи з різними графічними файлами
 Name:		netpbm
-Version:	10.35.94
-Release:	2
+Version:	10.47.61
+Release:	1
 License:	Freeware
 Group:		Libraries
 #  svn export https://netpbm.svn.sourceforge.net/svnroot/netpbm/stable netpbm-%{version} (where version from doc/HISTORY)
 #  svn export https://netpbm.svn.sourceforge.net/svnroot/netpbm/userguide netpbm-%{version}/userguide
 Source0:	http://downloads.sourceforge.net/netpbm/%{name}-%{version}.tgz
-# Source0-md5:	72323677c5f2d7e2ff99caee8e0d8b41
+# Source0-md5:	a5d2ec8acc99f60e5b92a720ed292c3e
 Source1:	http://www.mif.pg.gda.pl/homepages/ankry/man-PLD/%{name}-non-english-man-pages.tar.bz2
 # Source1-md5:	8fb174f8da02ea01bf72a9dc61be10f1
 Source2:	%{name}-docs-20030520.tar.bz2
@@ -31,7 +31,7 @@ BuildRequires:	jbigkit-devel
 BuildRequires:	libjpeg-devel >= 7
 BuildRequires:	libpng-devel
 BuildRequires:	libtiff-devel
-BuildRequires:	libxml2-devel
+BuildRequires:	libxml2-devel >= 2
 BuildRequires:	perl-base
 BuildRequires:	perl-modules
 %{?with_svga:BuildRequires:	svgalib-devel}
@@ -266,15 +266,15 @@ rm -rf PKG
 %{__rm} PKG/bin/doc.url
 cp -df PKG/bin/* $RPM_BUILD_ROOT%{_bindir}
 cp -df PKG/lib/* $RPM_BUILD_ROOT%{_libdir}
-install PKG/link/*.a $RPM_BUILD_ROOT%{_libdir}
-install PKG/include/*.h $RPM_BUILD_ROOT%{_includedir}
-install PKG/man/man1/*.1 $RPM_BUILD_ROOT%{_mandir}/man1
-install PKG/man/man3/*.3 $RPM_BUILD_ROOT%{_mandir}/man3
-install PKG/man/man5/*.5 $RPM_BUILD_ROOT%{_mandir}/man5
+cp -p PKG/link/*.a $RPM_BUILD_ROOT%{_libdir}
+cp -pr PKG/include/netpbm $RPM_BUILD_ROOT%{_includedir}
+cp -p PKG/man/man1/*.1 $RPM_BUILD_ROOT%{_mandir}/man1
+cp -p PKG/man/man3/*.3 $RPM_BUILD_ROOT%{_mandir}/man3
+cp -p PKG/man/man5/*.5 $RPM_BUILD_ROOT%{_mandir}/man5
 
 # Install the static-only librle.a
-install urt/{rle,rle_config}.h $RPM_BUILD_ROOT%{_includedir}
-install urt/librle.a $RPM_BUILD_ROOT%{_libdir}
+cp -p urt/{rle,rle_config}.h $RPM_BUILD_ROOT%{_includedir}
+cp -p urt/librle.a $RPM_BUILD_ROOT%{_libdir}
 
 bzip2 -dc %{SOURCE1} | tar xf - -C $RPM_BUILD_ROOT%{_mandir}
 %{__rm} $RPM_BUILD_ROOT%{_mandir}/README.netpbm-non-english-man-pages
@@ -294,18 +294,7 @@ rm -rf $RPM_BUILD_ROOT
 %files devel
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/libnetpbm.so
-%{_includedir}/bitio.h
-%{_includedir}/colorname.h
-%{_includedir}/mallocvar.h
-%{_includedir}/nstring.h
-%{_includedir}/pam*.h
-%{_includedir}/pbm*.h
-%{_includedir}/pgm.h
-%{_includedir}/pm*.h
-%{_includedir}/pnm.h
-%{_includedir}/ppm*.h
-%{_includedir}/rle*.h
-%{_includedir}/shhopt.h
+%{_includedir}/netpbm
 %{_mandir}/man3/libnetpbm.3*
 
 %files static
@@ -315,6 +304,8 @@ rm -rf $RPM_BUILD_ROOT
 %files rle-static
 %defattr(644,root,root,755)
 %{_libdir}/librle.a
+%{_includedir}/rle.h
+%{_includedir}/rle_config.h
 
 %files progs
 %defattr(644,root,root,755)
