@@ -10,14 +10,14 @@ Summary(pt_BR.UTF-8):	Ferramentas para manipular arquivos graficos nos formatos 
 Summary(ru.UTF-8):	Набор библиотек для работы с различными графическими файлами
 Summary(uk.UTF-8):	Набір бібліотек для роботи з різними графічними файлами
 Name:		netpbm
-Version:	10.47.62
+Version:	10.47.63
 Release:	1
 License:	Freeware
 Group:		Libraries
 #  svn export https://netpbm.svn.sourceforge.net/svnroot/netpbm/stable netpbm-%{version} (where version from doc/HISTORY)
 #  svn export https://netpbm.svn.sourceforge.net/svnroot/netpbm/userguide netpbm-%{version}/userguide
 Source0:	http://downloads.sourceforge.net/netpbm/%{name}-%{version}.tgz
-# Source0-md5:	1a357d07ea576f9055c035fd2d456d40
+# Source0-md5:	ccc2d0250945f85d5d3f9f5287643bd9
 Source1:	http://www.mif.pg.gda.pl/homepages/ankry/man-PLD/%{name}-non-english-man-pages.tar.bz2
 # Source1-md5:	8fb174f8da02ea01bf72a9dc61be10f1
 Source2:	%{name}-docs-20030520.tar.bz2
@@ -287,7 +287,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(644,root,root,755)
-%doc README doc/{COPYRIGHT.PATENT,HISTORY,USERDOC} netpbm.sourceforge.net
+%doc README doc/{COPYRIGHT.PATENT,HISTORY,USERDOC}
 %attr(755,root,root) %{_libdir}/libnetpbm.so.*.*
 %attr(755,root,root) %ghost %{_libdir}/libnetpbm.so.10
 
@@ -309,6 +309,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %files progs
 %defattr(644,root,root,755)
+%doc netpbm.sourceforge.net
 %attr(755,root,root) %{_bindir}/*
 %{_mandir}/man1/*.1*
 %{_mandir}/man5/pam.5*
