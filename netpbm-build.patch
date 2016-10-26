@@ -1,5 +1,5 @@
---- netpbm-10.47.61/converter/other/pnmtopng.c.orig	2016-03-27 03:38:28.000000000 +0200
-+++ netpbm-10.47.61/converter/other/pnmtopng.c	2016-06-08 21:11:49.243925856 +0200
+--- netpbm-10.47.63/converter/other/pnmtopng.c.orig	2016-09-26 18:44:20.000000000 +0200
++++ netpbm-10.47.63/converter/other/pnmtopng.c	2016-10-26 20:21:09.553805369 +0200
 @@ -59,7 +59,8 @@
  #include <assert.h>
  #include <string.h> /* strcat() */
@@ -10,10 +10,16 @@
  
  #include "pm_c_util.h"
  #include "pnm.h"
-@@ -69,14 +70,6 @@
+@@ -69,20 +70,6 @@
  #include "nstring.h"
  #include "version.h"
  
+-#if PNG_LIBPNG_VER >= 10500
+-#error Your PNG library (<png.h>) is incompatible with this Netpbm source code.
+-#error You need either an older PNG library (older than 1.5) or
+-#error newer Netpbm source code (at least 10.55)
+-#endif
+-
 -/* A hack until we can remove direct access to png_info from the program */
 -#if PNG_LIBPNG_VER >= 10400
 -#define trans_values trans_color
@@ -25,7 +31,7 @@
  
  struct zlibCompression {
      /* These are parameters that describe a form of zlib compression.
-@@ -2117,6 +2110,7 @@ makePngLine(png_byte *           const l
+@@ -2123,6 +2110,7 @@ makePngLine(png_byte *           const l
              gray *               const alpha_mask,
              colorhash_table      const cht,
              coloralphahash_table const caht,
@@ -33,7 +39,7 @@
              png_info *           const info_ptr,
              xelval               const png_maxval,
              unsigned int         const depth) {
-@@ -2128,21 +2122,22 @@ makePngLine(png_byte *           const l
+@@ -2134,21 +2122,22 @@ makePngLine(png_byte *           const l
      for (col = 0; col < cols; ++col) {
          xel p_png;
          xel const p = xelrow[col];
@@ -61,7 +67,7 @@
              if (depth == 16)
                  *pp++ = PPM_GETR(p_png) >> 8;
              *pp++ = PPM_GETR(p_png) & 0xff;
-@@ -2155,7 +2150,7 @@ makePngLine(png_byte *           const l
+@@ -2161,7 +2150,7 @@ makePngLine(png_byte *           const l
          } else
              pm_error("INTERNAL ERROR: undefined color_type");
                  
@@ -70,7 +76,7 @@
              int const png_alphaval = (int)
                  alpha_mask[col] * (float) png_maxval / maxval + 0.5;
              if (depth == 16)
-@@ -2212,7 +2207,7 @@ writeRaster(png_struct *         const p
+@@ -2218,7 +2207,7 @@ writeRaster(png_struct *         const p
              
              makePngLine(line, xelrow, cols, maxval,
                          alpha, alpha ? alpha_mask[row] : NULL,
@@ -79,7 +85,7 @@
  
              png_write_row(png_ptr, line);
          }
-@@ -2224,12 +2219,12 @@ writeRaster(png_struct *         const p
+@@ -2230,12 +2219,12 @@ writeRaster(png_struct *         const p
  
  static void
  doGamaChunk(struct cmdlineInfo const cmdline,
@@ -94,7 +100,7 @@
      }
  }
  
-@@ -2237,20 +2232,16 @@ doGamaChunk(struct cmdlineInfo const cmd
+@@ -2243,20 +2232,16 @@ doGamaChunk(struct cmdlineInfo const cmd
  
  static void
  doChrmChunk(struct cmdlineInfo const cmdline,
@@ -121,7 +127,7 @@
      }
  }
  
-@@ -2258,15 +2249,13 @@ doChrmChunk(struct cmdlineInfo const cmd
+@@ -2264,15 +2249,13 @@ doChrmChunk(struct cmdlineInfo const cmd
  
  static void
  doPhysChunk(struct cmdlineInfo const cmdline,
@@ -140,7 +146,7 @@
      }
  }
  
-@@ -2275,26 +2264,29 @@ doPhysChunk(struct cmdlineInfo const cmd
+@@ -2281,26 +2264,29 @@ doPhysChunk(struct cmdlineInfo const cmd
  
  static void
  doTimeChunk(struct cmdlineInfo const cmdline,
@@ -175,7 +181,7 @@
          (pngMaxval > maxval || (alpha && pngMaxval > alphaMaxval))) {
  
          /* We're writing in a bit depth that doesn't match the maxval
-@@ -2313,27 +2305,27 @@ doSbitChunk(png_info * const pngInfoP,
+@@ -2319,27 +2305,27 @@ doSbitChunk(png_info * const pngInfoP,
             sBIT chunk.
          */
  
@@ -213,7 +219,7 @@
      }
  }
  
-@@ -2614,43 +2606,40 @@ convertpnm(struct cmdlineInfo const cmdl
+@@ -2620,43 +2606,40 @@ convertpnm(struct cmdlineInfo const cmdl
      pm_error ("setjmp returns error condition (2)");
    }
  
@@ -233,16 +239,16 @@
    else
 -    info_ptr->color_type = PNG_COLOR_TYPE_GRAY;
 +    color_type = PNG_COLOR_TYPE_GRAY;
- 
--  if (alpha && info_ptr->color_type != PNG_COLOR_TYPE_PALETTE)
--    info_ptr->color_type |= PNG_COLOR_MASK_ALPHA;
++
 +  if (alpha && color_type != PNG_COLOR_TYPE_PALETTE)
 +    color_type |= PNG_COLOR_MASK_ALPHA;
  
--  info_ptr->interlace_type = cmdline.interlace;
+-  if (alpha && info_ptr->color_type != PNG_COLOR_TYPE_PALETTE)
+-    info_ptr->color_type |= PNG_COLOR_MASK_ALPHA;
 +  png_set_IHDR(png_ptr, info_ptr, cols, rows, depth, color_type, cmdline.interlace, 0, 0);
 +  }
-+
+ 
+-  info_ptr->interlace_type = cmdline.interlace;
 +  if (cmdline.interlace)
 +    png_set_interlace_handling(png_ptr);
  
@@ -275,7 +281,7 @@
      }
      /* creating hIST chunk */
      if (cmdline.hist) {
-@@ -2676,18 +2665,17 @@ convertpnm(struct cmdlineInfo const cmdl
+@@ -2682,18 +2665,17 @@ convertpnm(struct cmdlineInfo const cmdl
  
          ppm_freecolorhash(cht);
  
@@ -300,7 +306,7 @@
          }
      } else {
          /* This is PNG_COLOR_MASK_ALPHA.  Transparency will be handled
-@@ -2695,60 +2683,58 @@ convertpnm(struct cmdlineInfo const cmdl
+@@ -2701,13 +2683,17 @@ convertpnm(struct cmdlineInfo const cmdl
          */
      }
      if (verbose) {
@@ -316,15 +322,14 @@
 -                       info_ptr->trans_values.red,
 -                       info_ptr->trans_values.green,
 -                       info_ptr->trans_values.blue);
--        else
 +                       trans_colorp->gray,
 +                       trans_colorp->red,
 +                       trans_colorp->green,
 +                       trans_colorp->blue);
-+        else
+         else
              pm_message("No transparent color");
      }
-   }
+@@ -2715,46 +2701,40 @@ convertpnm(struct cmdlineInfo const cmdl
  
    /* bKGD chunk */
    if (cmdline.background) {
@@ -385,12 +390,18 @@
    /* let libpng take care of, e.g., bit-depth conversions */
    png_set_packing (png_ptr);
  
---- netpbm-10.47.61/converter/other/pngtopnm.c.orig	2016-03-27 03:38:28.000000000 +0200
-+++ netpbm-10.47.61/converter/other/pngtopnm.c	2016-06-09 19:08:35.590610275 +0200
-@@ -32,13 +32,6 @@
+--- netpbm-10.47.63/converter/other/pngtopnm.c.orig	2016-09-26 18:44:20.000000000 +0200
++++ netpbm-10.47.63/converter/other/pngtopnm.c	2016-10-26 20:40:14.913792290 +0200
+@@ -32,19 +32,6 @@
  #include "shhopt.h"
  #include "pnm.h"
  
+-#if PNG_LIBPNG_VER >= 10500
+-#error Your PNG library (<png.h>) is incompatible with this Netpbm source code.
+-#error You need either an older PNG library (older than 1.5) or
+-#error newer Netpbm source code (at least 10.55)
+-#endif
+-
 -/* A hack until we can remove direct access to png_info from the program */
 -#if PNG_LIBPNG_VER >= 10400
 -#define TRANS_ALPHA trans_alpha
@@ -401,7 +412,7 @@
  
  enum alpha_handling {ALPHA_NONE, ALPHA_ONLY, ALPHA_MIX};
  
-@@ -263,23 +256,25 @@ verifyFileIsPng(FILE *   const ifP,
+@@ -269,23 +256,25 @@ verifyFileIsPng(FILE *   const ifP,
  static unsigned int
  computePngLineSize(struct pngx * const pngxP) {
  
@@ -434,7 +445,7 @@
  }
  
  
-@@ -291,15 +286,16 @@ allocPngRaster(struct pngx * const pngxP
+@@ -297,15 +286,16 @@ allocPngRaster(struct pngx * const pngxP
      unsigned int const lineSize = computePngLineSize(pngxP);
  
      png_byte ** pngImage;
@@ -454,7 +465,7 @@
          MALLOCARRAY(pngImage[row], lineSize);
          if (pngImage[row] == NULL)
              pm_error("couldn't allocate space for %uth row of PNG raster",
-@@ -316,7 +312,7 @@ freePngRaster(png_byte **   const pngRas
+@@ -322,7 +312,7 @@ freePngRaster(png_byte **   const pngRas
  
      unsigned int row;
  
@@ -463,7 +474,7 @@
          free(pngRaster[row]);
  
      free(pngRaster);
-@@ -343,7 +339,7 @@ readPng(struct pngx * const pngxP,
+@@ -349,7 +339,7 @@ readPng(struct pngx * const pngxP,
  
      allocPngRaster(pngxP, &pngRaster);
  
@@ -472,7 +483,7 @@
          png_set_packing(pngxP->png_ptr);
  
      png_read_image(pngxP->png_ptr, pngRaster);
-@@ -439,31 +435,34 @@ saveText(struct pngx * const pngxP,
+@@ -445,31 +435,34 @@ saveText(struct pngx * const pngxP,
           FILE *        const tfP) {
  
      png_info * const info_ptr = pngxP->info_ptr;
@@ -519,7 +530,7 @@
                  unsigned int k;
                  for (k = 0; k < 16; ++k)
                      putc(' ', tfP);
-@@ -483,21 +482,23 @@ showTime(struct pngx * const pngxP) {
+@@ -489,21 +482,23 @@ showTime(struct pngx * const pngxP) {
          "July", "August", "September", "October", "November", "December"
      };
  
@@ -553,7 +564,7 @@
      }
  }
  
-@@ -510,7 +511,7 @@ dumpPngInfo(struct pngx * const pngxP) {
+@@ -516,7 +511,7 @@ dumpPngInfo(struct pngx * const pngxP) {
      const char *type_string;
      const char *filter_string;
  
@@ -562,7 +573,7 @@
        case PNG_COLOR_TYPE_GRAY:
          type_string = "gray";
          break;
-@@ -532,90 +533,106 @@ dumpPngInfo(struct pngx * const pngxP) {
+@@ -538,90 +533,106 @@ dumpPngInfo(struct pngx * const pngxP) {
          break;
      }
  
@@ -697,7 +708,7 @@
          pm_message("sRGB chunk: present");
      else
          pm_message("sRGB chunk: not present");
-@@ -669,7 +685,7 @@ isTransparentColor(pngcolor      const c
+@@ -675,7 +686,7 @@ isTransparentColor(pngcolor      const c
             pixels, and just do it ourselves.
          */
      
@@ -706,7 +717,7 @@
          case PNG_COLOR_TYPE_GRAY:
              retval = color.r == gamma_correct(transColorP->gray, totalgamma);
              break;
-@@ -696,9 +712,11 @@ setupGammaCorrection(struct pngx * const
+@@ -702,9 +713,11 @@ setupGammaCorrection(struct pngx * const
          *totalgammaP = -1.0;
      else {
          float imageGamma;
@@ -721,7 +732,7 @@
              if (verbose)
                  pm_message("PNG doesn't specify image gamma.  Assuming 1.0");
              imageGamma = 1.0;
-@@ -716,7 +734,7 @@ setupGammaCorrection(struct pngx * const
+@@ -722,7 +735,7 @@ setupGammaCorrection(struct pngx * const
              /* in case of gamma-corrections, sBIT's as in the
                 PNG-file are not valid anymore 
              */
@@ -730,7 +741,7 @@
              if (verbose)
                  pm_message("image gamma is %4.2f, "
                             "converted for display gamma of %4.2f",
-@@ -728,20 +746,23 @@ setupGammaCorrection(struct pngx * const
+@@ -734,20 +747,23 @@ setupGammaCorrection(struct pngx * const
  
  
  static bool
@@ -760,7 +771,7 @@
                      foundGray = TRUE;
                  }
              }
-@@ -771,13 +792,14 @@ setupSignificantBits(struct pngx *
+@@ -777,13 +793,14 @@ setupSignificantBits(struct pngx *
      png_info * const info_ptr = pngxP->info_ptr;
  
      /* Initial assumption of maxval */
@@ -779,7 +790,7 @@
                  /* Use same maxval as PNG transparency palette for simplicity*/
                  *maxvalP = 255;
              else
-@@ -787,7 +809,7 @@ setupSignificantBits(struct pngx *
+@@ -793,7 +810,7 @@ setupSignificantBits(struct pngx *
              /* Use same maxval as PNG palette for simplicity */
              *maxvalP = 255;
      } else {
@@ -788,7 +799,7 @@
      }
  
      /* sBIT handling is very tricky. If we are extracting only the
-@@ -800,20 +822,25 @@ setupSignificantBits(struct pngx *
+@@ -806,20 +823,25 @@ setupSignificantBits(struct pngx *
         is used 
      */
      
@@ -821,7 +832,7 @@
                          trans_mix = FALSE;
                          break;
                      }
-@@ -824,70 +851,73 @@ setupSignificantBits(struct pngx *
+@@ -830,70 +852,73 @@ setupSignificantBits(struct pngx *
              /* else fall though to normal case */
  
          case ALPHA_NONE:
@@ -930,7 +941,7 @@
              }
              break;
  
-@@ -902,18 +932,23 @@ imageHasColor(struct pngx * const pngxP)
+@@ -908,18 +933,23 @@ imageHasColor(struct pngx * const pngxP)
  
      bool retval;
  
@@ -959,7 +970,7 @@
                  foundColor = TRUE;
          }
          retval = foundColor;
-@@ -968,19 +1003,24 @@ getBackgroundColor(struct pngx * const p
+@@ -974,19 +1004,24 @@ getBackgroundColor(struct pngx * const p
          bgColorP->g = PPM_GETG(backcolor);
          bgColorP->b = PPM_GETB(backcolor);
  
@@ -988,7 +999,7 @@
              bgColorP->r = gamma_correct(rawBgcolor.red, totalgamma);
              bgColorP->g = gamma_correct(rawBgcolor.green, totalgamma);
              bgColorP->b = gamma_correct(rawBgcolor.blue, totalgamma);
-@@ -988,7 +1028,7 @@ getBackgroundColor(struct pngx * const p
+@@ -994,7 +1029,7 @@ getBackgroundColor(struct pngx * const p
          break;
          case PNG_COLOR_TYPE_RGB:
          case PNG_COLOR_TYPE_RGB_ALPHA: {
@@ -997,7 +1008,7 @@
              
              bgColorP->r = gamma_correct(rawBgcolor.red,   totalgamma);
              bgColorP->g = gamma_correct(rawBgcolor.green, totalgamma);
-@@ -1007,10 +1047,12 @@ static void
+@@ -1013,10 +1048,12 @@ static void
  warnNonsquarePixels(struct pngx * const pngxP,
                      int *         const errorLevelP) {
  
@@ -1013,7 +1024,7 @@
  
          if (r != 1.0) {
              pm_message ("warning - non-square pixels; "
-@@ -1024,7 +1066,7 @@ warnNonsquarePixels(struct pngx * const
+@@ -1030,7 +1067,7 @@ warnNonsquarePixels(struct pngx * const
  
  
  
@@ -1022,7 +1033,7 @@
  
  
  
-@@ -1042,8 +1084,8 @@ makeXelRow(xel *               const xel
+@@ -1048,8 +1085,8 @@ makeXelRow(xel *               const xel
      unsigned int col;
  
      pngPixelP = &pngRasterRow[0];  /* initial value */
@@ -1033,7 +1044,7 @@
          case PNG_COLOR_TYPE_GRAY: {
              pngcolor fgColor;
              fgColor.r = fgColor.g = fgColor.b = GET_PNG_VAL(pngPixelP);
-@@ -1065,7 +1107,15 @@ makeXelRow(xel *               const xel
+@@ -1071,7 +1108,15 @@ makeXelRow(xel *               const xel
  
          case PNG_COLOR_TYPE_PALETTE: {
              png_uint_16 const index        = GET_PNG_VAL(pngPixelP);
@@ -1050,7 +1061,7 @@
  
              pngcolor fgColor;
  
-@@ -1074,9 +1124,9 @@ makeXelRow(xel *               const xel
+@@ -1080,9 +1125,9 @@ makeXelRow(xel *               const xel
              fgColor.b = paletteColor.blue;
  
              setXel(&xelrow[col], fgColor, bgColor, alphaHandling,
@@ -1063,7 +1074,7 @@
          }
          break;
                  
-@@ -1106,13 +1156,20 @@ makeXelRow(xel *               const xel
+@@ -1112,13 +1157,20 @@ makeXelRow(xel *               const xel
  
          default:
              pm_error("unknown PNG color type: %d",
@@ -1085,7 +1096,7 @@
  static void
  writePnm(FILE *              const ofP,
           xelval              const maxval,
-@@ -1136,6 +1193,8 @@ writePnm(FILE *              const ofP,
+@@ -1142,6 +1194,8 @@ writePnm(FILE *              const ofP,
  
      xel * xelrow;
      unsigned int row;
@@ -1094,7 +1105,7 @@
  
      if (verbose)
          pm_message("writing a %s file (maxval=%u)",
-@@ -1145,17 +1204,17 @@ writePnm(FILE *              const ofP,
+@@ -1151,17 +1205,17 @@ writePnm(FILE *              const ofP,
                     "UNKNOWN!", 
                     maxval);
      
