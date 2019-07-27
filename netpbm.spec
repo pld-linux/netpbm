@@ -10,32 +10,33 @@ Summary(pt_BR.UTF-8):	Ferramentas para manipular arquivos graficos nos formatos 
 Summary(ru.UTF-8):	Набор библиотек для работы с различными графическими файлами
 Summary(uk.UTF-8):	Набір бібліотек для роботи з різними графічними файлами
 Name:		netpbm
-Version:	10.47.73
+Version:	10.73.28
 Release:	1
 License:	Freeware
 Group:		Libraries
 #  svn export https://netpbm.svn.sourceforge.net/svnroot/netpbm/stable netpbm-%{version} (where version from doc/HISTORY)
 #  svn export https://netpbm.svn.sourceforge.net/svnroot/netpbm/userguide netpbm-%{version}/userguide
 Source0:	http://downloads.sourceforge.net/netpbm/%{name}-%{version}.tgz
-# Source0-md5:	f9cba5b3d2b74e9608c6a2c3ce71c17e
+# Source0-md5:	0b59abd83b64353eaa0a68847aa85ecd
 Source1:	http://www.mif.pg.gda.pl/homepages/ankry/man-PLD/%{name}-non-english-man-pages.tar.bz2
 # Source1-md5:	8fb174f8da02ea01bf72a9dc61be10f1
 Source2:	%{name}-docs-20030520.tar.bz2
 # Source2-md5:	2d6a3965d493def21edfbc3e1aa262e9
 Patch0:		%{name}-make.patch
-Patch1:		%{name}-build.patch
 URL:		http://netpbm.sourceforge.net/
 BuildRequires:	flex
 BuildRequires:	jasper-devel
 BuildRequires:	jbigkit-devel
 BuildRequires:	libjpeg-devel >= 7
-BuildRequires:	libpng-devel
+BuildRequires:	libpng-devel >= 1.0
 BuildRequires:	libtiff-devel
-BuildRequires:	libxml2-devel >= 2
+BuildRequires:	libxml2-devel >= 1:2.5.9
 BuildRequires:	perl-base
 BuildRequires:	perl-modules
+BuildRequires:	pkgconfig
 %{?with_svga:BuildRequires:	svgalib-devel}
 BuildRequires:	xorg-lib-libX11-devel
+BuildRequires:	zlib-devel
 Obsoletes:	libgr
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
@@ -151,6 +152,7 @@ Summary(ru.UTF-8):	Утилиты манипулирования файлами 
 Summary(uk.UTF-8):	Утиліти маніпулювання файлами форматів, підтримуваних netpbm
 Group:		Applications/Graphics
 Requires:	%{name} = %{version}-%{release}
+Requires:	libxml2 >= 1:2.5.9
 Obsoletes:	libgr-progs
 
 %description progs
@@ -210,7 +212,6 @@ użyciu svgalib.
 %prep
 %setup -q -a2
 %patch0 -p1
-%patch1 -p1
 
 %build
 ./configure << EOF
@@ -240,19 +241,22 @@ EOF
 	CC="%{__cc}" \
 	CFLAGS="%{rpmcflags} %{rpmcppflags} -fPIC" \
 	LDFLAGS="%{rpmldflags}" \
-	JPEGINC_DIR=%{_includedir} \
-	PNGINC_DIR=%{_includedir} \
-	TIFFINC_DIR=%{_includedir} \
-	JPEGLIB_DIR=%{_libdir} \
-	PNGLIB_DIR=%{_libdir} \
-	TIFFLIB_DIR=%{_libdir} \
-	LINUXSVGALIB="%{?with_svga:%{_libdir}/libvga.so}%{!?with_svga:NONE}" \
-	X11LIB=%{_libdir}/libX11.so \
-	XML2LIBS="$(%{_bindir}/xml2-config --libs)" \
-	JASPERLIB="" \
-	JASPERDEPLIBS="-ljasper" \
 	JASPERHDR_DIR="%{_includedir}/jasper" \
-	NETPBM_DOCURL="%{_docdir}/%{name}-%{version}/netpbm.sourceforge.net/doc/"
+	JASPERLIB="-ljasper" \
+	JBIGHDR_DIR=%{_includedir} \
+	JBIGLIB="-ljbig" \
+	JPEGINC_DIR=%{_includedir} \
+	JPEGLIB_DIR=%{_libdir} \
+	LINUXSVGALIB="%{?with_svga:%{_libdir}/libvga.so}%{!?with_svga:NONE}" \
+	NETPBM_DOCURL="%{_docdir}/%{name}-%{version}/netpbm.sourceforge.net/doc/" \
+	PNGINC_DIR=%{_includedir} \
+	PNGLIB_DIR=%{_libdir} \
+	TIFFINC_DIR=%{_includedir} \
+	TIFFLIB_DIR=%{_libdir} \
+	X11LIB=%{_libdir}/libX11.so \
+	XML2LIBS="$(%{_bindir}/xml2-config --libs)"
+#	JASPERLIB="" \
+#	JASPERDEPLIBS="-ljasper" \
 
 %install
 rm -rf $RPM_BUILD_ROOT
@@ -287,9 +291,9 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(644,root,root,755)
-%doc README doc/{COPYRIGHT.PATENT,HISTORY,USERDOC}
+%doc README doc/{CONTRIBUTORS,COPYRIGHT.PATENT,HISTORY,USERDOC}
 %attr(755,root,root) %{_libdir}/libnetpbm.so.*.*
-%attr(755,root,root) %ghost %{_libdir}/libnetpbm.so.10
+%attr(755,root,root) %ghost %{_libdir}/libnetpbm.so.11
 
 %files devel
 %defattr(644,root,root,755)
@@ -314,11 +318,13 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_bindir}/anytopnm
 %attr(755,root,root) %{_bindir}/asciitopgm
 %attr(755,root,root) %{_bindir}/atktopbm
+%attr(755,root,root) %{_bindir}/avstopam
 %attr(755,root,root) %{_bindir}/bioradtopgm
 %attr(755,root,root) %{_bindir}/bmptopnm
 %attr(755,root,root) %{_bindir}/bmptoppm
 %attr(755,root,root) %{_bindir}/brushtopbm
 %attr(755,root,root) %{_bindir}/cameratopam
+%attr(755,root,root) %{_bindir}/cistopbm
 %attr(755,root,root) %{_bindir}/cmuwmtopbm
 %attr(755,root,root) %{_bindir}/ddbugtopbm
 %attr(755,root,root) %{_bindir}/escp2topbm
@@ -357,6 +363,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_bindir}/pambayer
 %attr(755,root,root) %{_bindir}/pamchannel
 %attr(755,root,root) %{_bindir}/pamcomp
+%attr(755,root,root) %{_bindir}/pamcrater
 %attr(755,root,root) %{_bindir}/pamcut
 %attr(755,root,root) %{_bindir}/pamdeinterlace
 %attr(755,root,root) %{_bindir}/pamdepth
@@ -365,7 +372,9 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_bindir}/pamedge
 %attr(755,root,root) %{_bindir}/pamendian
 %attr(755,root,root) %{_bindir}/pamenlarge
+%attr(755,root,root) %{_bindir}/pamexec
 %attr(755,root,root) %{_bindir}/pamfile
+%attr(755,root,root) %{_bindir}/pamfix
 %attr(755,root,root) %{_bindir}/pamfixtrunc
 %attr(755,root,root) %{_bindir}/pamflip
 %attr(755,root,root) %{_bindir}/pamfunc
@@ -374,13 +383,18 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_bindir}/pamlookup
 %attr(755,root,root) %{_bindir}/pammasksharpen
 %attr(755,root,root) %{_bindir}/pammixinterlace
+%attr(755,root,root) %{_bindir}/pammosaicknit
 %attr(755,root,root) %{_bindir}/pamoil
+%attr(755,root,root) %{_bindir}/pampaintspill
 %attr(755,root,root) %{_bindir}/pamperspective
 %attr(755,root,root) %{_bindir}/pampick
 %attr(755,root,root) %{_bindir}/pampop9
+%attr(755,root,root) %{_bindir}/pamrecolor
 %attr(755,root,root) %{_bindir}/pamrgbatopng
+%attr(755,root,root) %{_bindir}/pamrubber
 %attr(755,root,root) %{_bindir}/pamscale
 %attr(755,root,root) %{_bindir}/pamseq
+%attr(755,root,root) %{_bindir}/pamshadedrelief
 %attr(755,root,root) %{_bindir}/pamsharpmap
 %attr(755,root,root) %{_bindir}/pamsharpness
 %attr(755,root,root) %{_bindir}/pamsistoaglyph
@@ -394,6 +408,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_bindir}/pamsummcol
 %attr(755,root,root) %{_bindir}/pamthreshold
 %attr(755,root,root) %{_bindir}/pamtilt
+%attr(755,root,root) %{_bindir}/pamtoavs
 %attr(755,root,root) %{_bindir}/pamtodjvurle
 %attr(755,root,root) %{_bindir}/pamtofits
 %attr(755,root,root) %{_bindir}/pamtogif
@@ -403,14 +418,21 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_bindir}/pamtompfont
 %attr(755,root,root) %{_bindir}/pamtooctaveimg
 %attr(755,root,root) %{_bindir}/pamtopam
+%attr(755,root,root) %{_bindir}/pamtopdbimg
 %attr(755,root,root) %{_bindir}/pamtopfm
+%attr(755,root,root) %{_bindir}/pamtopng
 %attr(755,root,root) %{_bindir}/pamtopnm
+%attr(755,root,root) %{_bindir}/pamtosrf
 %attr(755,root,root) %{_bindir}/pamtosvg
 %attr(755,root,root) %{_bindir}/pamtotga
 %attr(755,root,root) %{_bindir}/pamtotiff
 %attr(755,root,root) %{_bindir}/pamtouil
+%attr(755,root,root) %{_bindir}/pamtowinicon
 %attr(755,root,root) %{_bindir}/pamtoxvmini
 %attr(755,root,root) %{_bindir}/pamundice
+%attr(755,root,root) %{_bindir}/pamunlookup
+%attr(755,root,root) %{_bindir}/pamvalidate
+%attr(755,root,root) %{_bindir}/pamwipeout
 %attr(755,root,root) %{_bindir}/pamx
 %attr(755,root,root) %{_bindir}/pbmclean
 %attr(755,root,root) %{_bindir}/pbmlife
@@ -427,6 +449,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_bindir}/pbmtoascii
 %attr(755,root,root) %{_bindir}/pbmtoatk
 %attr(755,root,root) %{_bindir}/pbmtobbnbg
+%attr(755,root,root) %{_bindir}/pbmtocis
 %attr(755,root,root) %{_bindir}/pbmtocmuwm
 %attr(755,root,root) %{_bindir}/pbmtodjvurle
 %attr(755,root,root) %{_bindir}/pbmtoepsi
@@ -453,6 +476,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_bindir}/pbmtoppa
 %attr(755,root,root) %{_bindir}/pbmtopsg3
 %attr(755,root,root) %{_bindir}/pbmtoptx
+%attr(755,root,root) %{_bindir}/pbmtosunicon
 %attr(755,root,root) %{_bindir}/pbmtowbmp
 %attr(755,root,root) %{_bindir}/pbmtox10bm
 %attr(755,root,root) %{_bindir}/pbmtoxbm
@@ -462,6 +486,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_bindir}/pc1toppm
 %attr(755,root,root) %{_bindir}/pcdovtoppm
 %attr(755,root,root) %{_bindir}/pcxtoppm
+%attr(755,root,root) %{_bindir}/pdbimgtopam
 %attr(755,root,root) %{_bindir}/pfmtopam
 %attr(755,root,root) %{_bindir}/pgmabel
 %attr(755,root,root) %{_bindir}/pgmbentley
@@ -486,6 +511,8 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_bindir}/pgmtopbm
 %attr(755,root,root) %{_bindir}/pgmtopgm
 %attr(755,root,root) %{_bindir}/pgmtoppm
+%attr(755,root,root) %{_bindir}/pgmtosbig
+%attr(755,root,root) %{_bindir}/pgmtost4
 %attr(755,root,root) %{_bindir}/pi1toppm
 %attr(755,root,root) %{_bindir}/pi3topbm
 %attr(755,root,root) %{_bindir}/picttoppm
@@ -512,6 +539,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_bindir}/pnminterp
 %attr(755,root,root) %{_bindir}/pnminvert
 %attr(755,root,root) %{_bindir}/pnmmargin
+%attr(755,root,root) %{_bindir}/pnmmercator
 %attr(755,root,root) %{_bindir}/pnmmontage
 %attr(755,root,root) %{_bindir}/pnmnlfilt
 %attr(755,root,root) %{_bindir}/pnmnoraw
@@ -520,6 +548,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_bindir}/pnmpaste
 %attr(755,root,root) %{_bindir}/pnmpsnr
 %attr(755,root,root) %{_bindir}/pnmquant
+%attr(755,root,root) %{_bindir}/pnmquantall
 %attr(755,root,root) %{_bindir}/pnmremap
 %attr(755,root,root) %{_bindir}/pnmrotate
 %attr(755,root,root) %{_bindir}/pnmscale
@@ -580,7 +609,9 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_bindir}/ppmshift
 %attr(755,root,root) %{_bindir}/ppmspread
 %attr(755,root,root) %{_bindir}/ppmtoacad
+%attr(755,root,root) %{_bindir}/ppmtoapplevol
 %attr(755,root,root) %{_bindir}/ppmtoarbtxt
+%attr(755,root,root) %{_bindir}/ppmtoascii
 %attr(755,root,root) %{_bindir}/ppmtobmp
 %attr(755,root,root) %{_bindir}/ppmtoeyuv
 %attr(755,root,root) %{_bindir}/ppmtogif
@@ -603,6 +634,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_bindir}/ppmtopuzz
 %attr(755,root,root) %{_bindir}/ppmtorgb3
 %attr(755,root,root) %{_bindir}/ppmtosixel
+%attr(755,root,root) %{_bindir}/ppmtospu
 %attr(755,root,root) %{_bindir}/ppmtoterm
 %attr(755,root,root) %{_bindir}/ppmtotga
 %attr(755,root,root) %{_bindir}/ppmtouil
@@ -627,11 +659,15 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_bindir}/spctoppm
 %attr(755,root,root) %{_bindir}/spottopgm
 %attr(755,root,root) %{_bindir}/sputoppm
+%attr(755,root,root) %{_bindir}/srftopam
+%attr(755,root,root) %{_bindir}/st4topgm
+%attr(755,root,root) %{_bindir}/sunicontopnm
 %attr(755,root,root) %{_bindir}/svgtopam
 %attr(755,root,root) %{_bindir}/tgatoppm
 %attr(755,root,root) %{_bindir}/thinkjettopbm
 %attr(755,root,root) %{_bindir}/tifftopnm
 %attr(755,root,root) %{_bindir}/wbmptopbm
+%attr(755,root,root) %{_bindir}/winicontopam
 %attr(755,root,root) %{_bindir}/winicontoppm
 %attr(755,root,root) %{_bindir}/xbmtopbm
 %attr(755,root,root) %{_bindir}/ximtoppm
@@ -641,15 +677,18 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_bindir}/ybmtopbm
 %attr(755,root,root) %{_bindir}/yuvsplittoppm
 %attr(755,root,root) %{_bindir}/yuvtoppm
+%attr(755,root,root) %{_bindir}/yuy2topam
 %attr(755,root,root) %{_bindir}/zeisstopnm
 %{_mandir}/man1/411toppm.1*
 %{_mandir}/man1/anytopnm.1*
 %{_mandir}/man1/asciitopgm.1*
 %{_mandir}/man1/atktopbm.1*
+%{_mandir}/man1/avstopam.1*
 %{_mandir}/man1/bioradtopgm.1*
 %{_mandir}/man1/bmptopnm.1*
 %{_mandir}/man1/brushtopbm.1*
 %{_mandir}/man1/cameratopam.1*
+%{_mandir}/man1/cistopbm.1*
 %{_mandir}/man1/cmuwmtopbm.1*
 %{_mandir}/man1/ddbugtopbm.1*
 %{_mandir}/man1/escp2topbm.1*
@@ -664,7 +703,6 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man1/hdifftopam.1*
 %{_mandir}/man1/hipstopgm.1*
 %{_mandir}/man1/hpcdtoppm.1*
-%{_mandir}/man1/icontopbm.1*
 %{_mandir}/man1/ilbmtoppm.1*
 %{_mandir}/man1/imgtoppm.1*
 %{_mandir}/man1/infotopam.1*
@@ -687,6 +725,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man1/pambayer.1*
 %{_mandir}/man1/pamchannel.1*
 %{_mandir}/man1/pamcomp.1*
+%{_mandir}/man1/pamcrater.1*
 %{_mandir}/man1/pamcut.1*
 %{_mandir}/man1/pamdeinterlace.1*
 %{_mandir}/man1/pamdepth.1*
@@ -695,7 +734,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man1/pamedge.1*
 %{_mandir}/man1/pamendian.1*
 %{_mandir}/man1/pamenlarge.1*
+%{_mandir}/man1/pamexec.1*
 %{_mandir}/man1/pamfile.1*
+%{_mandir}/man1/pamfix.1*
 %{_mandir}/man1/pamfixtrunc.1*
 %{_mandir}/man1/pamflip.1*
 %{_mandir}/man1/pamfunc.1*
@@ -704,13 +745,17 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man1/pamlookup.1*
 %{_mandir}/man1/pammasksharpen.1*
 %{_mandir}/man1/pammixinterlace.1*
+%{_mandir}/man1/pammosaicknit.1*
 %{_mandir}/man1/pamoil.1*
+%{_mandir}/man1/pampaintspill.1*
 %{_mandir}/man1/pamperspective.1*
 %{_mandir}/man1/pampick.1*
 %{_mandir}/man1/pampop9.1*
-%{_mandir}/man1/pamrgbatopng.1*
+%{_mandir}/man1/pamrecolor.1*
+%{_mandir}/man1/pamrubber.1*
 %{_mandir}/man1/pamscale.1*
 %{_mandir}/man1/pamseq.1*
+%{_mandir}/man1/pamshadedrelief.1*
 %{_mandir}/man1/pamsharpmap.1*
 %{_mandir}/man1/pamsharpness.1*
 %{_mandir}/man1/pamsistoaglyph.1*
@@ -724,6 +769,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man1/pamsummcol.1*
 %{_mandir}/man1/pamthreshold.1*
 %{_mandir}/man1/pamtilt.1*
+%{_mandir}/man1/pamtoavs.1*
 %{_mandir}/man1/pamtodjvurle.1*
 %{_mandir}/man1/pamtofits.1*
 %{_mandir}/man1/pamtogif.1*
@@ -733,14 +779,21 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man1/pamtompfont.1*
 %{_mandir}/man1/pamtooctaveimg.1*
 %{_mandir}/man1/pamtopam.1*
+%{_mandir}/man1/pamtopdbimg.1*
 %{_mandir}/man1/pamtopfm.1*
+%{_mandir}/man1/pamtopng.1*
 %{_mandir}/man1/pamtopnm.1*
+%{_mandir}/man1/pamtosrf.1*
 %{_mandir}/man1/pamtosvg.1*
 %{_mandir}/man1/pamtotga.1*
 %{_mandir}/man1/pamtotiff.1*
 %{_mandir}/man1/pamtouil.1*
+%{_mandir}/man1/pamtowinicon.1*
 %{_mandir}/man1/pamtoxvmini.1*
 %{_mandir}/man1/pamundice.1*
+%{_mandir}/man1/pamunlookup.1*
+%{_mandir}/man1/pamvalidate.1*
+%{_mandir}/man1/pamwipeout.1*
 %{_mandir}/man1/pamx.1*
 %{_mandir}/man1/pbmclean.1*
 %{_mandir}/man1/pbmlife.1*
@@ -757,6 +810,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man1/pbmtoascii.1*
 %{_mandir}/man1/pbmtoatk.1*
 %{_mandir}/man1/pbmtobbnbg.1*
+%{_mandir}/man1/pbmtocis.1*
 %{_mandir}/man1/pbmtocmuwm.1*
 %{_mandir}/man1/pbmtodjvurle.1*
 %{_mandir}/man1/pbmtoepsi.1*
@@ -766,7 +820,6 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man1/pbmtogem.1*
 %{_mandir}/man1/pbmtogo.1*
 %{_mandir}/man1/pbmtoibm23xx.1*
-%{_mandir}/man1/pbmtoicon.1*
 %{_mandir}/man1/pbmtolj.1*
 %{_mandir}/man1/pbmtoln03.1*
 %{_mandir}/man1/pbmtolps.1*
@@ -783,6 +836,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man1/pbmtoppa.1*
 %{_mandir}/man1/pbmtopsg3.1*
 %{_mandir}/man1/pbmtoptx.1*
+%{_mandir}/man1/pbmtosunicon.1*
 %{_mandir}/man1/pbmtowbmp.1*
 %{_mandir}/man1/pbmtox10bm.1*
 %{_mandir}/man1/pbmtoxbm.1*
@@ -792,6 +846,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man1/pc1toppm.1*
 %{_mandir}/man1/pcdovtoppm.1*
 %{_mandir}/man1/pcxtoppm.1*
+%{_mandir}/man1/pdbimgtopam.1*
 %{_mandir}/man1/pfmtopam.1*
 %{_mandir}/man1/pgmabel.1*
 %{_mandir}/man1/pgmbentley.1*
@@ -812,17 +867,17 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man1/pgmtopbm.1*
 %{_mandir}/man1/pgmtopgm.1*
 %{_mandir}/man1/pgmtoppm.1*
+%{_mandir}/man1/pgmtosbig.1*
+%{_mandir}/man1/pgmtost4.1*
 %{_mandir}/man1/pi1toppm.1*
 %{_mandir}/man1/pi3topbm.1*
 %{_mandir}/man1/picttoppm.1*
 %{_mandir}/man1/pjtoppm.1*
 %{_mandir}/man1/pktopbm.1*
 %{_mandir}/man1/pngtopam.1*
-%{_mandir}/man1/pngtopnm.1*
 %{_mandir}/man1/pnmalias.1*
 %{_mandir}/man1/pnmcat.1*
 %{_mandir}/man1/pnmcolormap.1*
-%{_mandir}/man1/pnmcomp.1*
 %{_mandir}/man1/pnmconvol.1*
 %{_mandir}/man1/pnmcrop.1*
 %{_mandir}/man1/pnmflip.1*
@@ -832,6 +887,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man1/pnmindex.1*
 %{_mandir}/man1/pnminvert.1*
 %{_mandir}/man1/pnmmargin.1*
+%{_mandir}/man1/pnmmercator.1*
 %{_mandir}/man1/pnmmontage.1*
 %{_mandir}/man1/pnmnlfilt.1*
 %{_mandir}/man1/pnmnorm.1*
@@ -839,6 +895,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man1/pnmpaste.1*
 %{_mandir}/man1/pnmpsnr.1*
 %{_mandir}/man1/pnmquant.1*
+%{_mandir}/man1/pnmquantall.1*
 %{_mandir}/man1/pnmremap.1*
 %{_mandir}/man1/pnmrotate.1*
 %{_mandir}/man1/pnmscalefixed.1*
@@ -885,7 +942,6 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man1/ppmntsc.1*
 %{_mandir}/man1/ppmpat.1*
 %{_mandir}/man1/ppmquant.1*
-%{_mandir}/man1/ppmquantall.1*
 %{_mandir}/man1/ppmrainbow.1*
 %{_mandir}/man1/ppmrelief.1*
 %{_mandir}/man1/ppmrough.1*
@@ -893,7 +949,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man1/ppmshift.1*
 %{_mandir}/man1/ppmspread.1*
 %{_mandir}/man1/ppmtoacad.1*
+%{_mandir}/man1/ppmtoapplevol.1*
 %{_mandir}/man1/ppmtoarbtxt.1*
+%{_mandir}/man1/ppmtoascii.1*
 %{_mandir}/man1/ppmtobmp.1*
 %{_mandir}/man1/ppmtoeyuv.1*
 %{_mandir}/man1/ppmtogif.1*
@@ -915,6 +973,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man1/ppmtopuzz.1*
 %{_mandir}/man1/ppmtorgb3.1*
 %{_mandir}/man1/ppmtosixel.1*
+%{_mandir}/man1/ppmtospu.1*
 %{_mandir}/man1/ppmtoterm.1*
 %{_mandir}/man1/ppmtowinicon.1*
 %{_mandir}/man1/ppmtoxpm.1*
@@ -937,11 +996,15 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man1/spctoppm.1*
 %{_mandir}/man1/spottopgm.1*
 %{_mandir}/man1/sputoppm.1*
+%{_mandir}/man1/srftopam.1*
+%{_mandir}/man1/st4topgm.1*
+%{_mandir}/man1/sunicontopnm.1*
 %{_mandir}/man1/svgtopam.1*
 %{_mandir}/man1/tgatoppm.1*
 %{_mandir}/man1/thinkjettopbm.1*
 %{_mandir}/man1/tifftopnm.1*
 %{_mandir}/man1/wbmptopbm.1*
+%{_mandir}/man1/winicontopam.1*
 %{_mandir}/man1/winicontoppm.1*
 %{_mandir}/man1/xbmtopbm.1*
 %{_mandir}/man1/ximtoppm.1*
@@ -951,6 +1014,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man1/ybmtopbm.1*
 %{_mandir}/man1/yuvsplittoppm.1*
 %{_mandir}/man1/yuvtoppm.1*
+%{_mandir}/man1/yuy2topam.1*
 %{_mandir}/man1/zeisstopnm.1*
 %{_mandir}/man5/pam.5*
 %{_mandir}/man5/pbm.5*
