@@ -10,14 +10,14 @@ Summary(pt_BR.UTF-8):	Ferramentas para manipular arquivos graficos nos formatos 
 Summary(ru.UTF-8):	Набор библиотек для работы с различными графическими файлами
 Summary(uk.UTF-8):	Набір бібліотек для роботи з різними графічними файлами
 Name:		netpbm
-Version:	10.47.71
+Version:	10.47.73
 Release:	1
 License:	Freeware
 Group:		Libraries
 #  svn export https://netpbm.svn.sourceforge.net/svnroot/netpbm/stable netpbm-%{version} (where version from doc/HISTORY)
 #  svn export https://netpbm.svn.sourceforge.net/svnroot/netpbm/userguide netpbm-%{version}/userguide
 Source0:	http://downloads.sourceforge.net/netpbm/%{name}-%{version}.tgz
-# Source0-md5:	8b314bc792b7a2f2c3ddd6e97da15307
+# Source0-md5:	f9cba5b3d2b74e9608c6a2c3ce71c17e
 Source1:	http://www.mif.pg.gda.pl/homepages/ankry/man-PLD/%{name}-non-english-man-pages.tar.bz2
 # Source1-md5:	8fb174f8da02ea01bf72a9dc61be10f1
 Source2:	%{name}-docs-20030520.tar.bz2
