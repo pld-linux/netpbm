@@ -10,19 +10,20 @@ Summary(pt_BR.UTF-8):	Ferramentas para manipular arquivos graficos nos formatos 
 Summary(ru.UTF-8):	Набор библиотек для работы с различными графическими файлами
 Summary(uk.UTF-8):	Набір бібліотек для роботи з різними графічними файлами
 Name:		netpbm
-Version:	10.73.28
+Version:	10.73.34
 Release:	1
 License:	Freeware
 Group:		Libraries
 #  svn export https://netpbm.svn.sourceforge.net/svnroot/netpbm/stable netpbm-%{version} (where version from doc/HISTORY)
 #  svn export https://netpbm.svn.sourceforge.net/svnroot/netpbm/userguide netpbm-%{version}/userguide
 Source0:	http://downloads.sourceforge.net/netpbm/%{name}-%{version}.tgz
-# Source0-md5:	0b59abd83b64353eaa0a68847aa85ecd
+# Source0-md5:	c5da60ea36f991e91fa231549cf4c6b9
 Source1:	http://www.mif.pg.gda.pl/homepages/ankry/man-PLD/%{name}-non-english-man-pages.tar.bz2
 # Source1-md5:	8fb174f8da02ea01bf72a9dc61be10f1
 Source2:	%{name}-docs-20030520.tar.bz2
 # Source2-md5:	2d6a3965d493def21edfbc3e1aa262e9
 Patch0:		%{name}-make.patch
+Patch1:		%{name}-format.patch
 URL:		http://netpbm.sourceforge.net/
 BuildRequires:	flex
 BuildRequires:	jasper-devel
@@ -212,6 +213,7 @@ użyciu svgalib.
 %prep
 %setup -q -a2
 %patch0 -p1
+%patch1 -p1
 
 %build
 ./configure << EOF
