@@ -10,20 +10,19 @@ Summary(pt_BR.UTF-8):	Ferramentas para manipular arquivos graficos nos formatos 
 Summary(ru.UTF-8):	Набор библиотек для работы с различными графическими файлами
 Summary(uk.UTF-8):	Набір бібліотек для роботи з різними графічними файлами
 Name:		netpbm
-Version:	10.73.34
+Version:	10.73.43
 Release:	1
 License:	Freeware
 Group:		Libraries
 #  svn export https://netpbm.svn.sourceforge.net/svnroot/netpbm/stable netpbm-%{version} (where version from doc/HISTORY)
 #  svn export https://netpbm.svn.sourceforge.net/svnroot/netpbm/userguide netpbm-%{version}/userguide
 Source0:	http://downloads.sourceforge.net/netpbm/%{name}-%{version}.tgz
-# Source0-md5:	c5da60ea36f991e91fa231549cf4c6b9
+# Source0-md5:	470955c8e74b215d6e444f8580523c7e
 Source1:	http://www.mif.pg.gda.pl/homepages/ankry/man-PLD/%{name}-non-english-man-pages.tar.bz2
 # Source1-md5:	8fb174f8da02ea01bf72a9dc61be10f1
 Source2:	%{name}-docs-20030520.tar.bz2
 # Source2-md5:	2d6a3965d493def21edfbc3e1aa262e9
 Patch0:		%{name}-make.patch
-Patch1:		%{name}-format.patch
 URL:		http://netpbm.sourceforge.net/
 BuildRequires:	flex
 BuildRequires:	jasper-devel
@@ -38,7 +37,7 @@ BuildRequires:	pkgconfig
 %{?with_svga:BuildRequires:	svgalib-devel}
 BuildRequires:	xorg-lib-libX11-devel
 BuildRequires:	zlib-devel
-Obsoletes:	libgr
+Obsoletes:	libgr < 3
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
@@ -73,7 +72,7 @@ Summary(ru.UTF-8):	Хедеры и библиотеки для разработ�
 Summary(uk.UTF-8):	Хедери та бібліотеки для розробки програм, що використовують netpbm
 Group:		Development/Libraries
 Requires:	%{name} = %{version}-%{release}
-Obsoletes:	libgr-devel
+Obsoletes:	libgr-devel < 3
 
 %description devel
 The netpbm-devel package contains the header files and programmer's
@@ -114,7 +113,7 @@ Summary(ru.UTF-8):	Статическая библиотека для прогр
 Summary(uk.UTF-8):	Статична бібліотека для програмування з netpbm
 Group:		Development/Libraries
 Requires:	%{name}-devel = %{version}-%{release}
-Obsoletes:	libgr-static
+Obsoletes:	libgr-static < 3
 
 %description static
 Static netpbm libraries.
@@ -154,7 +153,7 @@ Summary(uk.UTF-8):	Утиліти маніпулювання файлами фо
 Group:		Applications/Graphics
 Requires:	%{name} = %{version}-%{release}
 Requires:	libxml2 >= 1:2.5.9
-Obsoletes:	libgr-progs
+Obsoletes:	libgr-progs < 3
 
 %description progs
 The netpbm-progs package contains a group of scripts for manipulating
@@ -186,7 +185,7 @@ Group:		Applications/Graphics
 Requires:	%{name} = %{version}-%{release}
 Requires:	fonts-Type1-urw
 Requires:	ghostscript
-Obsoletes:	libgr-progs
+Obsoletes:	libgr-progs < 3
 Conflicts:	ghostscript-esp
 
 %description progs-pstopnm
@@ -213,7 +212,6 @@ użyciu svgalib.
 %prep
 %setup -q -a2
 %patch0 -p1
-%patch1 -p1
 
 %build
 ./configure << EOF
