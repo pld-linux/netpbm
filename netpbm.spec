@@ -211,7 +211,7 @@ użyciu svgalib.
 
 %prep
 %setup -q -a2
-%patch0 -p1
+%patch -P0 -p1
 
 %build
 ./configure << EOF
