@@ -23,6 +23,7 @@ Source1:	http://www.mif.pg.gda.pl/homepages/ankry/man-PLD/%{name}-non-english-ma
 Source2:	%{name}-docs-20030520.tar.bz2
 # Source2-md5:	2d6a3965d493def21edfbc3e1aa262e9
 Patch0:		%{name}-make.patch
+Patch1:		gcc15.patch
 URL:		http://netpbm.sourceforge.net/
 BuildRequires:	flex
 BuildRequires:	jasper-devel
@@ -212,6 +213,7 @@ użyciu svgalib.
 %prep
 %setup -q -a2
 %patch -P0 -p1
+%patch -P1 -p1
 
 %build
 ./configure << EOF
