@@ -1,0 +1,10 @@
+--- netpbm-10.73.43/buildtools/libopt.c.orig	2025-09-26 18:58:32.801828697 +0200
++++ netpbm-10.73.43/buildtools/libopt.c	2025-09-26 19:00:07.559027726 +0200
+@@ -87,6 +87,7 @@
+ #include <string.h>
+ #include <stdlib.h>
+ #include <stdio.h>
++#include <stdbool.h>
+ 
+ typedef unsigned char boolvar;
+ #ifndef TRUE

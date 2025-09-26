@@ -11,7 +11,7 @@ Summary(ru.UTF-8):	Набор библиотек для работы с разл
 Summary(uk.UTF-8):	Набір бібліотек для роботи з різними графічними файлами
 Name:		netpbm
 Version:	10.73.43
-Release:	2
+Release:	3
 License:	Freeware
 Group:		Libraries
 #  svn export https://netpbm.svn.sourceforge.net/svnroot/netpbm/stable netpbm-%{version} (where version from doc/HISTORY)
@@ -24,6 +24,7 @@ Source2:	%{name}-docs-20030520.tar.bz2
 # Source2-md5:	2d6a3965d493def21edfbc3e1aa262e9
 Patch0:		%{name}-make.patch
 Patch1:		gcc15.patch
+Patch2:		includes.patch
 URL:		http://netpbm.sourceforge.net/
 BuildRequires:	flex
 BuildRequires:	jasper-devel
@@ -214,6 +215,7 @@ użyciu svgalib.
 %setup -q -a2
 %patch -P0 -p1
 %patch -P1 -p1
+%patch -P2 -p1
 
 %build
 ./configure << EOF
