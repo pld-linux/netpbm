@@ -254,27 +254,6 @@ EOF
 %build
 # it appends defines to pm_config.h twice if -j > 1
 %{__make} -j1
-%if 0
-	CC="%{__cc}" \
-	CFLAGS="%{rpmcflags} %{rpmcppflags} -fPIC" \
-	LDFLAGS="%{rpmldflags}" \
-	JASPERHDR_DIR="%{_includedir}/jasper" \
-	JASPERLIB="-ljasper" \
-	JBIGHDR_DIR=%{_includedir} \
-	JBIGLIB="-ljbig" \
-	JPEGINC_DIR=%{_includedir} \
-	JPEGLIB_DIR=%{_libdir} \
-	LINUXSVGALIB="%{?with_svga:%{_libdir}/libvga.so}%{!?with_svga:NONE}" \
-	NETPBM_DOCURL="%{_docdir}/%{name}-%{version}/netpbm.sourceforge.net/doc/" \
-	PNGINC_DIR=%{_includedir} \
-	PNGLIB_DIR=%{_libdir} \
-	TIFFINC_DIR=%{_includedir} \
-	TIFFLIB_DIR=%{_libdir} \
-	X11LIB=%{_libdir}/libX11.so \
-	XML2LIBS="$(%{_bindir}/xml2-config --libs)"
-%endif
-#	JASPERLIB="" \
-#	JASPERDEPLIBS="-ljasper" \
 
 %install
 rm -rf $RPM_BUILD_ROOT
@@ -283,7 +262,6 @@ install -d $RPM_BUILD_ROOT{%{_bindir},%{_libdir},%{_includedir}}
 rm -rf PKG
 %{__make} -j1 package \
 	pkgdir=$(pwd)/PKG
-#	LINUXSVGALIB="%{?with_svga:%{_libdir}/libvga.so}%{!?with_svga:NONE}"
 
 cp -dfp PKG/bin/* $RPM_BUILD_ROOT%{_bindir}
 cp -dfp PKG/lib/* $RPM_BUILD_ROOT%{_libdir}
