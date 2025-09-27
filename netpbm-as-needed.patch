@@ -1,0 +1,13 @@
+--- netpbm-10.86.47/common.mk.orig	2023-06-28 19:21:21.000000000 +0200
++++ netpbm-10.86.47/common.mk	2025-09-27 10:56:31.584589380 +0200
+@@ -381,8 +381,9 @@ MATHLIB ?= -lm
+ # (such as libfiasco), which use Libnetpbm.  So we put $(NETPBMLIB)
+ # after LDFLAGS_TARGET.
+ LDFLAGS_ALL = $(WINICON_OBJECT) \
++ $(LDFLAGS) \
+  $(LDFLAGS_TARGET) $(shell $(LIBOPT) $(NETPBMLIB)) \
+- $(LDFLAGS) $(LDLIBS) $(MATHLIB) $(RPATH) $(LADD)
++ $(LDLIBS) $(MATHLIB) $(RPATH) $(LADD)
+ 
+ $(PORTBINARIES) $(MATHBINARIES): %: %.o \
+   $(NETPBMLIB) $(LIBOPT) $(WINICON_OBJECT)

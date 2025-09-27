@@ -1,5 +1,3 @@
-# TODO:
-# - documentation for progs: try to get some real man pages (old netpbm? Debian?)
 #
 # Conditional build:
 %bcond_with	svga	# build ppmsvgalib tool
@@ -10,22 +8,23 @@ Summary(pt_BR.UTF-8):	Ferramentas para manipular arquivos graficos nos formatos 
 Summary(ru.UTF-8):	Набор библиотек для работы с различными графическими файлами
 Summary(uk.UTF-8):	Набір бібліотек для роботи з різними графічними файлами
 Name:		netpbm
-Version:	10.73.43
-Release:	3
+Version:	10.86.47
+Release:	1
 License:	Freeware
 Group:		Libraries
 #  svn export https://netpbm.svn.sourceforge.net/svnroot/netpbm/stable netpbm-%{version} (where version from doc/HISTORY)
 #  svn export https://netpbm.svn.sourceforge.net/svnroot/netpbm/userguide netpbm-%{version}/userguide
-Source0:	http://downloads.sourceforge.net/netpbm/%{name}-%{version}.tgz
-# Source0-md5:	470955c8e74b215d6e444f8580523c7e
-Source1:	http://www.mif.pg.gda.pl/homepages/ankry/man-PLD/%{name}-non-english-man-pages.tar.bz2
-# Source1-md5:	8fb174f8da02ea01bf72a9dc61be10f1
-Source2:	%{name}-docs-20030520.tar.bz2
-# Source2-md5:	2d6a3965d493def21edfbc3e1aa262e9
+Source0:	https://downloads.sourceforge.net/netpbm/%{name}-%{version}.tgz
+# Source0-md5:	1336b64047687f65f1257b668b48f6b4
+# svn export https://netpbm.svn.sourceforge.net/svnroot/netpbm/userguide
+# tar cJf netpbm-userguide-YYYYMMDD.tar.xz userguide
+Source1:	%{name}-userguide-20250927.tar.xz
+# Source1-md5:	ced05a4777ec29a28f8b0bb72f8a0dde
 Patch0:		%{name}-make.patch
 Patch1:		gcc15.patch
 Patch2:		includes.patch
-URL:		http://netpbm.sourceforge.net/
+Patch3:		%{name}-as-needed.patch
+URL:		https://netpbm.sourceforge.net/
 BuildRequires:	flex
 BuildRequires:	jasper-devel
 BuildRequires:	jbigkit-devel
@@ -37,7 +36,9 @@ BuildRequires:	perl-base
 BuildRequires:	perl-modules
 BuildRequires:	pkgconfig
 %{?with_svga:BuildRequires:	svgalib-devel}
+BuildRequires:	tar >= 1:1.22
 BuildRequires:	xorg-lib-libX11-devel
+BuildRequires:	xz
 BuildRequires:	zlib-devel
 Obsoletes:	libgr < 3
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
@@ -212,36 +213,48 @@ ppmsvgalib - wyświetlanie obrazków PPM na konsoli linuksowej przy
 użyciu svgalib.
 
 %prep
-%setup -q -a2
+%setup -q -a1
 %patch -P0 -p1
 %patch -P1 -p1
 %patch -P2 -p1
+%patch -P3 -p1
 
-%build
-./configure << EOF
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+cp -p config.mk.in config.mk
+cat >>config.mk <<EOF
+# variables handled by interactive configure
+DEFAULT_TARGET = nonmerge
+NETPBMLIBTYPE=unixshared
+NETPBMLIBSUFFIX=so
+STATICLIB_TOO=Y
+CFLAGS = %{rpmcflags} %{rpmcppflags} -fPIC -ffast-math -pedantic -fno-common -Wall -Wno-uninitialized -Wmissing-declarations -Wimplicit -Wwrite-strings -Wmissing-prototypes -Wundef -Wno-unknown-pragmas -Wno-strict-overflow
+CFLAGS_MERGE = -Wno-missing-declarations -Wno-missing-prototypes
+LDRELOC = ld --reloc
+LINKER_CAN_DO_EXPLICIT_LIBRARY=Y
+LINKERISCOMPILER = Y
+CFLAGS_SHLIB += -fPIC
+TIFFLIB = libtiff.so
+JPEGLIB = libjpeg.so
+PNGHDR_DIR = USE_PKG_CONFIG.a
+PNGLIB = USE_PKG_CONFIG.a
+ZLIB = libz.so
+X11HDR_DIR = USE_PKGCONFIG.a
+X11LIB = USE_PKGCONFIG.a
+LINUXSVGALIB = %{?with_svga:libvga.so}%{!?with_svga:NONE}
+# online is http://netpbm.sourceforge.net/doc/
+NETPBM_DOCURL = %{_docdir}/%{name}-%{version}/userguide/
+# additional for PLD
+CC = %{__cc}
+LDFLAGS = %{rpmldflags}
+JASPERHDR_DIR =
+JASPERLIB = -ljasper
+JBIGHDR_DIR =
+JBIGLIB = -ljbig
 EOF
 
+%build
 # it appends defines to pm_config.h twice if -j > 1
-%{__make} -j1 \
+%{__make} -j1
+%if 0
 	CC="%{__cc}" \
 	CFLAGS="%{rpmcflags} %{rpmcppflags} -fPIC" \
 	LDFLAGS="%{rpmldflags}" \
@@ -259,33 +272,27 @@ EOF
 	TIFFLIB_DIR=%{_libdir} \
 	X11LIB=%{_libdir}/libX11.so \
 	XML2LIBS="$(%{_bindir}/xml2-config --libs)"
+%endif
 #	JASPERLIB="" \
 #	JASPERDEPLIBS="-ljasper" \
 
 %install
 rm -rf $RPM_BUILD_ROOT
-install -d $RPM_BUILD_ROOT{%{_bindir},%{_libdir},%{_includedir},%{_mandir}/man{1,3,5}}
+install -d $RPM_BUILD_ROOT{%{_bindir},%{_libdir},%{_includedir}}
 
 rm -rf PKG
 %{__make} -j1 package \
-	pkgdir=$(pwd)/PKG \
-	LINUXSVGALIB="%{?with_svga:%{_libdir}/libvga.so}%{!?with_svga:NONE}"
+	pkgdir=$(pwd)/PKG
+#	LINUXSVGALIB="%{?with_svga:%{_libdir}/libvga.so}%{!?with_svga:NONE}"
 
-%{__rm} PKG/bin/doc.url
-cp -df PKG/bin/* $RPM_BUILD_ROOT%{_bindir}
-cp -df PKG/lib/* $RPM_BUILD_ROOT%{_libdir}
-cp -p PKG/link/*.a $RPM_BUILD_ROOT%{_libdir}
+cp -dfp PKG/bin/* $RPM_BUILD_ROOT%{_bindir}
+cp -dfp PKG/lib/* $RPM_BUILD_ROOT%{_libdir}
+cp -p PKG/staticlink/*.a $RPM_BUILD_ROOT%{_libdir}
 cp -pr PKG/include/netpbm $RPM_BUILD_ROOT%{_includedir}
-cp -p PKG/man/man1/*.1 $RPM_BUILD_ROOT%{_mandir}/man1
-cp -p PKG/man/man3/*.3 $RPM_BUILD_ROOT%{_mandir}/man3
-cp -p PKG/man/man5/*.5 $RPM_BUILD_ROOT%{_mandir}/man5
 
 # Install the static-only librle.a
 cp -p urt/{rle,rle_config}.h $RPM_BUILD_ROOT%{_includedir}
 cp -p urt/librle.a $RPM_BUILD_ROOT%{_libdir}
-
-bzip2 -dc %{SOURCE1} | tar xf - -C $RPM_BUILD_ROOT%{_mandir}
-%{__rm} $RPM_BUILD_ROOT%{_mandir}/README.netpbm-non-english-man-pages
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -297,13 +304,12 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 %doc README doc/{CONTRIBUTORS,COPYRIGHT.PATENT,HISTORY,USERDOC}
 %attr(755,root,root) %{_libdir}/libnetpbm.so.*.*
-%attr(755,root,root) %ghost %{_libdir}/libnetpbm.so.11
+%ghost %{_libdir}/libnetpbm.so.11
 
 %files devel
 %defattr(644,root,root,755)
-%attr(755,root,root) %{_libdir}/libnetpbm.so
+%{_libdir}/libnetpbm.so
 %{_includedir}/netpbm
-%{_mandir}/man3/libnetpbm.3*
 
 %files static
 %defattr(644,root,root,755)
@@ -317,7 +323,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %files progs
 %defattr(644,root,root,755)
-%doc netpbm.sourceforge.net
+%doc userguide
 %attr(755,root,root) %{_bindir}/411toppm
 %attr(755,root,root) %{_bindir}/anytopnm
 %attr(755,root,root) %{_bindir}/asciitopgm
@@ -362,9 +368,11 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_bindir}/neotoppm
 %attr(755,root,root) %{_bindir}/palmtopnm
 %attr(755,root,root) %{_bindir}/pamaddnoise
+%attr(755,root,root) %{_bindir}/pamaltsat
 %attr(755,root,root) %{_bindir}/pamarith
 %attr(755,root,root) %{_bindir}/pambackground
 %attr(755,root,root) %{_bindir}/pambayer
+%attr(755,root,root) %{_bindir}/pambrighten
 %attr(755,root,root) %{_bindir}/pamchannel
 %attr(755,root,root) %{_bindir}/pamcomp
 %attr(755,root,root) %{_bindir}/pamcrater
@@ -378,15 +386,20 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_bindir}/pamenlarge
 %attr(755,root,root) %{_bindir}/pamexec
 %attr(755,root,root) %{_bindir}/pamfile
+%attr(755,root,root) %{_bindir}/pamfind
 %attr(755,root,root) %{_bindir}/pamfix
 %attr(755,root,root) %{_bindir}/pamfixtrunc
 %attr(755,root,root) %{_bindir}/pamflip
 %attr(755,root,root) %{_bindir}/pamfunc
 %attr(755,root,root) %{_bindir}/pamgauss
+%attr(755,root,root) %{_bindir}/pamgetcolor
 %attr(755,root,root) %{_bindir}/pamgradient
+%attr(755,root,root) %{_bindir}/pamhue
+%attr(755,root,root) %{_bindir}/pamlevels
 %attr(755,root,root) %{_bindir}/pamlookup
 %attr(755,root,root) %{_bindir}/pammasksharpen
 %attr(755,root,root) %{_bindir}/pammixinterlace
+%attr(755,root,root) %{_bindir}/pammixmulti
 %attr(755,root,root) %{_bindir}/pammosaicknit
 %attr(755,root,root) %{_bindir}/pamoil
 %attr(755,root,root) %{_bindir}/pampaintspill
@@ -410,6 +423,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_bindir}/pamstretch-gen
 %attr(755,root,root) %{_bindir}/pamsumm
 %attr(755,root,root) %{_bindir}/pamsummcol
+%attr(755,root,root) %{_bindir}/pamtable
 %attr(755,root,root) %{_bindir}/pamthreshold
 %attr(755,root,root) %{_bindir}/pamtilt
 %attr(755,root,root) %{_bindir}/pamtoavs
@@ -433,6 +447,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_bindir}/pamtouil
 %attr(755,root,root) %{_bindir}/pamtowinicon
 %attr(755,root,root) %{_bindir}/pamtoxvmini
+%attr(755,root,root) %{_bindir}/pamtris
 %attr(755,root,root) %{_bindir}/pamundice
 %attr(755,root,root) %{_bindir}/pamunlookup
 %attr(755,root,root) %{_bindir}/pamvalidate
@@ -488,6 +503,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_bindir}/pbmtozinc
 %attr(755,root,root) %{_bindir}/pbmupc
 %attr(755,root,root) %{_bindir}/pc1toppm
+%attr(755,root,root) %{_bindir}/pcdindex
 %attr(755,root,root) %{_bindir}/pcdovtoppm
 %attr(755,root,root) %{_bindir}/pcxtoppm
 %attr(755,root,root) %{_bindir}/pdbimgtopam
@@ -683,360 +699,13 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_bindir}/yuvtoppm
 %attr(755,root,root) %{_bindir}/yuy2topam
 %attr(755,root,root) %{_bindir}/zeisstopnm
-%{_mandir}/man1/411toppm.1*
-%{_mandir}/man1/anytopnm.1*
-%{_mandir}/man1/asciitopgm.1*
-%{_mandir}/man1/atktopbm.1*
-%{_mandir}/man1/avstopam.1*
-%{_mandir}/man1/bioradtopgm.1*
-%{_mandir}/man1/bmptopnm.1*
-%{_mandir}/man1/brushtopbm.1*
-%{_mandir}/man1/cameratopam.1*
-%{_mandir}/man1/cistopbm.1*
-%{_mandir}/man1/cmuwmtopbm.1*
-%{_mandir}/man1/ddbugtopbm.1*
-%{_mandir}/man1/escp2topbm.1*
-%{_mandir}/man1/eyuvtoppm.1*
-%{_mandir}/man1/fiascotopnm.1*
-%{_mandir}/man1/fitstopnm.1*
-%{_mandir}/man1/fstopgm.1*
-%{_mandir}/man1/g3topbm.1*
-%{_mandir}/man1/gemtopnm.1*
-%{_mandir}/man1/giftopnm.1*
-%{_mandir}/man1/gouldtoppm.1*
-%{_mandir}/man1/hdifftopam.1*
-%{_mandir}/man1/hipstopgm.1*
-%{_mandir}/man1/hpcdtoppm.1*
-%{_mandir}/man1/ilbmtoppm.1*
-%{_mandir}/man1/imgtoppm.1*
-%{_mandir}/man1/infotopam.1*
-%{_mandir}/man1/jbigtopnm.1*
-%{_mandir}/man1/jpeg2ktopam.1*
-%{_mandir}/man1/jpegtopnm.1*
-%{_mandir}/man1/leaftoppm.1*
-%{_mandir}/man1/lispmtopgm.1*
-%{_mandir}/man1/macptopbm.1*
-%{_mandir}/man1/manweb.1*
-%{_mandir}/man1/mdatopbm.1*
-%{_mandir}/man1/mgrtopbm.1*
-%{_mandir}/man1/mrftopbm.1*
-%{_mandir}/man1/mtvtoppm.1*
-%{_mandir}/man1/neotoppm.1*
-%{_mandir}/man1/palmtopnm.1*
-%{_mandir}/man1/pamaddnoise.1*
-%{_mandir}/man1/pamarith.1*
-%{_mandir}/man1/pambackground.1*
-%{_mandir}/man1/pambayer.1*
-%{_mandir}/man1/pamchannel.1*
-%{_mandir}/man1/pamcomp.1*
-%{_mandir}/man1/pamcrater.1*
-%{_mandir}/man1/pamcut.1*
-%{_mandir}/man1/pamdeinterlace.1*
-%{_mandir}/man1/pamdepth.1*
-%{_mandir}/man1/pamdice.1*
-%{_mandir}/man1/pamditherbw.1*
-%{_mandir}/man1/pamedge.1*
-%{_mandir}/man1/pamendian.1*
-%{_mandir}/man1/pamenlarge.1*
-%{_mandir}/man1/pamexec.1*
-%{_mandir}/man1/pamfile.1*
-%{_mandir}/man1/pamfix.1*
-%{_mandir}/man1/pamfixtrunc.1*
-%{_mandir}/man1/pamflip.1*
-%{_mandir}/man1/pamfunc.1*
-%{_mandir}/man1/pamgauss.1*
-%{_mandir}/man1/pamgradient.1*
-%{_mandir}/man1/pamlookup.1*
-%{_mandir}/man1/pammasksharpen.1*
-%{_mandir}/man1/pammixinterlace.1*
-%{_mandir}/man1/pammosaicknit.1*
-%{_mandir}/man1/pamoil.1*
-%{_mandir}/man1/pampaintspill.1*
-%{_mandir}/man1/pamperspective.1*
-%{_mandir}/man1/pampick.1*
-%{_mandir}/man1/pampop9.1*
-%{_mandir}/man1/pamrecolor.1*
-%{_mandir}/man1/pamrubber.1*
-%{_mandir}/man1/pamscale.1*
-%{_mandir}/man1/pamseq.1*
-%{_mandir}/man1/pamshadedrelief.1*
-%{_mandir}/man1/pamsharpmap.1*
-%{_mandir}/man1/pamsharpness.1*
-%{_mandir}/man1/pamsistoaglyph.1*
-%{_mandir}/man1/pamslice.1*
-%{_mandir}/man1/pamsplit.1*
-%{_mandir}/man1/pamstack.1*
-%{_mandir}/man1/pamstereogram.1*
-%{_mandir}/man1/pamstretch-gen.1*
-%{_mandir}/man1/pamstretch.1*
-%{_mandir}/man1/pamsumm.1*
-%{_mandir}/man1/pamsummcol.1*
-%{_mandir}/man1/pamthreshold.1*
-%{_mandir}/man1/pamtilt.1*
-%{_mandir}/man1/pamtoavs.1*
-%{_mandir}/man1/pamtodjvurle.1*
-%{_mandir}/man1/pamtofits.1*
-%{_mandir}/man1/pamtogif.1*
-%{_mandir}/man1/pamtohdiff.1*
-%{_mandir}/man1/pamtohtmltbl.1*
-%{_mandir}/man1/pamtojpeg2k.1*
-%{_mandir}/man1/pamtompfont.1*
-%{_mandir}/man1/pamtooctaveimg.1*
-%{_mandir}/man1/pamtopam.1*
-%{_mandir}/man1/pamtopdbimg.1*
-%{_mandir}/man1/pamtopfm.1*
-%{_mandir}/man1/pamtopng.1*
-%{_mandir}/man1/pamtopnm.1*
-%{_mandir}/man1/pamtosrf.1*
-%{_mandir}/man1/pamtosvg.1*
-%{_mandir}/man1/pamtotga.1*
-%{_mandir}/man1/pamtotiff.1*
-%{_mandir}/man1/pamtouil.1*
-%{_mandir}/man1/pamtowinicon.1*
-%{_mandir}/man1/pamtoxvmini.1*
-%{_mandir}/man1/pamundice.1*
-%{_mandir}/man1/pamunlookup.1*
-%{_mandir}/man1/pamvalidate.1*
-%{_mandir}/man1/pamwipeout.1*
-%{_mandir}/man1/pamx.1*
-%{_mandir}/man1/pbmclean.1*
-%{_mandir}/man1/pbmlife.1*
-%{_mandir}/man1/pbmmake.1*
-%{_mandir}/man1/pbmmask.1*
-%{_mandir}/man1/pbmminkowski.1*
-%{_mandir}/man1/pbmpage.1*
-%{_mandir}/man1/pbmpscale.1*
-%{_mandir}/man1/pbmreduce.1*
-%{_mandir}/man1/pbmtext.1*
-%{_mandir}/man1/pbmtextps.1*
-%{_mandir}/man1/pbmto10x.1*
-%{_mandir}/man1/pbmto4425.1*
-%{_mandir}/man1/pbmtoascii.1*
-%{_mandir}/man1/pbmtoatk.1*
-%{_mandir}/man1/pbmtobbnbg.1*
-%{_mandir}/man1/pbmtocis.1*
-%{_mandir}/man1/pbmtocmuwm.1*
-%{_mandir}/man1/pbmtodjvurle.1*
-%{_mandir}/man1/pbmtoepsi.1*
-%{_mandir}/man1/pbmtoepson.1*
-%{_mandir}/man1/pbmtoescp2.1*
-%{_mandir}/man1/pbmtog3.1*
-%{_mandir}/man1/pbmtogem.1*
-%{_mandir}/man1/pbmtogo.1*
-%{_mandir}/man1/pbmtoibm23xx.1*
-%{_mandir}/man1/pbmtolj.1*
-%{_mandir}/man1/pbmtoln03.1*
-%{_mandir}/man1/pbmtolps.1*
-%{_mandir}/man1/pbmtomacp.1*
-%{_mandir}/man1/pbmtomatrixorbital.1*
-%{_mandir}/man1/pbmtomda.1*
-%{_mandir}/man1/pbmtomgr.1*
-%{_mandir}/man1/pbmtomrf.1*
-%{_mandir}/man1/pbmtonokia.1*
-%{_mandir}/man1/pbmtopgm.1*
-%{_mandir}/man1/pbmtopi3.1*
-%{_mandir}/man1/pbmtopk.1*
-%{_mandir}/man1/pbmtoplot.1*
-%{_mandir}/man1/pbmtoppa.1*
-%{_mandir}/man1/pbmtopsg3.1*
-%{_mandir}/man1/pbmtoptx.1*
-%{_mandir}/man1/pbmtosunicon.1*
-%{_mandir}/man1/pbmtowbmp.1*
-%{_mandir}/man1/pbmtox10bm.1*
-%{_mandir}/man1/pbmtoxbm.1*
-%{_mandir}/man1/pbmtoybm.1*
-%{_mandir}/man1/pbmtozinc.1*
-%{_mandir}/man1/pbmupc.1*
-%{_mandir}/man1/pc1toppm.1*
-%{_mandir}/man1/pcdovtoppm.1*
-%{_mandir}/man1/pcxtoppm.1*
-%{_mandir}/man1/pdbimgtopam.1*
-%{_mandir}/man1/pfmtopam.1*
-%{_mandir}/man1/pgmabel.1*
-%{_mandir}/man1/pgmbentley.1*
-%{_mandir}/man1/pgmcrater.1*
-%{_mandir}/man1/pgmdeshadow.1*
-%{_mandir}/man1/pgmenhance.1*
-%{_mandir}/man1/pgmhist.1*
-%{_mandir}/man1/pgmkernel.1*
-%{_mandir}/man1/pgmmake.1*
-%{_mandir}/man1/pgmmedian.1*
-%{_mandir}/man1/pgmminkowski.1*
-%{_mandir}/man1/pgmmorphconv.1*
-%{_mandir}/man1/pgmnoise.1*
-%{_mandir}/man1/pgmramp.1*
-%{_mandir}/man1/pgmtexture.1*
-%{_mandir}/man1/pgmtofs.1*
-%{_mandir}/man1/pgmtolispm.1*
-%{_mandir}/man1/pgmtopbm.1*
-%{_mandir}/man1/pgmtopgm.1*
-%{_mandir}/man1/pgmtoppm.1*
-%{_mandir}/man1/pgmtosbig.1*
-%{_mandir}/man1/pgmtost4.1*
-%{_mandir}/man1/pi1toppm.1*
-%{_mandir}/man1/pi3topbm.1*
-%{_mandir}/man1/picttoppm.1*
-%{_mandir}/man1/pjtoppm.1*
-%{_mandir}/man1/pktopbm.1*
-%{_mandir}/man1/pngtopam.1*
-%{_mandir}/man1/pnmalias.1*
-%{_mandir}/man1/pnmcat.1*
-%{_mandir}/man1/pnmcolormap.1*
-%{_mandir}/man1/pnmconvol.1*
-%{_mandir}/man1/pnmcrop.1*
-%{_mandir}/man1/pnmflip.1*
-%{_mandir}/man1/pnmgamma.1*
-%{_mandir}/man1/pnmhisteq.1*
-%{_mandir}/man1/pnmhistmap.1*
-%{_mandir}/man1/pnmindex.1*
-%{_mandir}/man1/pnminvert.1*
-%{_mandir}/man1/pnmmargin.1*
-%{_mandir}/man1/pnmmercator.1*
-%{_mandir}/man1/pnmmontage.1*
-%{_mandir}/man1/pnmnlfilt.1*
-%{_mandir}/man1/pnmnorm.1*
-%{_mandir}/man1/pnmpad.1*
-%{_mandir}/man1/pnmpaste.1*
-%{_mandir}/man1/pnmpsnr.1*
-%{_mandir}/man1/pnmquant.1*
-%{_mandir}/man1/pnmquantall.1*
-%{_mandir}/man1/pnmremap.1*
-%{_mandir}/man1/pnmrotate.1*
-%{_mandir}/man1/pnmscalefixed.1*
-%{_mandir}/man1/pnmshear.1*
-%{_mandir}/man1/pnmsmooth.1*
-%{_mandir}/man1/pnmstitch.1*
-%{_mandir}/man1/pnmtile.1*
-%{_mandir}/man1/pnmtoddif.1*
-%{_mandir}/man1/pnmtofiasco.1*
-%{_mandir}/man1/pnmtojbig.1*
-%{_mandir}/man1/pnmtojpeg.1*
-%{_mandir}/man1/pnmtopalm.1*
-%{_mandir}/man1/pnmtopclxl.1*
-%{_mandir}/man1/pnmtoplainpnm.1*
-%{_mandir}/man1/pnmtopng.1*
-%{_mandir}/man1/pnmtops.1*
-%{_mandir}/man1/pnmtorast.1*
-%{_mandir}/man1/pnmtorle.1*
-%{_mandir}/man1/pnmtosgi.1*
-%{_mandir}/man1/pnmtosir.1*
-%{_mandir}/man1/pnmtotiffcmyk.1*
-%{_mandir}/man1/pnmtoxwd.1*
-%{_mandir}/man1/ppm3d.1*
-%{_mandir}/man1/ppmbrighten.1*
-%{_mandir}/man1/ppmchange.1*
-%{_mandir}/man1/ppmcie.1*
-%{_mandir}/man1/ppmcolormask.1*
-%{_mandir}/man1/ppmcolors.1*
-%{_mandir}/man1/ppmdcfont.1*
-%{_mandir}/man1/ppmddumpfont.1*
-%{_mandir}/man1/ppmdim.1*
-%{_mandir}/man1/ppmdist.1*
-%{_mandir}/man1/ppmdither.1*
-%{_mandir}/man1/ppmdmkfont.1*
-%{_mandir}/man1/ppmdraw.1*
-%{_mandir}/man1/ppmfade.1*
-%{_mandir}/man1/ppmflash.1*
-%{_mandir}/man1/ppmforge.1*
-%{_mandir}/man1/ppmglobe.1*
-%{_mandir}/man1/ppmhist.1*
-%{_mandir}/man1/ppmlabel.1*
-%{_mandir}/man1/ppmmake.1*
-%{_mandir}/man1/ppmmix.1*
-%{_mandir}/man1/ppmntsc.1*
-%{_mandir}/man1/ppmpat.1*
-%{_mandir}/man1/ppmquant.1*
-%{_mandir}/man1/ppmrainbow.1*
-%{_mandir}/man1/ppmrelief.1*
-%{_mandir}/man1/ppmrough.1*
-%{_mandir}/man1/ppmshadow.1*
-%{_mandir}/man1/ppmshift.1*
-%{_mandir}/man1/ppmspread.1*
-%{_mandir}/man1/ppmtoacad.1*
-%{_mandir}/man1/ppmtoapplevol.1*
-%{_mandir}/man1/ppmtoarbtxt.1*
-%{_mandir}/man1/ppmtoascii.1*
-%{_mandir}/man1/ppmtobmp.1*
-%{_mandir}/man1/ppmtoeyuv.1*
-%{_mandir}/man1/ppmtogif.1*
-%{_mandir}/man1/ppmtoicr.1*
-%{_mandir}/man1/ppmtoilbm.1*
-%{_mandir}/man1/ppmtoleaf.1*
-%{_mandir}/man1/ppmtolj.1*
-%{_mandir}/man1/ppmtomap.1*
-%{_mandir}/man1/ppmtomitsu.1*
-%{_mandir}/man1/ppmtompeg.1*
-%{_mandir}/man1/ppmtoneo.1*
-%{_mandir}/man1/ppmtopcx.1*
-%{_mandir}/man1/ppmtopgm.1*
-%{_mandir}/man1/ppmtopi1.1*
-%{_mandir}/man1/ppmtopict.1*
-%{_mandir}/man1/ppmtopj.1*
-%{_mandir}/man1/ppmtopjxl.1*
-%{_mandir}/man1/ppmtoppm.1*
-%{_mandir}/man1/ppmtopuzz.1*
-%{_mandir}/man1/ppmtorgb3.1*
-%{_mandir}/man1/ppmtosixel.1*
-%{_mandir}/man1/ppmtospu.1*
-%{_mandir}/man1/ppmtoterm.1*
-%{_mandir}/man1/ppmtowinicon.1*
-%{_mandir}/man1/ppmtoxpm.1*
-%{_mandir}/man1/ppmtoyuv.1*
-%{_mandir}/man1/ppmtoyuvsplit.1*
-%{_mandir}/man1/ppmtv.1*
-%{_mandir}/man1/ppmwheel.1*
-%{_mandir}/man1/psidtopgm.1*
-%{_mandir}/man1/qrttoppm.1*
-%{_mandir}/man1/rasttopnm.1*
-%{_mandir}/man1/rawtopgm.1*
-%{_mandir}/man1/rawtoppm.1*
-%{_mandir}/man1/rgb3toppm.1*
-%{_mandir}/man1/rlatopam.1*
-%{_mandir}/man1/rletopnm.1*
-%{_mandir}/man1/sbigtopgm.1*
-%{_mandir}/man1/sgitopnm.1*
-%{_mandir}/man1/sirtopnm.1*
-%{_mandir}/man1/sldtoppm.1*
-%{_mandir}/man1/spctoppm.1*
-%{_mandir}/man1/spottopgm.1*
-%{_mandir}/man1/sputoppm.1*
-%{_mandir}/man1/srftopam.1*
-%{_mandir}/man1/st4topgm.1*
-%{_mandir}/man1/sunicontopnm.1*
-%{_mandir}/man1/svgtopam.1*
-%{_mandir}/man1/tgatoppm.1*
-%{_mandir}/man1/thinkjettopbm.1*
-%{_mandir}/man1/tifftopnm.1*
-%{_mandir}/man1/wbmptopbm.1*
-%{_mandir}/man1/winicontopam.1*
-%{_mandir}/man1/winicontoppm.1*
-%{_mandir}/man1/xbmtopbm.1*
-%{_mandir}/man1/ximtoppm.1*
-%{_mandir}/man1/xpmtoppm.1*
-%{_mandir}/man1/xvminitoppm.1*
-%{_mandir}/man1/xwdtopnm.1*
-%{_mandir}/man1/ybmtopbm.1*
-%{_mandir}/man1/yuvsplittoppm.1*
-%{_mandir}/man1/yuvtoppm.1*
-%{_mandir}/man1/yuy2topam.1*
-%{_mandir}/man1/zeisstopnm.1*
-%{_mandir}/man5/pam.5*
-%{_mandir}/man5/pbm.5*
-%{_mandir}/man5/pgm.5*
-%{_mandir}/man5/pnm.5*
-%{_mandir}/man5/ppm.5*
-%lang(fi) %{_mandir}/fi/man1/*.1*
-%lang(pl) %{_mandir}/pl/man1/*.1*
-%lang(pl) %{_mandir}/pl/man5/p?m.5*
 
 %files progs-pstopnm
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_bindir}/pstopnm
-%{_mandir}/man1/pstopnm.1*
 
 %if %{with svga}
 %files ppmsvgalib
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_bindir}/ppmsvgalib
-%{_mandir}/man1/ppmsvgalib.1*
 %endif
